@@ -1,26 +1,17 @@
 import { Routes, Route } from 'react-router-dom';
 
-import Home from './pages/home';
+//import Home from './pages/home';
 
-/*import Exemplo01 from './pages/exemplos/ex-01';
-import Exemplo02 from './pages/exemplos/ex-02';
-import Exemplo03 from './pages/exemplos/ex-03';
-import Exemplo04 from './pages/exemplos/ex-04';
-import Exemplo05 from './pages/exemplos/ex-05';
-import Exemplo06 from './pages/exemplos/ex-06';
-import Exemplo07 from './pages/exemplos/ex-07';
-import Exemplo08 from './pages/exemplos/ex-08';
-import Exemplo09 from './pages/exemplos/ex-09';
-import Exemplo10 from './pages/exemplos/ex-10';
-import Exemplo11 from './pages/exemplos/ex-11';
-import Exemplo12 from './pages/exemplos/ex-12';
+import AvaliacaoMotorista from '.src/pages/avaliacaoMotorista';
+import CadastroMotorista from './pages/cadMotorista/index';
+import EditarPontos from './pages/editarPontos';
+import EditarRota from './pages/exemplos/ex-05';
+import Home from './pages/';
+import HomeAdm from './pages/exemplos/ex-07';
+import pontos from './pages/exemplos/ex-08';
+import rotasLinhas from './pages/exemplos/ex-09';
 
-import Atividade01 from './pages/atividades/atv-01';
-import Atividade02 from './pages/atividades/atv-02';
-import Atividade03 from './pages/atividades/atv-03';
-import Atividade04 from './pages/atividades/atv-04';
-import Atividade05 from './pages/atividades/atv-05';
-import Atividade06 from './pages/atividades/atv-06';*/
+
 
 function App() {
 
