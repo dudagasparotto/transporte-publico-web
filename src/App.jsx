@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import {BrowserRouter, Routes, Route } from 'react-router-dom';
 
 //import Home from './pages/home';
 
@@ -18,20 +18,20 @@ import Horarios from './pages/horarios';
 function App() {
 
   return (
-  <Routes>
-    <Route path="/" element={<Home />} />
-
-    <Route path="/avaliacao" element={<AvaliacaoMotorista />} />
-    <Route path="/cadmotora" element={<CadastroMotorista />} />
-    <Route path="/editarpontos" element={<EditarPontos />} />
-    <Route path="/editarrota" element={<EditarRota />} />
-    <Route path="/adm" element={<HomeAdm />} />
-    <Route path="/cadpontos" element={<CadastroPontos />} />
-    <Route path="/rotas" element={<RotasLinhas />} />
-    <Route path="/horarios" element={<Horarios />} />
-    <Route path="/login" element={<LoginAdm />} />
-    
-  </Routes>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/avaliacao" element={<AvaliacaoMotorista />} />
+      <Route path="/cadmotora" element={<CadastroMotorista />} />
+      <Route path="/editarpontos" element={<EditarPontos />} />
+      <Route path="/editarrota" element={<EditarRota />} />
+      <Route path="/adm" element={<HomeAdm />} />
+      <Route path="/cadpontos" element={<CadastroPontos />} />
+      <Route path="/rotas" element={<RotasLinhas />} />
+      <Route path="/horarios" element={<Horarios />} />
+      <Route path="/login" element={<LoginAdm />} />
+    </Routes>
+  </BrowserRouter>
   )
 }
 
