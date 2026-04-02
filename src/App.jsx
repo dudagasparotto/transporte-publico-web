@@ -7,6 +7,7 @@ import CadastroMotorista from './pages/cadMotorista/index';
 import EditarPontos from './pages/editarPontos';
 import EditarRota from './pages/editarRota';
 import Home from './pages/home';
+import LoginAdm from './pages/loginAdm';
 import HomeAdm from './pages/homeAdm';
 import CadastroPontos from './pages/pontos';
 import RotasLinhas from './pages/rotasLinhas';
@@ -28,6 +29,7 @@ function App() {
     <Route path="/cadpontos" element={<CadastroPontos />} />
     <Route path="/rotas" element={<RotasLinhas />} />
     <Route path="/horarios" element={<Horarios />} />
+    <Route path="/login" element={<LoginAdm />} />
     
   </Routes>
   )
