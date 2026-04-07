@@ -12,13 +12,14 @@ import HomeAdm from './pages/homeAdm';
 import CadastroPontos from './pages/pontos';
 import RotasLinhas from './pages/rotasLinhas';
 import Horarios from './pages/horarios';
+import Negado from './pages/loginAdm/negado';
 
 
 
 function App() {
 
   return (
-  <BrowserRouter>
+
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/avaliacao" element={<AvaliacaoMotorista />} />
@@ -30,8 +31,9 @@ function App() {
       <Route path="/rotas" element={<RotasLinhas />} />
       <Route path="/horarios" element={<Horarios />} />
       <Route path="/login" element={<LoginAdm />} />
+      <Route path="/login/negado" element={<Negado />} />
     </Routes>
-  </BrowserRouter>
+
   )
 }
 

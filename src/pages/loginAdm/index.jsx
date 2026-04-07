@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 import "./styles.css";
 
 export default function LoginAdm() {
@@ -18,7 +20,9 @@ export default function LoginAdm() {
           <input type="password" placeholder="Digite sua senha" />
         </div>
 
+      <Link to='/login/negado'>
         <button className="login-btn">Entrar</button>
+      </Link>
       </div>
     </div>
   );

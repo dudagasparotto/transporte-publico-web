@@ -1,16 +1,17 @@
+
 * {
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: 'Roboto';
 }
 
 /* FUNDO */
 .login-container {
   height: 100vh;
-  background-image: url("https://www.figma.com/api/mcp/asset/76e70d92-9e8a-4e92-8d39-5890882a8829");
+  background-image: url("../../assets/fundo.png");
   background-size: cover;
   background-position: center;
   position: relative;
-
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,18 +34,21 @@
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   text-align: center;
+  font-family: 'Roboto';
 }
 
 /* TITULO */
 .login-box h1 {
   margin-bottom: 30px;
   color: #374151;
+  font-family: 'Roboto';
 }
 
 /* INPUTS */
 .input-group {
   text-align: left;
   margin-bottom: 20px;
+  font-family: 'Roboto';
 }
 
 .input-group label {

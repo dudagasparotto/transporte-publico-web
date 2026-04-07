@@ -1,7 +1,8 @@
-import styles from './styles.module.css';
+import './styles.css';
+
 import { useNavigate } from 'react-router-dom';
 
-function RotasLinhas() {
+export default function RotasLinhas() {
   const navigate = useNavigate();
 
   const pontos = [
@@ -25,6 +26,8 @@ function RotasLinhas() {
 
   return (
     <div className={styles.container}>
+      <h1>Rotas e Linhas</h1>
+      <p>Conteúdo relacionado a rotas e linhas de transporte público.</p>
       {/* TOPO */}
       <header className={styles.header}>
         <div className={styles.logoArea}>
@@ -89,5 +92,3 @@ function RotasLinhas() {
     </div>
   );
 }
-
-export default RotasLinhas;
