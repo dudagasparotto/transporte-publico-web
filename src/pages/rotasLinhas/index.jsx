@@ -31,7 +31,6 @@ export default function RotasLinhas() {
       {/* TOPO */}
       <header className={styles.header}>
         <div className={styles.logoArea}>
-          <h1 className={styles.titulo}>Rotas e Linhas</h1>
           <div className={styles.motoristaBox}>
             <span className={styles.motoristaTexto}>MOTORISTA</span>
             <div className={styles.iconBox}>🚌</div>
