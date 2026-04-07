@@ -1,8 +1,96 @@
-export default function EditarPontos() {
-    return (
-        <>
+import { useState } from "react";
+import "./styles.css";
 
-            <h1>Editar Pontos</h1>
-        </>
-    )
+export default function EditarPontos() {
+  const [pontos, setPontos] = useState([]);
+  const [nome, setNome] = useState("");
+  const [sentido, setSentido] = useState("Bairro");
+  const [localizacao, setLocalizacao] = useState("");
+
+  function adicionarPonto() {
+    if (!nome || !localizacao) return;
+
+    const novoPonto = {
+      nome,
+      sentido,
+      localizacao,
+    };
+
+    setPontos([...pontos, novoPonto]);
+
+    setNome("");
+    setLocalizacao("");
+  }
+
+  return (
+    <div className="container">
+      <header className="header">
+        PAINEL ADMINISTRATIVO - PONTOS DE ÔNIBUS
+      </header>
+
+      <div className="content">
+        {/* ESQUERDA */}
+        <div className="card">
+          <h3>Adicionar Ponto de Ônibus</h3>
+
+          <label>Nome do Ponto:</label>
+          <input
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            placeholder="Av. Central"
+          />
+
+          <label>Sentido:</label>
+          <select
+            value={sentido}
+            onChange={(e) => setSentido(e.target.value)}
+          >
+            <option>Bairro</option>
+            <option>Centro</option>
+          </select>
+
+          <label>Localização:</label>
+          <input
+            value={localizacao}
+            onChange={(e) => setLocalizacao(e.target.value)}
+            placeholder="Rua Principal, 321"
+          />
+
+          <button onClick={adicionarPonto} className="btn">
+            Adicionar Ponto
+          </button>
+        </div>
+
+        {/* DIREITA */}
+        <div className="right">
+          <div className="map">(Mapa aqui)</div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Sentido</th>
+                <th>Localização</th>
+                <th>Editar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pontos.map((ponto, index) => (
+                <tr key={index}>
+                  <td>{ponto.nome}</td>
+                  <td>{ponto.sentido}</td>
+                  <td>{ponto.localizacao}</td>
+                  <td>
+                    <button>Editar</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <button className="footer-btn">Concluir</button>
+    </div>
+  );
 }
