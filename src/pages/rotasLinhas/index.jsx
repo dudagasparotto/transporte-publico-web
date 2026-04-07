@@ -26,8 +26,7 @@ export default function RotasLinhas() {
 
   return (
     <div className={styles.container}>
-      <h1>Rotas e Linhas</h1>
-      <p>Conteúdo relacionado a rotas e linhas de transporte público.</p>
+
       {/* TOPO */}
       <header className={styles.header}>
         <div className={styles.logoArea}>
@@ -42,9 +41,8 @@ export default function RotasLinhas() {
         </button>
       </header>
 
-      {/* CONTEÚDO */}
       <main className={styles.main}>
-        {/* MAPA */}
+        {/* MAPA DA CIDADE*/}
         <section className={styles.mapaSection}>
           <div className={styles.mapaWrapper}>
             <iframe
@@ -61,19 +59,24 @@ export default function RotasLinhas() {
         <aside className={styles.infoPanel}>
           <h2 className={styles.subtitulo}>Linhas disponíveis</h2>
 
+          <button className={styles.homeButton} onClick={() => navigate('')}> {/*AQUI O MAPA TA DENTRO DO BOTAO QUE ACESSA A HOME, ARRUMAR ISSO!*/}
+            <div>
+                <iframe
+                title="RORA ROXA"
+                src="https://www.google.com/maps/d/embed?mid=1NrZESVWmv8C0DlpWJpVjhzOJvHxPMDE"
+                className={styles.mapa}
+                loading="lazy"
+                allowFullScreen
+                ></iframe>
+            </div>
+          </button>
+
           <div className={styles.linhaCard}>
-            <h3>Linha 01 - Centro / Vila</h3>
-            <p>Passa pela região central e bairros residenciais.</p>
+            <h3>Linha AZUL - Centro / UNESP</h3>
           </div>
 
           <div className={styles.linhaCard}>
-            <h3>Linha 02 - Centro / UNESP</h3>
-            <p>Atende estudantes e moradores da zona norte.</p>
-          </div>
-
-          <div className={styles.linhaCard}>
-            <h3>Linha 03 - Centro / Industrial</h3>
-            <p>Rota voltada para trabalhadores e comércio local.</p>
+            <h3>Linha AMARELA - Centro / Industrial</h3>
           </div>
 
           <h2 className={styles.subtitulo}>Pontos principais</h2>
