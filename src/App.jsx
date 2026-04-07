@@ -19,21 +19,21 @@ import Negado from './pages/loginAdm/negado';
 function App() {
 
   return (
-  <Routes>
-    <Route path="/" element={<Home />} />
 
-    <Route path="/avaliacao" element={<AvaliacaoMotorista />} />
-    <Route path="/cadmotora" element={<CadastroMotorista />} />
-    <Route path="/editarpontos" element={<EditarPontos />} />
-    <Route path="/editarrota" element={<EditarRota />} />
-    <Route path="/adm" element={<HomeAdm />} />
-    <Route path="/cadpontos" element={<CadastroPontos />} />
-    <Route path="/rotas" element={<RotasLinhas />} />
-    <Route path="/horarios" element={<Horarios />} />
-    <Route path="/login" element={<LoginAdm />} />
-    <Route path="/negado" element={<Negado />} />
-    
-  </Routes>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/avaliacao" element={<AvaliacaoMotorista />} />
+      <Route path="/cadmotora" element={<CadastroMotorista />} />
+      <Route path="/editarpontos" element={<EditarPontos />} />
+      <Route path="/editarrota" element={<EditarRota />} />
+      <Route path="/adm" element={<HomeAdm />} />
+      <Route path="/cadpontos" element={<CadastroPontos />} />
+      <Route path="/rotas" element={<RotasLinhas />} />
+      <Route path="/horarios" element={<Horarios />} />
+      <Route path="/login" element={<LoginAdm />} />
+      <Route path="/login/negado" element={<Negado />} />
+    </Routes>
+
   )
 }
 

@@ -1,6 +1,9 @@
 import { Link } from "react-router";
 
 import './styles.css'
+import verhorario from '../../assets/horarios.png';
+import verrotas from '../../assets/rotas.png';
+import verpontos from '../../assets/pontos.png';
 
 export default function Home() {
     return (
@@ -18,9 +21,9 @@ export default function Home() {
       <section className="banner" />
 
       <section className="cards">
-          <Link to='/rotas'>
+          <Link to='/pontos'>
           <div className="card">
-          <img src="https://www.figma.com/api/mcp/asset/74a470de-ceb1-4aaa-a213-e6e3c40a7789" />
+          <img src={verpontos} alt='Pontos' />
           <h3>Pontos de Ônibus</h3>
           <p>Encontre os pontos de ônibus mais próximos.</p>
           <button className="green">Ver Pontos</button>
@@ -29,7 +32,7 @@ export default function Home() {
 
         <Link to='/rotas'>
         <div className="card">
-          <img src="https://www.figma.com/api/mcp/asset/f1d4ce75-9bb6-4f66-98cb-8485f76220bd" />
+          <img src={verrotas} alt='Rotas' />
           <h3>Rotas de Ônibus</h3>
           <p>Planeje sua rota e veja o melhor trajeto.</p>
           <button className="blue">Ver Rotas</button>
@@ -37,7 +40,7 @@ export default function Home() {
         </Link>
         <Link to='/horarios'>
         <div className="card">
-          <img src="https://www.figma.com/api/mcp/asset/6706dbc5-7975-426a-8a87-793eb120beb3" />
+          <img src={verhorario} alt='Horarios' />
           <h3>Horários de Ônibus</h3>
           <p>Consulte os horários de saída e chegada.</p>
           <button className="orange">Ver Horários</button>

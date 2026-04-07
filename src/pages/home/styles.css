@@ -37,8 +37,8 @@
 
 /* BANNER */
 .banner {
-  height: 300px;
-  background-image: url("https://www.figma.com/api/mcp/asset/3dc166d6-934d-4a8d-a0f2-7019e8c1e7e0");
+  height: 110px;
+  background-image: url("../../assets/fundo.png");
   background-size: cover;
   background-position: center;
   opacity: 0.6;
@@ -49,8 +49,8 @@
   background: #cbd5e1;
   display: flex;
   justify-content: center;
-  gap: 100px; /* antes era 60, agora respira melhor */
-  padding: 30px 20px; /* mais espaço em cima e embaixo */
+  gap: 70px; /* antes era 60, agora respira melhor */
+  padding: 20px 20px; /* mais espaço em cima e embaixo */
 }
 
 .card {
@@ -108,6 +108,6 @@
 
 /* FOOTER */
 .footer {
-  height: 80px;
+  height: 70px;
   background: #374151;
 }

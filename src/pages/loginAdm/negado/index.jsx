@@ -13,7 +13,6 @@ export default function Negado() {
         <p>
           Você não possui permissão para acessar esta funcionalidade.
         </p>
-        
         <button onClick={() => window.history.back()}>
           Voltar
         </button>

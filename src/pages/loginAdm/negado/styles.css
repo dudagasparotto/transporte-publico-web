@@ -67,6 +67,7 @@
   border-radius: 10px;
   cursor: pointer;
   transition: 0.2s;
+  font-family: 'Roboto';
 }
 
 .negado-box button:hover {
