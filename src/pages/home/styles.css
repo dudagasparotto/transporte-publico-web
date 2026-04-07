@@ -7,6 +7,7 @@
 
 .container {
   width: 100%;
+  height: 97vh;
 }
 
 /* HEADER */
@@ -37,7 +38,7 @@
 
 /* BANNER */
 .banner {
-  height: 110px;
+  height: 240px;
   background-image: url("../../assets/fundo.png");
   background-size: cover;
   background-position: center;

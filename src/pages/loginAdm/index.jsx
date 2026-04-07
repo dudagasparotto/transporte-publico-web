@@ -20,7 +20,7 @@ export default function LoginAdm() {
           <input type="password" placeholder="Digite sua senha" />
         </div>
 
-      <Link to='/login/negado'>
+      <Link to='/adm'>
         <button className="login-btn">Entrar</button>
       </Link>
 
