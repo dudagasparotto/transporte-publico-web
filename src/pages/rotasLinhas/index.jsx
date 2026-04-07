@@ -1,5 +1,6 @@
 import styles from './styles.module.css';
 
+
 import { useNavigate } from 'react-router-dom';
 
 export default function RotasLinhas() {
@@ -59,24 +60,22 @@ export default function RotasLinhas() {
         <aside className={styles.infoPanel}>
           <h2 className={styles.subtitulo}>Linhas disponíveis</h2>
 
-          <button className={styles.homeButton} onClick={() => navigate('')}> {/*AQUI O MAPA TA DENTRO DO BOTAO QUE ACESSA A HOME, ARRUMAR ISSO!*/}
+          <button className={styles.homeButton} onClick={() => navigate('/mapas')}> 
             <div>
-                <iframe
-                title="RORA ROXA"
-                src="https://www.google.com/maps/d/embed?mid=1NrZESVWmv8C0DlpWJpVjhzOJvHxPMDE"
-                className={styles.mapa}
-                loading="lazy"
-                allowFullScreen
-                ></iframe>
+              ROTA ROXA
             </div>
           </button>
 
-          <div className={styles.linhaCard}>
-            <h3>Linha AZUL - Centro / UNESP</h3>
+          <div className={styles.homeButton} onClick={() => navigate('/mapa')}>
+            <div> 
+              ROTA AZUL
+            </div>
           </div>
 
-          <div className={styles.linhaCard}>
-            <h3>Linha AMARELA - Centro / Industrial</h3>
+          <div className={styles.homeButton} onClick={() => navigate('/mapa')}>
+            <div>
+              ROTA AMARELA
+            </div>
           </div>
 
           <h2 className={styles.subtitulo}>Pontos principais</h2>
