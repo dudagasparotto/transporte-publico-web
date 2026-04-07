@@ -1,0 +1,264 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f7fb;
+  color: #0f172a;
+}
+
+.rotas-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #eef4ff 0%, #f8fbff 100%);
+  padding: 24px;
+}
+
+.rotas-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 18px 22px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #dbe5f3;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.rotas-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rotas-brand-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rotas-subtitle {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.rotas-title {
+  margin: 2px 0 0;
+  font-size: 26px;
+  color: #0f172a;
+}
+
+.rotas-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.btn-secundario,
+.btn-primario,
+.btn-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 14px;
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-secundario {
+  background: #eef4ff;
+  color: #1e3a8a;
+  border: 1px solid #c9dafc;
+}
+
+.btn-secundario:hover {
+  background: #dbeafe;
+}
+
+.btn-primario {
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  color: white;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.28);
+}
+
+.btn-primario:hover {
+  transform: translateY(-2px);
+}
+
+.rotas-content {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+}
+
+.rotas-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rotas-card {
+  background: white;
+  border: 1px solid #dbe5f3;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.rotas-card h2,
+.rotas-card h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.rotas-card p {
+  margin: 0 0 16px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.rotas-card ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #475569;
+  line-height: 1.8;
+}
+
+.rotas-botoes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-toggle {
+  width: 100%;
+  justify-content: center;
+  background: #f8fafc;
+  color: #334155;
+  border: 1px solid #dbe5f3;
+}
+
+.btn-toggle.ativo {
+  background: #dbeafe;
+  color: #1d4ed8;
+  border-color: #93c5fd;
+}
+
+.rotas-mapa-container {
+  background: white;
+  border: 1px solid #dbe5f3;
+  border-radius: 24px;
+  padding: 18px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.rotas-mapa-header {
+  margin-bottom: 14px;
+}
+
+.rotas-mapa-header h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.rotas-mapa-header p {
+  margin: 6px 0 0;
+  color: #64748b;
+}
+
+.rotas-mapa-box {
+  width: 100%;
+  height: 72vh;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #dbe5f3;
+}
+
+.mapa-leaflet {
+  width: 100%;
+  height: 100%;
+}
+
+.legenda-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  color: #475569;
+}
+
+.legenda-ponto {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #1d4ed8;
+  border: 2px solid white;
+  box-shadow: 0 0 0 1px #1d4ed8;
+}
+
+.legenda-centro {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #0f172a;
+  border: 2px solid #22c55e;
+}
+
+.legenda-linha {
+  width: 28px;
+  height: 6px;
+  border-radius: 99px;
+  background: #1d4ed8;
+  display: inline-block;
+}
+
+@media (max-width: 1024px) {
+  .rotas-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .rotas-page {
+    padding: 14px;
+  }
+
+  .rotas-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .rotas-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .btn-secundario,
+  .btn-primario {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .rotas-mapa-box {
+    height: 60vh;
+  }
+}
