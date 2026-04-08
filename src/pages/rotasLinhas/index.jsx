@@ -1,26 +1,39 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+
 import styles from './styles.module.css';
 
 
-import { useNavigate } from 'react-router-dom';
-
 export default function RotasLinhas() {
+
+  const [linha, setLinha] = useState('https://www.google.com/maps?q=Tupã,SP&z=13&output=embed');
+
   const navigate = useNavigate();
 
-  const pontos = [
+  const descricao = [
     {
-      nome: 'Terminal Central',
-      descricao: 'Ponto principal de saída e chegada dos ônibus.',
+      nome: 'Rota Roxa',
+      Inicio: 'Tal rua (ponto).',
+      Fim: 'Tal rua (ponto).',
+      descricao: 'Linha que atende a região sul da cidade.',
     },
     {
-      nome: 'Vila Marajoara',
-      descricao: 'Atende moradores da região oeste.',
+      nome: 'Rota Azul',
+      Inicio: 'Tal rua (ponto).',
+      Fim: 'Tal rua (ponto).',
+      descricao: 'Atende moradores da região leste.',
     },
     {
-      nome: 'UNESP / Região Norte',
+      nome: 'Rota Laranja',
+      Inicio: 'Tal rua (ponto).',
+      Fim: 'Tal rua (ponto).',
       descricao: 'Linha com passagem pela região universitária.',
     },
     {
-      nome: 'Centro',
+      nome: 'Rota Amarela',
+      Inicio: 'Tal rua (ponto).',
+      Fim: 'Tal rua (ponto).',  
       descricao: 'Trecho com maior fluxo de passageiros.',
     },
   ];
@@ -32,12 +45,14 @@ export default function RotasLinhas() {
       <header className={styles.header}>
         <div className={styles.logoArea}>
           <div className={styles.motoristaBox}>
-            <span className={styles.motoristaTexto}>MOTORISTA</span>
+            <button className={styles.motoristaTexto} onClick={() => navigate('/avaliacaoMotorista')}>
+              MOTORISTA
+            </button>
             <div className={styles.iconBox}>🚌</div>
           </div>
         </div>
 
-        <button className={styles.homeButton} onClick={() => navigate('/')}>
+        <button className={styles.Button} onClick={() => navigate('/')}>
           HOME
         </button>
       </header>
@@ -48,7 +63,7 @@ export default function RotasLinhas() {
           <div className={styles.mapaWrapper}>
             <iframe
               title="Mapa de Tupã"
-              src="https://www.google.com/maps?q=Tupã,SP&z=13&output=embed"
+              src={linha}
               className={styles.mapa}
               loading="lazy"
               allowFullScreen
@@ -58,33 +73,38 @@ export default function RotasLinhas() {
 
         {/* PAINEL LATERAL */}
         <aside className={styles.infoPanel}>
-          <h2 className={styles.subtitulo}>Linhas disponíveis</h2>
+          <h2 className={styles.subtitulo}>Rotas disponíveis</h2>
 
-          <button className={styles.homeButton} onClick={() => navigate('/mapas')}> 
+          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/embed?mid=1NrZESVWmv8C0DlpWJpVjhzOJvHxPMDE')}> 
             <div>
               ROTA ROXA
             </div>
           </button>
-
-          <div className={styles.homeButton} onClick={() => navigate('/mapa')}>
+          <button className={styles.Button} onClick={() => setLinha('')}> {/*POR O RESTO DOS LINKS*/}
             <div> 
               ROTA AZUL
             </div>
-          </div>
-
-          <div className={styles.homeButton} onClick={() => navigate('/mapa')}>
+          </button>
+          <button className={styles.Button} onClick={() => setLinha('')}>
+            <div>
+              ROTA LARANJA
+            </div>
+          </button>
+          <button className={styles.Button} onClick={() => setLinha('')}>
             <div>
               ROTA AMARELA
             </div>
-          </div>
+          </button>
 
-          <h2 className={styles.subtitulo}>Pontos principais</h2>
+          <h2 className={styles.subtitulo}>Descrição das rotas:</h2>
 
-          <div className={styles.listaPontos}>
-            {pontos.map((ponto, index) => (
-              <div key={index} className={styles.pontoItem}>
-                <h4>{ponto.nome}</h4>
-                <p>{ponto.descricao}</p>
+          <div className={styles.descricaoRotas}>
+            {descricao.map((descricao, index) => (
+              <div key={index} className={styles.descricaoItens}>
+                <h4>{descricao.nome}</h4>
+                <p>Inicio: {descricao.Inicio}</p>
+                <p>Fim: {descricao.Fim}</p>
+                <p>{descricao.descricao}</p>
               </div>
             ))}
           </div>

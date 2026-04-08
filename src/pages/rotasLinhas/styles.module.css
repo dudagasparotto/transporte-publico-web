@@ -9,13 +9,14 @@
 
 /* HEADER */
 .header {
-  background-color: #5c98dd;
+  background-color: #678ed8;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 18px;
   height: 80px;
   box-sizing: border-box;
+ 
 }
 
 .logoArea {
@@ -58,20 +59,18 @@
   font-size: 30px;
 }
 
-.homeButton {
-  background-color: #304ea8;
+.Button {
+  background-color: #306ea8;
   color: white;
   border: none;
   padding: 12px 28px;
-  border-radius: 6px;
+  border-radius: 10px;
   font-size: 15px;
   font-weight: bold;
   cursor: pointer;
   transition: 0.2s ease;
-}
-
-.homeButton:hover {
-  background-color: #223a83;
+  margin-left: 1%;
+  margin-top: 1%;
 }
 
 /* MAIN */
@@ -115,13 +114,13 @@
   box-sizing: border-box;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
   overflow-y: auto;
-  max-height: 580px;
+  height:100%;
 }
 
 .subtitulo {
   font-size: 22px;
   color: #2f394a;
-  margin-top: 0;
+  margin-top: 5%;
   margin-bottom: 16px;
 }
 
@@ -139,13 +138,13 @@
   line-height: 1.5;
 }
 
-.listaPontos {
+.descricaoRotas {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.pontoItem {
+.descricaoItens {
   background-color: #eef2f8;
   border-radius: 10px;
   padding: 14px;
