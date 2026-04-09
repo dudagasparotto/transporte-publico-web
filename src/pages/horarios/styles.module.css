@@ -1,0 +1,97 @@
+/* RESET básico */
+body {
+  margin: 0;
+}
+
+.fundo {
+  width: 100%;
+  background-image: url("../../assets/fundo.png");
+  background-size: cover;
+  background-position: center;
+}
+
+/* HEADER FULL WIDTH */
+.header {
+  width: 100%;
+  background: #1e5aa5;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 22px;
+}
+
+/* CONTAINER CENTRAL MAIS LARGO */
+.container {
+  width: 100%;
+  padding: 30px;
+  display: grid;
+  gap: 30px;
+}
+
+/* BLOCO DE CADA LINHA */
+.linha {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+/* TITULO DA LINHA */
+.tituloLinha {
+  margin-bottom: 10px;
+  color: #1e5aa5;
+}
+
+/* CARD DO PONTO */
+.card {
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nome {
+  font-weight: bold;
+}
+
+.proximo {
+  background: #3ac47d;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.horarios {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.hora {
+  background: #2d6cdf;
+  color: white;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.button {
+  background-color: #306ea8;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s ease;
+  margin-left: 1%;
+  margin-top: 1%;
+}   
