@@ -26,9 +26,10 @@ export default function InfoMotorista(){
       <div className={Styles.card}>
         {/* Topo */}
         <div className={Styles.header}>
-          <button className={Styles.backButton} onClick={() => navigate(-1)}>
-            HOME
-          </button> {/*ARRUMAR PARA VOLTAR PARA A PÁGINA ANTERIOR*/}
+          <button className={Styles.backButton} onClick={() => navigate(-2)}>
+           <h1>HOME</h1> 
+          </button>
+
           <h1>Informações do Motorista</h1>
         </div>
 
@@ -38,9 +39,10 @@ export default function InfoMotorista(){
 
         {/* Dados principais */}
         <div className={Styles.profileSection}>
-          <div className={Styles.avatarBox}>
+
+          <div className={Styles.fundoImg}>
             <div className={Styles.img} >
-                <img src={motoristaImg.webp} alt="Motorista" className={Styles.imgMotorista}>
+                <img src={motoristaImg} alt="Motorista" className={Styles.imgMotorista}>
                 </img>
             </div> {/*ARRUMAR PARA POR FOTO DO MOTORISTA*/}
           </div>

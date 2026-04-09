@@ -20,27 +20,32 @@
 .header {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 5%;
 }
 
 .header h1 {
   font-size: 2rem;
-  color: #1f2a44;
+  color: #441f25;
+  margin: 0;
+}
+
+.backButton h1{
+  font-size: 0.9rem;
+  color: #441f25;
   margin: 0;
 }
 
 .backButton {
   background: #e8f0ff;
-  color: #2563eb;
-  width: 50px;
-  height: 42px;
-  border-radius: 12px;
-  font-size: 1.4rem;
+  color: #152955;
+  width: 65px;
+  height: 30px;
+  border-radius: 8px;
   cursor: pointer;
   transition: 0.2s;
 }
 
-.backButton:hover {
+.backButton:hover  {
   background: #dbe7ff;
 }
 
@@ -57,16 +62,16 @@
   gap: 24px;
 }
 
-.avatarBox {
+.fundoImg {
   background: #f1f7ff;
   border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 200px;
+  min-height: 180px;
 }
 
-.avatar {
+/* .avatar {
   width: 160px;
   height: 160px;
   background: #dbeafe;
@@ -75,12 +80,12 @@
   align-items: center;
   justify-content: center;
   font-size: 5rem;
-}
+} */
 
 .imgMotorista {
   width: 160px;
   height: 160px;
-  border-radius: 50%;
+  border-radius: 10%;
   object-fit: cover;
 }   
 
