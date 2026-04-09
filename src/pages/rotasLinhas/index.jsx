@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 import styles from './styles.module.css';
 
 
@@ -45,7 +44,7 @@ export default function RotasLinhas() {
       <header className={styles.header}>
         <div className={styles.logoArea}>
           <div className={styles.motoristaBox}>
-            <button className={styles.motoristaTexto} onClick={() => navigate('/avaliacaoMotorista')}>
+            <button className={styles.motoristaTexto} onClick={() => navigate('/infoMotorista')}>
               MOTORISTA
             </button>
             <div className={styles.iconBox}>🚌</div>
@@ -101,10 +100,10 @@ export default function RotasLinhas() {
           <div className={styles.descricaoRotas}>
             {descricao.map((descricao, index) => (
               <div key={index} className={styles.descricaoItens}>
-                <h4>{descricao.nome}</h4>
-                <p>Inicio: {descricao.Inicio}</p>
-                <p>Fim: {descricao.Fim}</p>
-                <p>{descricao.descricao}</p>
+                <h4 className={styles.descricaoItem}>{descricao.nome}</h4>
+                <p className={styles.descricaoItem}>Inicio: {descricao.Inicio}</p>
+                <p className={styles.descricaoItem}>Fim: {descricao.Fim}</p>
+                <p className={styles.descricaoItem}>{descricao.descricao}</p>
               </div>
             ))}
           </div>

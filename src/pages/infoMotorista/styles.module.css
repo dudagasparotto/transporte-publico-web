@@ -1,0 +1,272 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fb, #e8eef9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.card {
+  width:100%;
+  background: #c6d8e9;
+  border-radius: 2px;
+  padding: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header h1 {
+  font-size: 2rem;
+  color: #1f2a44;
+  margin: 0;
+}
+
+.backButton {
+  background: #e8f0ff;
+  color: #2563eb;
+  width: 50px;
+  height: 42px;
+  border-radius: 12px;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.backButton:hover {
+  background: #dbe7ff;
+}
+
+.subtitle {
+  margin-top: 10px;
+  color: #64748b;
+  font-size: 1rem;
+}
+
+.profileSection {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+}
+
+.avatarBox {
+  background: #f1f7ff;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.avatar {
+  width: 160px;
+  height: 160px;
+  background: #dbeafe;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+}
+
+.imgMotorista {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+}   
+
+.infoBox {
+  background: #f8fbff;
+  border: 1px solid #e5edf8;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.infoItem {
+  border-bottom: 1px solid #e6edf5;
+  padding-bottom: 14px;
+}
+
+.infoItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.label {
+  display: block;
+  font-size: 0.85rem;
+  color: #64748b;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.infoItem strong {
+  color: #1e293b;
+  font-size: 1.2rem;
+}
+
+.statsContainer {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.statCard {
+  background: #f8fbff;
+  border: 1px solid #e5edf8;
+  border-radius: 18px;
+  padding: 20px;
+  text-align: center;
+}
+
+.statTitle {
+  display: block;
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+
+.statCard strong {
+  font-size: 1.2rem;
+  color: #1f2a44;
+}
+
+.avaliacaoBox {
+  margin-top: 32px;
+  background: #ffffff;
+  border: 1px solid #e5edf8;
+  border-radius: 20px;
+  padding: 28px;
+}
+
+.avaliacaoBox h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #1f2a44;
+}
+
+.avaliacaoBox p {
+  margin-top: 8px;
+  color: #64748b;
+}
+
+.stars {
+  margin-top: 22px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.starButton {
+  border: none;
+  background: transparent;
+  font-size: 2.6rem;
+  cursor: pointer;
+  color: #cbd5e1;
+  transition: 0.2s;
+}
+
+.active {
+  color: #fbbf24;
+  transform: scale(1.05);
+}
+
+.noteText {
+  display: block;
+  margin-top: 8px;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.textarea {
+  margin-top: 22px;
+  width: 100%;
+  min-height: 140px;
+  border: 1px solid #dbe5f1;
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 1rem;
+  resize: none;
+  outline: none;
+  background: #f8fbff;
+}
+
+.textarea:focus {
+  border-color: #2563eb;
+}
+
+.counter {
+  text-align: right;
+  margin-top: 8px;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.primaryButton {
+  width: 100%;
+  margin-top: 18px;
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 16px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.primaryButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.2);
+}
+
+.secondaryButton {
+  width: 100%;
+  margin-top: 14px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  border-radius: 14px;
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.secondaryButton:hover {
+  background: #dbeafe;
+}
+
+@media (max-width: 900px) {
+  .profileSection {
+    grid-template-columns: 1fr;
+  }
+
+  .statsContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .header h1 {
+    font-size: 1.6rem;
+  }
+}

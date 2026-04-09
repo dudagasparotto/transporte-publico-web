@@ -124,39 +124,25 @@
   margin-bottom: 16px;
 }
 
-
-.linhaCard h3 {
-  margin: 0 0 8px 0;
-  color: #22304a;
-  font-size: 17px;
-}
-
-.linhaCard p {
-  margin: 0;
-  color: #555;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
 .descricaoRotas {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .descricaoItens {
   background-color: #eef2f8;
   border-radius: 10px;
   padding: 14px;
-}
+} 
 
-.pontoItem h4 {
+.descricaoItem {
   margin: 0 0 6px 0;
   color: #1d2940;
   font-size: 16px;
 }
 
-.pontoItem p {
+.descricaoItem p {
   margin: 0;
   color: #666;
   font-size: 14px;

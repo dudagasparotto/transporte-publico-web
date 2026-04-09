@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route } from 'react-router-dom';
 //import Home from './pages/home';
 
 import AvaliacaoMotorista from './pages/avaliacaoMotorista';
+import InfoMotorista from './pages/infoMotorista/index';
 import CadastroMotorista from './pages/cadMotorista/index';
 import EditarPontos from './pages/editarPontos';
 import EditarRota from './pages/editarRota';
@@ -24,6 +25,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/avaliacao" element={<AvaliacaoMotorista />} />
+      <Route path="/infomotorista" element={<InfoMotorista />} />
       <Route path="/cadmotora" element={<CadastroMotorista />} />
       <Route path="/editarpontos" element={<EditarPontos />} />
       <Route path="/editarrota" element={<EditarRota />} />
