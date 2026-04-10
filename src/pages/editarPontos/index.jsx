@@ -63,7 +63,16 @@ export default function EditarPontos() {
 
         {/* DIREITA */}
         <div className="right">
-          <div className="map">(Mapa aqui)</div>
+          <div className="map">
+            <iframe
+              src="https://www.google.com/maps/d/embed?mid=1CGlf7-SLTrBaj3BVrVExvLC0-2TCoW0"
+              width="100%"
+              height="500"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+            ></iframe>
+          </div>
 
           <table>
             <thead>

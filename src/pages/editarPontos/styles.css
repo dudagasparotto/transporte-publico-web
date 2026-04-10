@@ -1,7 +1,7 @@
 .container {
   font-family: Arial, sans-serif;
   background: #edf4ff;
-  min-height: 100vh;
+  min-height: 98vh;
 }
 
 .header {
@@ -52,7 +52,7 @@ select {
 }
 
 .map {
-  height: 300px;
+  height: 500px;
   background: #ddd;
   border-radius: 10px;
   margin-bottom: 20px;
@@ -75,8 +75,8 @@ td {
 
 .footer-btn {
   display: block;
-  margin: 40px auto;
-  padding: 15px 40px;
+  margin: 1px auto;
+  padding: 10px 40px;
   background: #394f8e;
   color: white;
   border-radius: 12px;
