@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 import "./styles.css";
 
 import pontos from "../../assets/pontos.png";
@@ -12,10 +14,9 @@ export default function HomeAdm() {
         <h1>TRANSPORTE PÚBLICO</h1>
 
         <nav>
-          <button>HORÁRIOS</button>
-          <button>LINHAS</button>
-          <button>PONTOS</button>
-          <button className="admin">Administrador</button>
+          <Link to='/'>
+            <button className="admin">Home</button>
+          </Link>
         </nav>
       </header>
 
@@ -26,7 +27,9 @@ export default function HomeAdm() {
         <div className="admin-card">
           <img src={pontos} />
           <h3>Pontos de Ônibus</h3>
-          <button>Editar</button>
+          <Link to='/adm/editarpontos'>
+            <button>Editar</button>
+          </Link>
         </div>
 
         <div className="admin-card">
@@ -38,13 +41,17 @@ export default function HomeAdm() {
         <div className="admin-card">
           <img src={rotas} />
           <h3>Rotas</h3>
-          <button>Editar</button>
+          <Link to='/adm/editarrota'>
+            <button>Editar</button>
+          </Link>
         </div>
 
         <div className="admin-card">
           <div className="icon">👮</div>
           <h3>Motoristas</h3>
-          <button>Editar</button>
+          <Link to='/adm/cadmotora'>
+            <button>Editar</button>
+          </Link>
         </div>
 
       </main>
