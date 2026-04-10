@@ -6,47 +6,52 @@ body {
 .fundo {
   width: 100%;
   background-image: url("../../assets/fundo.png");
-  background-size: cover;
-  background-position: center;
+  /* background-size: cover;
+  background-position: center; */
 }
 
 /* HEADER FULL WIDTH */
 .header {
+  position: relative;
+  z-index: 2;
   width: 100%;
-  background: #1e5aa5;
+  background: #374151;
   color: white;
-  padding: 20px;
-  text-align: center;
-  font-size: 22px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 20px; 
+  align-items: center;
 }
 
-/* CONTAINER CENTRAL MAIS LARGO */
 .container {
   width: 100%;
-  padding: 30px;
+  padding: 5%;
   display: grid;
-  gap: 30px;
+  gap: 2.9%;
 }
 
-/* BLOCO DE CADA LINHA */
+
 .linha {
   background: #ffffff;
-  padding: 15px;
+  padding: 1%;
   border-radius: 15px;
+  color: black;
+  
 }
 
-/* TITULO DA LINHA */
+
 .tituloLinha {
-  margin-bottom: 10px;
-  color: #1e5aa5;
+  margin-bottom: 0.9%;
+  color: #1E40AF;
 }
 
-/* CARD DO PONTO */
+
 .card {
   background: #f9f9f9;
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  padding: 1%;
+  border-radius: 2%;
+  margin-bottom: 1%;
 }
 
 .topo {
@@ -57,41 +62,45 @@ body {
 
 .nome {
   font-weight: bold;
+  font-size: 20px;
 }
 
-.proximo {
-  background: #3ac47d;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 12px;
-}
 
 .horarios {
   margin-top: 8px;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  font-size: 10px;
 }
 
 .hora {
-  background: #2d6cdf;
-  color: white;
-  padding: 5px 8px;
-  border-radius: 6px;
+  background: linear-gradient(135deg, #3B82F6, #1E40AF);
+  color: #E0F2FE;
+  padding: 10px 9px;
+  border-radius: 6px; 
   font-size: 13px;
 }
 
 .button {
-  background-color: #306ea8;
-  color: white;
-  border: none;
-  padding: 12px 28px;
+  background: linear-gradient(135deg, #3B82F6, #1E40AF);
+  color: #E0F2FE;
+  border: none;     
+  padding: 10px 28px;
   border-radius: 10px;
   font-size: 15px;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.2s ease;
-  margin-left: 1%;
-  margin-top: 1%;
+
 }   
+
+.button:hover {
+  background-color: #2563eb;
+}
+
+.titulinho{
+  text-align: center;
+  align-items: center;
+  margin-left: 50px;
+  font-size: 30px;
+}

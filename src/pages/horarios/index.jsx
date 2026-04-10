@@ -1,4 +1,6 @@
 import styles from './styles.module.css'
+import { useNavigate } from 'react-router-dom';
+
 
 const linhas = [
   {
@@ -48,14 +50,16 @@ const linhas = [
 ]
 
 export default function Horarios() {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.fundo}>
 
       <div className={styles.header}>
-        <h1>Horários de Ônibus</h1>
+        <h1 className={styles.titulinho}>Horários</h1>
         <button className={styles.button} onClick={() => navigate('/')}>
                   HOME
-                </button>
+                </button> 
       </div>
 
       <div className={styles.container}>
