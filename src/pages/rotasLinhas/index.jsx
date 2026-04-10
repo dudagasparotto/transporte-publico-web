@@ -47,7 +47,7 @@ export default function RotasLinhas() {
             <button className={styles.motoristaTexto} onClick={() => navigate('/infoMotorista')}>
               MOTORISTA
             </button>
-            <div className={styles.iconBox}>🚌</div>
+          
           </div>
         </div>
 

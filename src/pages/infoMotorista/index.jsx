@@ -1,95 +1,93 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Styles from './styles.module.css';
 import motoristaImg from '../../assets/motorista.webp';
 
+export default function InfoMotorista() {
+  const navigate = useNavigate();
+  const [nota, setNota] = useState(0);
+  const [hover, setHover] = useState(0);
+  const [comentario, setComentario] = useState('');
 
-export default function InfoMotorista(){
 
-    const navigate = useNavigate();
-    const [nota, setNota] = useState (0);
-    const [hover, setHover] = useState(0);
-    const [comentario, setComentario] = useState('');
-    
-    const enviarAvaliacao =() =>{
-        if(nota ==0){
-            alert('Por favor, selecione uma nota para o motorista.');
-            return;
-        }
-        alert (`Avaliação enviada com sucesso!\nNota: ${nota}\nComentário: ${comentario || 'Sem comentário'}`);
-        setNota(0);
-        setComentario('');
+  const enviarAvaliacao = () => {
+    if (nota === 0) {
+      alert('Por favor, selecione uma nota.');
+      return;
     }
 
-      return (
+    alert(`Avaliação enviada!\nNota: ${nota}`);
+    setNota(0);
+    setComentario('');
+  };
+
+  return (
     <div className={Styles.container}>
       <div className={Styles.card}>
-        {/* Topo */}
+
+        {/* HEADER */}
         <div className={Styles.header}>
-          <button className={Styles.backButton} onClick={() => navigate(-2)}>
-           <h1>HOME</h1> 
+          <button onClick={() => navigate(-1)} className={Styles.backButton}>
+            INÍCIO
           </button>
 
-          <h1>Informações do Motorista</h1>
+          <div>
+            <h1>Informações do Motorista</h1>
+            <p>Visualize os dados e avalie o motorista</p>
+          </div>
         </div>
 
-        <p className={Styles.subtitle}>
-          Visualize os dados do motorista e registre uma avaliação.
-        </p>
-
-        {/* Dados principais */}
+        {/* PERFIL */}
         <div className={Styles.profileSection}>
-
-          <div className={Styles.fundoImg}>
-            <div className={Styles.img} >
-                <img src={motoristaImg} alt="Motorista" className={Styles.imgMotorista}>
-                </img>
-            </div> {/*ARRUMAR PARA POR FOTO DO MOTORISTA*/}
+          <div className={Styles.imageBox}>
+            <img src={motoristaImg} alt="Motorista" />
           </div>
 
           <div className={Styles.infoBox}>
-            <div className={Styles.infoItem}>
-              <span className={Styles.label}>Nome</span>
-              <strong>João Paulo Silva</strong>
-            </div>
+            <h2>João Paulo Silva</h2>
 
-            <div className={Styles.infoItem}>
-              <span className={Styles.label}>Linha</span>
-              <strong>Azul</strong>
-            </div>
+            <div className={Styles.infoGrid}>
+              <div>
+                <span>Linha</span>
+                <strong>Azul</strong>
+              </div>
 
-            <div className={Styles.infoItem}>
-              <span className={Styles.label}>Código do Motorista</span>
-              <strong>MTR-4589</strong>
+              <div>
+                <span>Código</span>
+                <strong>MTR-4589</strong>
+              </div>
+
+              <div>
+                <span>Tempo na plataforma</span>
+                <strong> 2 anos e 3 meses</strong>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Estatísticas */}
+        {/* STATS */}
         <div className={Styles.statsContainer}>
-
           <div className={Styles.statCard}>
-            <span className={Styles.statTitle}>Avaliação média</span>
-            <strong>4,8</strong>
+            <span>Avaliação média</span>
+            <strong>⭐ 4,8</strong>
           </div>
 
           <div className={Styles.statCard}>
-            <span className={Styles.statTitle}>Tempo na plataforma</span>
-            <strong>2 anos e 3 meses</strong>
+            <span>Tempo na plataforma</span>
+            <strong> 2 anos e 3 meses</strong>
           </div>
         </div>
 
-        {/* Avaliação */}
+        {/* AVALIAÇÃO */}
         <div className={Styles.avaliacaoBox}>
           <h2>Avalie o motorista</h2>
-          <p>Sua avaliação ajuda a melhorar nosso serviço.</p>
+          <p>Sua opinião é importante!</p>
 
           <div className={Styles.stars}>
             {[1, 2, 3, 4, 5].map((star) => (
-              <button
+              <span
                 key={star}
-                type="button"
-                className={`${Styles.starButton} ${
+                className={`${Styles.star} ${
                   star <= (hover || nota) ? Styles.active : ''
                 }`}
                 onClick={() => setNota(star)}
@@ -97,32 +95,24 @@ export default function InfoMotorista(){
                 onMouseLeave={() => setHover(0)}
               >
                 ★
-              </button>
+              </span>
             ))}
           </div>
 
-          <span className={Styles.noteText}>Toque nas estrelas para avaliar</span>
-
           <textarea
-            className={Styles.textarea}
-            placeholder="Deixe um comentário (opcional)..."
+            placeholder="Deixe um comentário..."
             value={comentario}
             onChange={(e) => setComentario(e.target.value)}
-            maxLength={200}
           />
 
-          <div className={Styles.counter}>{comentario.length}/200</div>
-
-          <button className={Styles.primaryButton} onClick={enviarAvaliacao}>
-            Enviar Avaliação/ Sugestão
+          <button className={Styles.primeiroButton} onClick={enviarAvaliacao}>
+            Enviar avaliação
           </button>
 
-          <button
-            className={Styles.secondaryButton}
-            onClick={() => navigate('/avaliacaoMotorista')}
-          >
+          <button onClick={() => navigate('/avaliacoesMotorista')} className={Styles.segundoButton}>
             Ver avaliações anteriores
           </button>
+
         </div>
       </div>
     </div>
