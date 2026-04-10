@@ -15,7 +15,7 @@ export default function HomeAdm() {
 
         <nav>
           <Link to='/'>
-            <button className="admin">Home</button>
+            <button className="botao">Home</button>
           </Link>
         </nav>
       </header>
