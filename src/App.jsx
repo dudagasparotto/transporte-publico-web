@@ -26,9 +26,9 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/avaliacao" element={<AvaliacaoMotorista />} />
       <Route path="/infomotorista" element={<InfoMotorista />} />
-      <Route path="/cadmotora" element={<CadastroMotorista />} />
-      <Route path="/editarpontos" element={<EditarPontos />} />
-      <Route path="/editarrota" element={<EditarRota />} />
+      <Route path="/adm/cadmotora" element={<CadastroMotorista />} />
+      <Route path="/adm/editarpontos" element={<EditarPontos />} />
+      <Route path="/adm/editarrota" element={<EditarRota />} />
       <Route path="/adm" element={<HomeAdm />} />
       <Route path="/cadpontos" element={<CadastroPontos />} />
       <Route path="/rotas" element={<RotasLinhas />} />
