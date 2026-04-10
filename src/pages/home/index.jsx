@@ -13,7 +13,7 @@ export default function Home() {
 
         <nav className="menu">
           <Link to='/login'>
-          <button className="admin">Administrador</button>
+          <button className="botao">Administrador</button>
           </Link>
         </nav>
       </header>
