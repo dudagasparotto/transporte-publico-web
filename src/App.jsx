@@ -2,8 +2,9 @@ import {BrowserRouter, Routes, Route } from 'react-router-dom';
 
 //import Home from './pages/home';
 
-import AvaliacaoMotorista from './pages/avaliacaoMotorista';
+
 import InfoMotorista from './pages/infoMotorista/index';
+import AvaliacaoMotorista from './pages/avaliacaoMotorista/index';
 import CadastroMotorista from './pages/cadMotorista/index';
 import EditarPontos from './pages/editarPontos';
 import EditarRota from './pages/editarRota';
@@ -26,6 +27,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/avaliacao" element={<AvaliacaoMotorista />} />
       <Route path="/infomotorista" element={<InfoMotorista />} />
+      <Route path="/avaliacaoMotorista" element={<AvaliacaoMotorista />} />
       <Route path="/adm/cadmotora" element={<CadastroMotorista />} />
       <Route path="/adm/editarpontos" element={<EditarPontos />} />
       <Route path="/adm/editarrota" element={<EditarRota />} />

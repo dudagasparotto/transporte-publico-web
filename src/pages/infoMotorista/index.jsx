@@ -109,7 +109,7 @@ export default function InfoMotorista() {
             Enviar avaliação
           </button>
 
-          <button onClick={() => navigate('/avaliacoesMotorista')} className={Styles.segundoButton}>
+          <button  className={Styles.segundoButton} onClick={() => navigate('/avaliacaoMotorista')}>
             Ver avaliações anteriores
           </button>
 
