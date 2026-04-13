@@ -1,3 +1,8 @@
+.page {
+  flex: 1;
+  width: 100%;
+}
+
 .container {
   font-family: "Segoe UI", Arial;
   background: #edf4ff;
@@ -23,10 +28,10 @@
 
 /* CARD */
 .card {
-  width: 500px;
+  min-width: 65%;
   margin: 50px auto;
   background: white;
-  padding: 30px;
+  padding: 40px;
   border-radius: 15px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
@@ -36,8 +41,13 @@
 }
 
 /* FORM */
-.form-group {
-  margin-bottom: 15px;
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
 }
 
 label {
@@ -49,9 +59,10 @@ label {
 
 input {
   width: 100%;
-  padding: 10px;
+  padding: 12px; /* mais confortável */
   border-radius: 8px;
   border: 1px solid #d1d5db;
+  font-size: 14px;
 }
 
 /* FOTO */
@@ -60,8 +71,10 @@ input {
 }
 
 .foto-box {
+  margin-left: 34%;
   position: relative;
-  height: 120px;
+  width: 32%;
+  height: 200px;
   border: 2px dashed #cbd5e1;
   border-radius: 10px;
   display: flex;
