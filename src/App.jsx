@@ -11,7 +11,7 @@ import EditarRota from './pages/editarRota';
 import Home from './pages/home';
 import LoginAdm from './pages/loginAdm';
 import HomeAdm from './pages/homeAdm';
-import CadastroPontos from './pages/pontos';
+import CadastroPontos from './pages/cadPontos';
 import RotasLinhas from './pages/rotasLinhas';
 import Horarios from './pages/horarios';
 import Negado from './pages/loginAdm/negado';

@@ -21,14 +21,6 @@ export default function Home() {
       <section className="banner" />
 
       <section className="cards">
-          <Link to='/pontos'>
-          <div className="card">
-          <img src={verpontos} alt='Pontos' />
-          <h3>Pontos de Ônibus</h3>
-          <p>Encontre os pontos de ônibus mais próximos.</p>
-          <button className="green">Ver Pontos</button>
-        </div>
-        </Link>
 
         <Link to='/rotas'>
         <div className="card">
