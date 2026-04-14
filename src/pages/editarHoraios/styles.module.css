@@ -1,3 +1,10 @@
+
+.conteudo {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
 .imagemFundo{
   width: 100%;
   background-image: url("../../assets/fundo.png");
@@ -23,6 +30,7 @@
 .tituloLinha {
   margin-bottom: 0.9%;
   color: #1E40AF;
+  font-family: 'Roboto';
 }
 
 .button {
@@ -41,11 +49,12 @@
 .ladoesquerdo {
   display: flex;
   flex: 1;
+  border-radius: 10%;
 }
 
 .barraLateral{
-  width: 250px;
-  background: white;
+  width: 15%;
+  background: #F3F4F6;
   padding: 15px;
   border-right: 1px solid #ddd;
   margin-top: 7%;
@@ -53,12 +62,72 @@
   overflow-y: auto;
   font-family: 'roboto';
   font-size: 15px;
+  border-radius: 5%;
+  max-height: 700px;
+  cursor: pointer;
 
 }
 
 .nomePontos {
   padding: 5px; 
-  font-size: 30px;
+  font-size: 20px;
   font-family: 'roboto';
 }
 
+.titulinho {
+  margin-bottom: 0.9%;
+  color: #ffffff;
+  font-family: 'Roboto';
+}
+
+.ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.li {
+  background-color: white;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.active {
+  background-color: #E0F2FE;
+  color: #1E40AF;
+  font-weight: bold;
+  border-radius: 3%;
+}
+.ladoDireito {
+  display: flex;
+  flex: 1;
+  border-radius: 10%;
+  display: flex;
+}
+
+.conteudoDireito{
+  background: #E0F2FE;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.horarios {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.linha {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.hora {
+  background: #f3f4f6;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
