@@ -15,6 +15,7 @@ import CadastroPontos from './pages/cadPontos';
 import RotasLinhas from './pages/rotasLinhas';
 import Horarios from './pages/horarios';
 import Negado from './pages/loginAdm/negado';
+import EditarHorarios from './pages/editarHoraios';
 
 
 
@@ -36,6 +37,7 @@ function App() {
       <Route path="/horarios" element={<Horarios />} />
       <Route path="/login" element={<LoginAdm />} />
       <Route path="/login/negado" element={<Negado />} />
+      <Route path="/adm/editarhorarios" element={<EditarHorarios />} />
     </Routes>
 
   )

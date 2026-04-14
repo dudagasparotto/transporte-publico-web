@@ -6,6 +6,7 @@ import pontos from "../../assets/pontos.png";
 import rotas from "../../assets/rotas.png";
 import horarios from "../../assets/horarios.png";
 
+
 export default function HomeAdm() {
   return (
     <div className="admin-container">
@@ -34,8 +35,10 @@ export default function HomeAdm() {
 
         <div className="admin-card">
           <img src={horarios} />
-          <h3>Horários</h3>
-          <button>Editar</button>
+          <h3>Horários</h3> 
+          <Link to='/adm/editarhorarios'>
+            <button>Editar</button>
+          </Link>
         </div>
 
         <div className="admin-card">
