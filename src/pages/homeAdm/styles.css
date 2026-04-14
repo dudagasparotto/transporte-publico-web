@@ -1,16 +1,22 @@
 * {
   box-sizing: border-box;
   font-family: sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   margin: 0;
   background: transparent;
+  padding: 0;
 }
+
 
 /* FUNDO */
 .admin-container {
+  position: fixed;
   height: 100%;
+  min-height: 97vh;
   display: flex;
   flex-direction: column;
   background-image: url("../../assets/fundo.png");
@@ -38,6 +44,7 @@ body {
   justify-content: space-between;
   padding: 15px 30px;
   align-items: center;
+  font-family: 'Roboto';
 }
 
 .admin-header nav button {

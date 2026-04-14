@@ -6,8 +6,9 @@
 }
 
 .container {
+  position: fixed;
   width: 100%;
-  min-height: 100vh;
+  min-height: 97vh;
   display: flex;
   flex-direction: column;
   background-image: url("../../assets/fundo.png");
@@ -23,8 +24,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
+  padding: 30px 30px;
   font-family: 'Roboto';
+}
+
+.header h1 {
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 .menu button {
@@ -44,7 +51,7 @@
 
 /* BANNER */
 .banner {
-  height: 200px;
+  height: 150px;
   background-size: cover;
   background-position: center;
 }
@@ -130,29 +137,5 @@
 
 .botao{
   background: linear-gradient(135deg, #1E40AF, #3B82F6);
-}
-
-/* SETAS */
-.arrow {
-  background: #1e3a8a;
-  color: white;
-  border: none;
-  font-size: 25px;
-  padding: 10px 15px;
-  cursor: pointer;
-  border-radius: 8px;
-}
-
-.arrow.left {
-  position: absolute;
-  left: 280px;
-}
-
-.arrow.right {
-  position: absolute;
-  right: 280px;
-}
-
-.arrow:hover {
-  transform: scale(1.1);
+  font-size: 15px;
 }
