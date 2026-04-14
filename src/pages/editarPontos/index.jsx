@@ -31,7 +31,7 @@ export default function EditarPontos() {
       <div className="content">
         {/* ESQUERDA */}
         <div className="card">
-          <h3>Adicionar Ponto de Ônibus</h3>
+          <h3>Ponto de Ônibus</h3>
 
           <label>Nome do Ponto:</label>
           <input
@@ -57,7 +57,7 @@ export default function EditarPontos() {
           />
 
           <button onClick={adicionarPonto} className="btn">
-            Adicionar Ponto
+            Editar Ponto
           </button>
         </div>
 
