@@ -8,13 +8,6 @@ export default function EditarHorarios() {
 
     const [pontoSelecionado, setPontoSelecionado] = useState("101 Vila Nova");
 
-    function adicionarHorario() {
-        const nova = prompt("Digite o novo horário:");
-        if (nova) {
-            setParadas([...paradas, nova]);
-        }
-    }
-
     const pontos = [
         "101 Vila Nova",
         "102 Morada Verde",
@@ -25,7 +18,8 @@ export default function EditarHorarios() {
         "303 Centro Norte",
     ];
 
-    const horarios = [
+    // ✅ AGORA É STATE
+    const [horarios, setHorarios] = useState([
         ["05:30", "06:00", "06:30", "07:00", "07:30"],
         ["07:30", "08:00", "08:30", "09:00", "09:30"],
         ["08:30", "09:30", "10:00"],
@@ -34,7 +28,35 @@ export default function EditarHorarios() {
         ["15:30", "16:00", "16:30", "17:00", "17:30"],
         ["18:00", "18:30", "19:00", "19:30", "20:00"],
         ["20:30", "21:00", "21:30", "22:00"]
-    ];
+    ]);
+
+    // 🗑 DELETAR LINHA
+    const deletarLinha = (index) => {
+        const novosHorarios = horarios.filter((_, i) => i !== index);
+        setHorarios(novosHorarios);
+    };
+
+    // ➕ ADICIONAR NOVO HORÁRIO (nova linha)
+    const adicionarHorario = (linhaIndex) => {
+        const novo = prompt("Digite o novo horário (ex: 12:30):");
+        if (!novo) return;
+        const novos = [...horarios];
+
+        novos[linhaIndex].push(novo); // ✅ adiciona na linha certa
+
+        setHorarios(novos);
+    };
+
+    const adicionar = () => {
+        const novo = prompt("Digite o novo horário (ex: 12:30):");
+        if (novo) { const novos = [...horarios]; novos.push([novo]); setHorarios(novos); }
+    };
+
+    const deletarHorario = (linhaIndex, horaIndex) => {
+        const novos = [...horarios]; 
+        novos[linhaIndex] = novos[linhaIndex].filter((_, i) => i !== horaIndex);
+        setHorarios(novos);
+};
 
     return (
         <div className={styles.imagemFundo}>
@@ -51,15 +73,14 @@ export default function EditarHorarios() {
             </div>
 
             <div className={styles.conteudo}>
+
+                {/* LADO ESQUERDO */}
                 <div className={styles.ladoesquerdo}>
                     <div className={styles.barraLateral}>
 
                         <h3>Selecione o ponto</h3>
 
-                        <input
-                            placeholder="Digite o nome do ponto"
-                            className={styles.input}
-                        />
+                        <input placeholder="Digite o nome do ponto" />
 
                         <ul className={styles.nomePontos}>
                             {pontos.map((ponto) => (
@@ -77,6 +98,7 @@ export default function EditarHorarios() {
                     </div>
                 </div>
 
+                {/* LADO DIREITO */}
                 <div className={styles.ladoDireito}>
                     <div className={styles.conteudoDireito}>
                         <h3>{pontoSelecionado}</h3>
@@ -84,29 +106,30 @@ export default function EditarHorarios() {
                         <div className={styles.horarios}>
                             {horarios.map((linha, i) => (
                                 <div key={i} className={styles.linha}>
-                                    {linha.map((hora, j) => (
-                                        <span key={j} className={styles.hora}>
-                                            {hora}
-                                        </span>
-                                    ))}
-
+                                    <div className={styles.horariosContainer}>
+                                        {linha.map((hora, j) => (
+                                            <span key={j} className={styles.hora}>
+                                                {hora}
+                                            </span>
+                                        ))}
+                                    </div>
                                     <div className={styles.botoes}>
-                                        <button className={styles.delete}>🗑</button>
-                                        <button className={styles.adicionar} onClick={adicionarHorario}>
+                                        <button className={styles.adicionar} onClick={() => adicionarHorario(i)}>
                                             +
+                                        </button>
+                                        <button className={styles.delete} onClick={() => deletarLinha(i)} >
+                                            🗑
                                         </button>
                                     </div>
                                 </div>
                             ))}
-
                         </div>
-
 
                         <div className={styles.rodape}>
-                            <button className={styles.salvar}>Salvar Alterações</button>
-
+                            <button className={styles.salvar} onClick={() => adicionar(0)}>
+                                Adicionar
+                            </button>
                         </div>
-
 
                     </div>
                 </div>
