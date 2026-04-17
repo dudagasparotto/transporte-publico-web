@@ -50,11 +50,11 @@
 }
 
 /* BANNER */
-.banner {
-  height: 150px;
+/* .banner {
+  height: 100px;
   background-size: cover;
   background-position: center;
-}
+} */
 
 /* CARDS */
 .cards {
@@ -62,7 +62,7 @@
   display: flex;
   justify-content: center;
   gap: 70px; /* antes era 60, agora respira melhor */
-  padding: 0px 20px; /* mais espaço em cima e embaixo */
+  padding: 5% 20px; /* mais espaço em cima e embaixo */
   position: relative;
   align-items: center;
   gap: 40px;

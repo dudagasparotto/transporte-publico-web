@@ -18,8 +18,6 @@ export default function Home() {
         </nav>
       </header>
 
-      <section className="banner" />
-
       <section className="cards">
 
         <Link to='/rotas'>

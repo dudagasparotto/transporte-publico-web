@@ -12,7 +12,7 @@ export default function HomeAdm() {
     <div className="admin-container">
       
       <header className="admin-header">
-        <h1>TRANSPORTE PÚBLICO</h1>
+        <h1 className="h1">TRANSPORTE PÚBLICO</h1>
 
         <nav>
           <Link to='/'>

@@ -4,6 +4,12 @@
   min-height: 100vh;
 }
 
+.h1{
+  font-family: "Roboto";
+  font-size: 28px;
+  font-weight: bold;
+}
+
 .header {
   background: linear-gradient(135deg, #1E40AF, #3B82F6);
   padding: 20px;
@@ -45,6 +51,15 @@
 /* DIREITA */
 .info-container {
   flex: 1;
+}
+
+.home-btn {
+  width: 100px;
+  padding: 10px;
+  background: linear-gradient(135deg, #1E40AF, #3B82F6);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 input {

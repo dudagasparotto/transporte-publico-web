@@ -24,8 +24,13 @@ export default function EditarPontos() {
 
   return (
     <div className="container">
+
       <header className="header">
-        PAINEL ADMINISTRATIVO - PONTOS DE ÔNIBUS
+        <h1 className="h1">TRANSPORTE PÚBLICO</h1>
+
+        <button className="home-btn" onClick={() => window.location.href = "/"}>
+          Home
+        </button>
       </header>
 
       <div className="content">

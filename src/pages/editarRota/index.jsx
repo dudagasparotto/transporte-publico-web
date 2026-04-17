@@ -27,7 +27,11 @@ export default function editarRota() {
   return (
     <div className="container">
       <header className="header">
-        PAINEL ADMINISTRATIVO - ROTAS
+        <h1 className="h1">PAINEL ADMINISTRATIVO - ROTAS</h1>
+
+        <button className="home-btn" onClick={() => window.location.href = "/"}>
+          Home
+        </button>
       </header>
 
       <div className="content">

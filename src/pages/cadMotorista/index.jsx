@@ -24,8 +24,11 @@ export default function Motorista() {
       <div className="container">
 
         <header className="header">
-          <h1>Painel Administrativo</h1>
-          <span>Cadastro de Motorista</span>
+          <h1 className="h1">CADASTRO DE MOTORISTAS</h1>
+
+          <button className="home-btn" onClick={() => window.location.href = "/"}>
+            Home
+          </button>
         </header>
 
         <div className="card">

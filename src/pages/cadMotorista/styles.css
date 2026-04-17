@@ -3,6 +3,12 @@
   width: 100%;
 }
 
+.h1{
+  font-family: "Roboto";
+  font-size: 28px;
+  font-weight: bold;
+}
+
 .container {
   font-family: "Segoe UI", Arial;
   background: #edf4ff;
@@ -101,7 +107,6 @@ input {
   cursor: pointer;
 }
 
-/* BOTÃO */
 .btn {
   width: 100%;
   padding: 12px;
@@ -111,4 +116,13 @@ input {
   border-radius: 10px;
   cursor: pointer;
   font-size: 15px;
+}
+
+.home-btn {
+  width: 100px;
+  padding: 10px;
+  background: linear-gradient(135deg, #1E40AF, #3B82F6);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
