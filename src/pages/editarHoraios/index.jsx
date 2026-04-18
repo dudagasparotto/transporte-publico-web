@@ -62,7 +62,7 @@ export default function EditarHorarios() {
         <div className={styles.imagemFundo}>
 
             <div className={styles.header}>
-                <h1 className={styles.titulinho}>Editar Horários</h1>
+                <h1 className={styles.titulinho}>PAINEL ADMINISTRATIVO- EDITAR HORÁRIOS</h1>
 
                 <button
                     className={styles.button}

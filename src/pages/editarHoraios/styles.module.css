@@ -1,6 +1,7 @@
 .conteudo {
   display: flex;
   height: calc(100vh - 60px); /* ocupa a tela tirando o header */
+
 }
 
 /* FUNDO */
@@ -9,9 +10,10 @@
   background-image: url("../../assets/fundo.png");
   background-size: cover;
   background-position: center; 
-  background-attachment: fixed;
   min-height: 100vh;
+  ;
 }
+
 
 /* HEADER */
 .header{
@@ -19,11 +21,12 @@
   z-index: 2;
   width: 100%;
   background: linear-gradient(135deg, #1E40AF,#374151);
-  color: white;
-  padding: 10px;
+  padding: 20px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
+  
 }
 
 /* TEXTOS */
@@ -31,12 +34,14 @@
   margin-bottom: 0.9%;
   color: #1E40AF;
   font-family: 'Roboto';
+
 }
 
 .titulinho {
   margin-bottom: 0.9%;
   color: #ffffff;
   font-family: 'Roboto';
+  font-size: 28px;
 }
 
 /* BOTÃO */
@@ -53,13 +58,14 @@
 }   
 
 .ladoesquerdo {
+  margin-top: 70px;
   width: 20%;
   display: flex;
   justify-content: center;
 }
 
 .barraLateral{
-  width: 90%;
+  width: 80%;
   background: #F3F4F6;
   padding: 15px;
   margin: 20px 0;
@@ -67,8 +73,9 @@
   font-family: 'roboto';
   font-size: 15px;
   border-radius: 10px;
-  max-height: 90%;
+  max-height: 76%;
   cursor: pointer;
+  
 }
 
 .nomePontos {
@@ -115,16 +122,18 @@
 
 /* CARD DE HORÁRIOS */
 .conteudoDireito{
+  margin-top: 70px;
   position: absolute;
   top: 20px;
   left: 20px;
   background: #F3F4F6;
   padding: 20px;
   border-radius: 10px;
-  width: 85%;
+  width: 90%;
   font-family: 'Roboto';
   overflow-y: auto;
-  max-height: 95%;
+  max-height: 76%;
+  height: 620px;
   
 }
 

@@ -1,7 +1,9 @@
 import { useState } from "react";
-import "./styles.css";
+import { useNavigate } from "react-router-dom";
+import styles from "./styles.module.css";
 
-export default function editarRota() {
+export default function EditarRota() {
+  const navigate = useNavigate();
   const [rota, setRota] = useState("101 Vila Nova");
   const [saida, setSaida] = useState("Terminal Central");
   const [destino, setDestino] = useState("Bairro");
@@ -25,34 +27,16 @@ export default function editarRota() {
   }
 
   return (
-    <div className="container">
-      <header className="header">
-        <h1 className="h1">PAINEL ADMINISTRATIVO - ROTAS</h1>
+    <div className={styles.imagemFundo}>
+      <div className={styles.header}>
+        <h1 className={styles.titulinho}>PAINEL ADMINISTRATIVO - EDITAR ROTAS</h1>
 
-        <button className="home-btn" onClick={() => window.location.href = "/"}>
-          Home
-        </button>
-      </header>
+        <button className={styles.button} onClick={() => navigate("/adm")}>VOLTAR</button>
+      </div>
 
-      <div className="content">
-        <div className="rota-card">
-
-          {/* ESQUERDA - MAPA */}
-          <div className="map-container">
-            <div className="map">
-                <iframe
-                    src="https://www.google.com/maps/d/embed?mid=1CGlf7-SLTrBaj3BVrVExvLC0-2TCoW0"
-                    width="100%"
-                    height="500"
-                    style={{ border: 0 }}
-                    allowFullScreen=""
-                    loading="lazy"
-                ></iframe>
-            </div>
-          </div>
-
-          {/* DIREITA - INFOS */}
-          <div className="info-container">
+      <div className={styles.conteudo}>
+        <div className={styles.ladoesquerdo}>
+          <div className={styles.barraLateral}>
             <h3>Editar Rota de Ônibus</h3>
 
             <label>Nome da Rota:</label>
@@ -65,30 +49,43 @@ export default function editarRota() {
             <input value={destino} onChange={(e) => setDestino(e.target.value)} />
 
             <h4>Paradas:</h4>
-
-            <ul className="lista">
+            <ul className={styles.lista}>
               {paradas.map((p, index) => (
-                <li key={index}>
+                <li key={index} className={styles.item}>
                   {p}
-                  <button onClick={() => removerParada(index)}>❌</button>
+                  <button className={styles.delete} onClick={() => removerParada(index)}>❌</button>
                 </li>
               ))}
             </ul>
 
-            <button className="btn-add" onClick={adicionarParada}>
+            <button className={styles.salvar} onClick={adicionarParada}>
               + Adicionar Parada
             </button>
+          </div>
+        </div>
 
-            <div className="actions">
-              <button className="cancelar">Cancelar</button>
-              <button className="salvar">Salvar</button>
+        <div className={styles.ladoDireito}>
+          <div className={styles.conteudoDireito}>
+            <h3>Mapa da Rota</h3>
+
+            <div className={styles.mapa}>
+              <iframe
+                src="https://www.google.com/maps/d/embed?mid=1CGlf7-SLTrBaj3BVrVExvLC0-2TCoW0"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                title="Mapa da Rota"
+              ></iframe>
+            </div>
+
+            <div className={styles.rodape}>
+              <button className={styles.salvar}>Salvar</button>
             </div>
           </div>
-
         </div>
       </div>
-
-      <button className="footer-btn">Concluir</button>
     </div>
   );
 }

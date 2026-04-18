@@ -79,17 +79,17 @@ export default function RotasLinhas() {
               ROTA ROXA
             </div>
           </button>
-          <button className={styles.Button} onClick={() => setLinha('')}> {/*POR O RESTO DOS LINKS*/}
+          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/embed?mid=1hyXMponzmWHL14QtLDyt5gplovfOMIw')}> {/*POR O RESTO DOS LINKS*/}
             <div> 
               ROTA AZUL
             </div>
           </button>
-          <button className={styles.Button} onClick={() => setLinha('')}>
+          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/embed?mid=162XaF2bflsoB3NJ0r04mZGoUsyjVbig')}>
             <div>
               ROTA LARANJA
             </div>
           </button>
-          <button className={styles.Button} onClick={() => setLinha('')}>
+          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/embed?mid=1EPTFKwqqYrBzylqL2nAiA-Qjrg5ofVY')}>
             <div>
               ROTA AMARELA
             </div>

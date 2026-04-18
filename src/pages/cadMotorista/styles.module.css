@@ -11,13 +11,13 @@
 
 .container {
   font-family: "Segoe UI", Arial;
-  background: #edf4ff;
+  background: #edf4ff; 
   min-height: 100vh;
 }
 
 /* HEADER */
 .header {
-  background: linear-gradient(135deg, #1E40AF, #3B82F6);
+  background: linear-gradient(135deg, #1E40AF,#3B82F6);
   padding: 20px 40px;
   align-items: center;
 }

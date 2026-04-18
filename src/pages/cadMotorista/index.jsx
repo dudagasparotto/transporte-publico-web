@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./styles.css";
+import "./styles.module.css";
 
 export default function Motorista() {
   const [cpf, setCpf] = useState("");
@@ -26,7 +26,7 @@ export default function Motorista() {
         <header className="header">
           <h1 className="h1">CADASTRO DE MOTORISTAS</h1>
 
-          <button className="home-btn" onClick={() => window.location.href = "/"}>
+          <button className="home-btn" onClick={() => window.location.href = "/adm"}>
             Home
           </button>
         </header>

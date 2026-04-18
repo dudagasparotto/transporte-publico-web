@@ -1,38 +1,38 @@
-#root {
-  background-color: #fafafa;
-  color: #212121;
-  /* margin: 10px; */
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* justify-content: center; */
-  /* place-items: center; */
-  min-width: 32rem;
-  min-height: 100vh;
-  /* border: 1px solid red; */
-  /* box-sizing: border-box; */
-  width: 100%;
-  position: fixed;
-}
 
-html {
-  /* Adiciona um efeito de rolagem suave quando links internos são clicados */
-  scroll-behavior: smooth;
-  /* Define o tamanho da fonte base como 10px (para facilitar o uso de rem) */
-  font-size: 62.5%;
-  /* Garante que o elemento html não seja maior que a largura da viewport */
-  max-width: 100vw;
-}
-
-
+/* RESET GLOBAL */
 * {
-  /* Altera o modelo de caixa para incluir padding e border na largura e altura de um elemento */
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
+/* HTML BASE */
+html {
+  scroll-behavior: smooth;
+  font-size: 62.5%;
+  max-width: 100vw;
+}
+
+/* REMOVE BORDA BRANCA DO NAVEGADOR */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #fafafa;
+}
+
+/* ROOT PRINCIPAL (CORRIGIDO) */
+#root {
+  color: #212121;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+
+  /* IMPORTANTE: removido padding e position fixed */
+}
+
+/* TIPOGRAFIA */
 h1 {
   font-size: 2.8rem;
   font-weight: bold;
@@ -66,25 +66,24 @@ small {
   font-size: 1.3rem;
 }
 
+/* LINKS */
 a {
   text-decoration: none;
-  font-size: 1.6rem; 
-  color: cornflowerblue; 
+  font-size: 1.6rem;
+  color: cornflowerblue;
   margin-bottom: 0.5rem;
 }
 
-
-/* Estilo para Inputs, Selects e Textareas */
+/* INPUTS */
 input, select, textarea {
   width: 100%;
   padding: 1rem;
   margin: 0.8rem 0;
   border: 0.1rem solid #ccc;
   border-radius: 0.4rem;
-  box-sizing: border-box; /* Garante que o padding não quebre o layout */
 }
 
-/* Botões */
+/* BOTÕES */
 button {
   background-color: #646cff;
   color: white;
@@ -99,7 +98,7 @@ button:hover {
   filter: brightness(0.9);
 }
 
-/* Tabelas Responsivas */
+/* TABELAS */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -116,7 +115,7 @@ th {
   background-color: #f4f4f4;
 }
 
-
+/* RESPONSIVIDADE */
 @media screen and (max-width: 960px) {
   html {
     font-size: 50%;
