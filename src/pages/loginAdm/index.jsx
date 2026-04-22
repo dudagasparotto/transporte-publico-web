@@ -1,34 +1,33 @@
 import { Link } from "react-router";
-import "./styles.css";
+import styles from './index.module.css';
 
 export default function LoginAdm() {
   return (
-    <div className="login-container">
+    <div className={styles.loginContainer}>
       
-      <div className="overlay" />
+      <div className={styles.overlay} />
 
-      {/* BOTÃO HOME */}
-      <div className="top-bar">
+      <div className={styles.topBar}>
         <Link to="/">
-          <button className="home-btn">Home</button>
+          <button className={styles.homeBtn}>Home</button>
         </Link>
       </div>
 
-      <div className="login-box">
+      <div className={styles.loginBox}>
         <h1>Entrar</h1>
 
-        <div className="input-group">
+        <div className={styles.inputGroup}>
           <label>Nome de usuário</label>
           <input type="text" placeholder="Digite seu usuário" />
         </div>
 
-        <div className="input-group">
+        <div className={styles.inputGroup}>
           <label>Senha</label>
           <input type="password" placeholder="Digite sua senha" />
         </div>
 
         <Link to="/adm">
-          <button className="login-btn">Entrar</button>
+          <button className={styles.loginBtn}>Entrar</button>
         </Link>
       </div>
     </div>

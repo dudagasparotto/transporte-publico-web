@@ -1,6 +1,6 @@
 * {
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: 'Roboto';
   margin: 0;
   padding: 0;
 }
@@ -10,7 +10,7 @@ body {
 }
 
 /* CONTAINER */
-.admin-container {
+.adminContainer {
   position: absolute;
   min-height: 100vh;
   display: flex;
@@ -23,15 +23,15 @@ body {
 
 /* OVERLAY */
 .overlay {
-  position: fixed; /* 🔥 melhor que absolute */
+  position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.5);
   pointer-events: none;
 }
 
 /* HEADER */
-.admin-header {
-  position: sticky; /* 🔥 fica fixo no topo */
+.adminHeader {
+  position: sticky;
   top: 0;
   z-index: 10;
   background: linear-gradient(135deg, #1E40AF, #3B82F6);
@@ -40,30 +40,31 @@ body {
   justify-content: space-between;
   padding: 15px 30px;
   align-items: center;
+  font-family: 'Roboto';
 }
 
 /* GRID */
-.admin-content {
+.adminContent {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 🔥 2 colunas fixas */
+  grid-template-columns: repeat(2, 1fr);
   gap: 30px;
   padding: 40px;
   justify-items: center;
 }
 
 /* CARD */
-.admin-card {
+.adminCard {
   background: white;
   border: 6px solid #1e3a8a;
   padding: 20px;
   width: 260px;
-  height: 300px; /* 🔥 altura fixa */
-  
-  display: flex;              /* 🔥 organiza conteúdo interno */
+  height: 300px;
+
+  display: flex;
   flex-direction: column;
-  justify-content: space-between; /* 🔥 distribui certinho */
+  justify-content: space-between;
 
   text-align: center;
   border-radius: 15px;
@@ -71,12 +72,12 @@ body {
   transition: 0.3s;
 }
 
-.admin-card:hover {
+.adminCard:hover {
   transform: translateY(-5px) scale(1.02);
 }
 
 /* IMG */
-.admin-card img {
+.adminCard img {
   width: 100%;
   height: 120px;
   object-fit: contain;
@@ -84,7 +85,7 @@ body {
 
 /* ICON */
 .icon {
-  height: 120px; /* 🔥 igual à imagem */
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,7 +93,7 @@ body {
 }
 
 /* BOTÃO */
-.admin-card button {
+.adminCard button {
   margin-top: 10px;
   padding: 10px 20px;
   background: linear-gradient(135deg, #1E40AF, #3B82F6);
@@ -103,7 +104,7 @@ body {
   transition: 0.2s;
 }
 
-.admin-card button:hover {
+.adminCard button:hover {
   transform: scale(1.05);
 }
 
@@ -112,7 +113,7 @@ body {
 }
 
 @media (max-width: 600px) {
-  .admin-content {
-    grid-template-columns: 1fr; /* 1 por linha no celular */
+  .adminContent {
+    grid-template-columns: 1fr;
   }
 }

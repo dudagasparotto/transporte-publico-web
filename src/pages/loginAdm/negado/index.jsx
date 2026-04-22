@@ -1,18 +1,19 @@
-import "./styles.css";
+import styles from './index.module.css';
 
 export default function Negado() {
   return (
-    <div className="negado-container">
-      <div className="overlay" />
+    <div className={styles.negadoContainer}>
+      <div className={styles.overlay} />
 
-      <div className="negado-box">
-        <div className="icon">🔒</div>
+      <div className={styles.negadoBox}>
+        <div className={styles.icon}>🔒</div>
 
         <h1>Acesso negado</h1>
 
         <p>
           Você não possui permissão para acessar esta funcionalidade.
         </p>
+
         <button onClick={() => window.history.back()}>
           Voltar
         </button>

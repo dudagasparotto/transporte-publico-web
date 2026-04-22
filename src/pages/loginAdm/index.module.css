@@ -1,12 +1,11 @@
-
 * {
   box-sizing: border-box;
   font-family: 'Roboto';
 }
 
 /* FUNDO FULL */
-.login-container {
-  height: 97vh;
+.loginContainer {
+  min-height: 100vh;
   background-image: url("../../assets/fundo.png");
   background-size: cover;
   background-position: center;
@@ -26,19 +25,18 @@
 }
 
 /* CARD MAIOR */
-.login-box {
+.loginBox {
   position: relative;
   background: linear-gradient(135deg, #1E40AF, #3B82F6);
   padding: 60px;
-  width: 480px; /* maior */
+  width: 480px;
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(0,0,0,0.3);
   text-align: center;
-  font-family: 'Roboto';
 }
 
 /* TITULO GRANDE */
-.login-box h1 {
+.loginBox h1 {
   margin-bottom: 40px;
   color: white;
   font-size: 36px;
@@ -46,20 +44,20 @@
 }
 
 /* INPUTS */
-.input-group {
+.inputGroup {
   text-align: left;
   margin-bottom: 20px;
   font-family: 'Roboto';
 }
 
-.input-group label {
+.inputGroup label {
   font-size: 16px;
   color: white;
   display: block;
   margin-bottom: 8px;
 }
 
-.input-group input {
+.inputGroup input {
   width: 100%;
   padding: 14px;
   border-radius: 10px;
@@ -69,13 +67,13 @@
   transition: 0.2s;
 }
 
-.input-group input:focus {
+.inputGroup input:focus {
   border-color: #1e3a8a;
   box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.2);
 }
 
 /* BOTÃO GRANDE */
-.login-btn {
+.loginBtn {
   width: 100%;
   padding: 15px;
   background: #1e3a8a;
@@ -88,13 +86,13 @@
   transition: 0.2s;
 }
 
-.login-btn:hover {
+.loginBtn:hover {
   transform: scale(1.02);
   opacity: 0.95;
 }
 
 /* BARRA SUPERIOR */
-.top-bar {
+.topBar {
   position: absolute;
   top: 20px;
   right: 30px;
@@ -102,7 +100,7 @@
 }
 
 /* BOTÃO HOME */
-.home-btn {
+.homeBtn {
   padding: 10px 20px;
   background: linear-gradient(135deg, #1E40AF, #3B82F6);
   color: white;
@@ -113,7 +111,6 @@
   transition: 0.2s;
 }
 
-.home-btn:hover {
+.homeBtn:hover {
   transform: scale(1.05);
-  background: linear-gradient(135deg, #1E40AF, #3B82F6);
 }

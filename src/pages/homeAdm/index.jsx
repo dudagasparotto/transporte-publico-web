@@ -1,32 +1,29 @@
 import { Link } from "react-router";
-
-import "./styles.css";
+import styles from './index.module.css';
 
 import pontos from "../../assets/pontos.png";
 import rotas from "../../assets/rotas.png";
 import horarios from "../../assets/horarios.png";
 
-
 export default function HomeAdm() {
   return (
-    <div className="admin-container">
+    <div className={styles.adminContainer}>
       
-      <header className="admin-header">
-        <h1 className="h1">TRANSPORTE PÚBLICO</h1>
+      <header className={styles.adminHeader}>
+        <h1 className={styles.h1}>TRANSPORTE PÚBLICO</h1>
 
         <nav>
           <Link to='/'>
-            <button className="botao">Home</button>
+            <button className={styles.botao}>Home</button>
           </Link>
         </nav>
       </header>
 
+      <div className={styles.overlay} />
 
-      <div className="overlay" />
-
-      <main className="admin-content">
+      <main className={styles.adminContent}>
         
-        <div className="admin-card">
+        <div className={styles.adminCard}>
           <img src={pontos} />
           <h3>Pontos de Ônibus</h3>
           <Link to='/adm/editarpontos'>
@@ -34,7 +31,7 @@ export default function HomeAdm() {
           </Link>
         </div>
 
-        <div className="admin-card">
+        <div className={styles.adminCard}>
           <img src={horarios} />
           <h3>Horários</h3> 
           <Link to='/adm/editarhorarios'>
@@ -42,7 +39,7 @@ export default function HomeAdm() {
           </Link>
         </div>
 
-        <div className="admin-card">
+        <div className={styles.adminCard}>
           <img src={rotas} />
           <h3>Rotas</h3>
           <Link to='/adm/editarrota'>
@@ -50,8 +47,8 @@ export default function HomeAdm() {
           </Link>
         </div>
 
-        <div className="admin-card">
-          <div className="icon">👮</div>
+        <div className={styles.adminCard}>
+          <div className={styles.icon}>👮</div>
           <h3>Motoristas</h3>
           <Link to='/adm/cadmotora'>
             <button>Editar</button>
