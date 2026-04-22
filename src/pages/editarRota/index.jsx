@@ -53,7 +53,7 @@ export default function EditarRota() {
               {paradas.map((p, index) => (
                 <li key={index} className={styles.item}>
                   {p}
-                  <button className={styles.delete} onClick={() => removerParada(index)}>❌</button>
+                  <button className={styles.delete} onClick={() => removerParada(index)}>X</button>
                 </li>
               ))}
             </ul>

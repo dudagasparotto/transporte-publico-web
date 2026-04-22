@@ -1,45 +1,54 @@
+/* RESET */
+body {
+  margin: 0;
+}
+
+/* PAGE */
 .page {
-  flex: 1;
   width: 100%;
 }
 
-.h1{
-  font-family: "Roboto";
-  font-size: 28px;
-  font-weight: bold;
-}
 
+/* CONTAINER */
 .container {
-  font-family: "Segoe UI", Arial;
-  background: #edf4ff; 
+  width: 100%;
+  background-image: url("../../assets/fundo.png");
+  background-size: cover;
+  background-position: center; 
   min-height: 100vh;
 }
 
 /* HEADER */
 .header {
-  background: linear-gradient(135deg, #1E40AF,#3B82F6);
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  background: linear-gradient(135deg, #1E40AF,#374151);
   padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  font-family: "Roboto";
 }
 
 .header h1 {
   margin: 0;
   font-size: 22px;
+  color: white;
+  font-size: 28px;
 }
 
-.header span {
-  font-size: 14px;
-  color: #ffffff;
-}
-
-/* CARD */
+/* CARD CENTRALIZADO */
 .card {
-  min-width: 65%;
-  margin: 50px auto;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
   background: white;
   padding: 40px;
   border-radius: 15px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  font-family: "roboto";
+  margin-top: 8%;
 }
 
 .card h2 {
@@ -47,15 +56,25 @@
 }
 
 /* FORM */
+.content {
+  display: block;
+}
+
+.form {
+  width: 100%;
+}
+
+/* LINHA DE INPUTS */
 .form-row {
   display: flex;
   gap: 15px;
 }
 
-.form-row .form-group {
+.form-group {
   flex: 1;
 }
 
+/* INPUTS */
 label {
   display: block;
   font-size: 13px;
@@ -65,7 +84,7 @@ label {
 
 input {
   width: 100%;
-  padding: 12px; /* mais confortável */
+  padding: 12px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
   font-size: 14px;
@@ -77,9 +96,10 @@ input {
 }
 
 .foto-box {
-  margin-left: 34%;
+  margin: 20px auto;
   position: relative;
-  width: 32%;
+  width: 100%;
+  max-width: 300px;
   height: 200px;
   border: 2px dashed #cbd5e1;
   border-radius: 10px;
@@ -107,6 +127,7 @@ input {
   cursor: pointer;
 }
 
+/* BOTÕES */
 .btn {
   width: 100%;
   padding: 12px;
@@ -119,10 +140,25 @@ input {
 }
 
 .home-btn {
-  width: 100px;
-  padding: 10px;
-  background: linear-gradient(135deg, #1E40AF, #3B82F6);
-  border: none;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #3B82F6, #1E40AF);
+  color: #E0F2FE;
+  border: none;     
+  padding: 10px 28px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
   cursor: pointer;
+  font-family: 'Roboto';
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .card {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
 }

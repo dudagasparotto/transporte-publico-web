@@ -1,5 +1,5 @@
-import { useState } from "react";
-import "./styles.module.css";
+import { useState } from "react"; 
+import styles from "./styles.module.css";
 
 export default function Motorista() {
   const [cpf, setCpf] = useState("");
@@ -20,73 +20,80 @@ export default function Motorista() {
   }
 
   return (
-    <div className="page">
-      <div className="container">
 
-        <header className="header">
-          <h1 className="h1">CADASTRO DE MOTORISTAS</h1>
 
-          <button className="home-btn" onClick={() => window.location.href = "/adm"}>
-            Home
-          </button>
+    <div className={styles.page}>
+      <div className={styles.container}>
+
+        <header className={styles.header}>
+          <h1>CADASTRO DE MOTORISTAS</h1>
+
+          <button 
+            className={styles["home-btn"]} 
+            onClick={() => window.location.href = "/adm"}
+          > VOLTAR</button>
         </header>
 
-        <div className="card">
+        <div className={styles.card}>
 
           <h2>Novo Motorista</h2>
 
-          <div className="form">
+          <div className={styles.content}>
 
-            <div className="form-row">
-            <div className="form-group">
-              <label>CPF</label>
-              <input
-                value={cpf}
-                onChange={(e) => setCpf(e.target.value)}
-                placeholder="000.000.000-00"
-              />
-            </div>
+            {/* FORM */}
+            <div className={styles.form}>
 
-            <div className="form-group">
-              <label>CNH</label>
-              <input
-                value={cnh}
-                onChange={(e) => setCnh(e.target.value)}
-                placeholder="Número da CNH"
-              />
-            </div>
-          </div>
+              <div className={styles["form-row"]}>
+                <div className={styles["form-group"]}>
+                  <label>CPF</label>
+                  <input
+                    value={cpf}
+                    onChange={(e) => setCpf(e.target.value)}
+                    placeholder="000.000.000-00"
+                  />
+                </div>
 
-            {/* FOTO */}
-            <div className="foto-section">
-              <label>Foto</label>
-
-              <div className="foto-box">
-                {foto ? (
-                  <img src={foto} alt="preview" />
-                ) : (
-                  <span>Selecionar Foto</span>
-                )}
-                <input type="file" onChange={handleFoto} />
+                <div className={styles["form-group"]}>
+                  <label>CNH</label>
+                  <input
+                    value={cnh}
+                    onChange={(e) => setCnh(e.target.value)}
+                    placeholder="Número da CNH"
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="form-group">
-              <label>Nome Completo</label>
-              <input
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-                placeholder="Nome do motorista"
-              />
-            </div>
+              <div className={styles["foto-section"]}>
+                <label>Foto</label>
 
-            <button className="btn" onClick={salvar}>
-              Cadastrar Motorista
-            </button>
+                <div className={styles["foto-box"]}>
+                  {foto ? (
+                    <img src={foto} alt="preview" />
+                  ) : (
+                    <span>Selecionar Foto</span>
+                  )}
+                  <input type="file" onChange={handleFoto} />
+                </div>
+              </div>
+
+              <div className={styles["form-group"]}>
+                <label>Nome Completo</label>
+                <input
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                  placeholder="Nome do motorista"
+                />
+              </div>
+
+              <button className={styles.btn} onClick={salvar}>
+                Cadastrar Motorista
+              </button>
+
+            </div>
 
           </div>
         </div>
       </div>
-    </div>
+      </div>
   );
 }

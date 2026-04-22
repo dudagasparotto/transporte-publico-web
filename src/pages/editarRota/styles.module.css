@@ -49,15 +49,17 @@
 }
 
 .barraLateral {
-  width: 100%;
+  width: 80%;
   background: #F3F4F6;
-  padding: 20px;
+  padding: 15px;
   margin: 20px 0;
   overflow-y: auto;
-  font-family: 'Roboto';
+  font-family: 'roboto';
   font-size: 15px;
   border-radius: 10px;
-  max-height: 90vh;
+  max-height: 76%;
+  cursor: pointer;
+  margin-top: 16%;
 }
 
 .barraLateral h3 {
@@ -107,16 +109,18 @@ input {
 }
 
 .conteudoDireito {
+  margin-top: 70px;
   position: absolute;
   top: 20px;
   left: 20px;
-  right: 20px;
   background: #F3F4F6;
   padding: 20px;
   border-radius: 10px;
+  width: 90%;
   font-family: 'Roboto';
   overflow-y: auto;
-  max-height: 90%;
+  max-height: 76%;
+  height: 620px;
 }
 
 .mapa {
