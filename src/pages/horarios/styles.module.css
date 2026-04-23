@@ -11,6 +11,14 @@ body {
   background-attachment: fixed; 
 }
 
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1; /* fica acima do fundo */
+  pointer-events: none; /* não bloqueia clique */
+}
+
 /* HEADER FULL WIDTH */
 .header {
   position: relative;
@@ -26,6 +34,8 @@ body {
 }
 
 .container {
+  position: relative;
+  z-index: 2;
   width: 100%;
   padding: 5%;
   display: grid;

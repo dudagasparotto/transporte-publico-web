@@ -53,7 +53,9 @@ export default function Horarios() {
   const navigate = useNavigate();
 
   return (
-    <div className={styles.fundo}>
+    <div className={styles.fundo}> 
+
+    <div className={styles.overlay} />
 
       <div className={styles.header}>
         <h1 className={styles.titulinho}>Horários</h1>
