@@ -1,8 +1,8 @@
 ﻿.conteudo {
   display: flex;
   gap: 20px;
-  min-height: calc(100vh - 120px);
   padding: 20px;
+  flex-wrap: wrap;
 }
 
 .imagemFundo {
@@ -43,24 +43,18 @@
 }
 
 .ladoesquerdo {
-  margin-top: 70px;
-  width: 30%;
+  flex: 1 1 300px;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
 }
 
 .barraLateral {
-  width: 75%;
+  width: 100%;
+  max-width: 300px;
   background: #F3F4F6;
   padding: 20px;
-  margin: 20px 0;
-  overflow-y: auto;
-  font-family: 'Roboto';
-  font-size: 15px;
   border-radius: 10px;
-  max-height: 76%;
-  height: 900px;
-
 }
 
 .barraLateral h3 {
@@ -79,31 +73,22 @@ select {
 }
 
 .ladoDireito {
-  margin-top: 70px;
-  width: 85%;
-  position: relative;
+  flex: 3 1 600px;
+  margin-top: 20px;
+  margin-right: 5%;
 }
 
 .conteudoDireito {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  right: 2px;
   background: #F3F4F6;
   padding: 20px;
   border-radius: 10px;
-  font-family: 'Roboto';
-  max-width: 95%;
-height: 715px;
+  width: 100%;
 }
 
 .mapa {
   width: 100%;
-  height: 360px;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  background: #e5e7eb;
+  height: 40vh; /* adaptável */
+  min-height: 250px;
 }
 
 .tabelaContainer {
@@ -159,4 +144,15 @@ height: 715px;
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .conteudo {
+    flex-direction: column;
+  }
+
+  .ladoesquerdo,
+  .ladoDireito {
+    width: 100%;
+  }
 }
