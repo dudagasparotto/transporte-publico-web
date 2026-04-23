@@ -6,7 +6,7 @@ import styles from './styles.module.css';
 
 export default function RotasLinhas() {
 
-  const [linha, setLinha] = useState('https://www.google.com/maps?q=Tupã,SP&z=13&output=embed');
+  const [linha, setLinha] = useState('https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d24896.948428396703!2d-50.52369407013919!3d-21.93633798754604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9495b803789ea39f%3A0xe5a9d8bbc523cfc!2zVHVww6MsIFNQ!5e0!3m2!1spt-BR!2sbr!4v1776986140267!5m2!1spt-BR!2sbr');
 
   const navigate = useNavigate();
 
@@ -74,22 +74,22 @@ export default function RotasLinhas() {
         <aside className={styles.infoPanel}>
           <h2 className={styles.subtitulo}>Rotas disponíveis</h2>
 
-          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/embed?mid=1NrZESVWmv8C0DlpWJpVjhzOJvHxPMDE')}> 
+          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/u/1/embed?mid=1EifQjeD8Cx_JHRKUjpf0wx2JezX3bxw&ehbc=2E312F&noprof=1')}> 
             <div>
               ROTA ROXA
             </div>
           </button>
-          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/embed?mid=1hyXMponzmWHL14QtLDyt5gplovfOMIw')}> {/*POR O RESTO DOS LINKS*/}
+          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/u/1/embed?mid=1PZnUg7Xd-2Y_LuZgKu0I8XBxSUJqOGg&ehbc=2E312F&noprof=1')}> {/*POR O RESTO DOS LINKS*/}
             <div> 
               ROTA AZUL
             </div>
           </button>
-          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/embed?mid=162XaF2bflsoB3NJ0r04mZGoUsyjVbig')}>
+          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/u/1/embed?mid=1bUGpvBgmP-nTU3OPTjyh48C8-2XWEt4&ehbc=2E312F&noprof=1')}>
             <div>
               ROTA LARANJA
             </div>
           </button>
-          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/embed?mid=1EPTFKwqqYrBzylqL2nAiA-Qjrg5ofVY')}>
+          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/u/1/embed?mid=1oHTQrYTHxzncd8IdKuHOWY9z0damzVE&ehbc=2E312F&noprof=1')}>
             <div>
               ROTA AMARELA
             </div>
