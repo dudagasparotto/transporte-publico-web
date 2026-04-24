@@ -151,6 +151,22 @@ input {
   font-family: 'Roboto';
 }
 
+/* overlay escuro por cima da imagem e atrás do conteúdo,
+porque legibilidade ainda importa nesse planeta */
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5); /* pode ajustar: 0.35 mais claro / 0.60 mais escuro */
+  z-index: 0;
+}
+
+/* garante que todo conteúdo fique acima do overlay */
+.container > * {
+  position: relative;
+  z-index: 1;
+}
+
 /* RESPONSIVO */
 @media (max-width: 768px) {
   .card {

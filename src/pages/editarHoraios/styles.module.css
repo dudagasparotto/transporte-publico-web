@@ -5,16 +5,16 @@
 }
 
 /* FUNDO */
-.imagemFundo{
+.imagemFundo {
+  position: relative;
   width: 100%;
+  min-height: 100vh;
   background-image: url("../../assets/fundo.png");
   background-size: cover;
-  background-position: center; 
-  min-height: 100vh;
-  ;
+  background-position: center;
+  background-attachment: fixed;
+  overflow: hidden;
 }
-
-
 
 /* HEADER */
 .header{
@@ -223,3 +223,18 @@ background: #1E40AF;
   list-style: none;
 }
 
+/* overlay escuro por cima da imagem e atrás do conteúdo,
+porque legibilidade ainda importa nesse planeta */
+.imagemFundo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5); /* pode ajustar: 0.35 mais claro / 0.60 mais escuro */
+  z-index: 0;
+}
+
+/* garante que todo conteúdo fique acima do overlay */
+.imagemFundo > * {
+  position: relative;
+  z-index: 1;
+}
