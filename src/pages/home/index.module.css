@@ -5,16 +5,27 @@
   font-family: 'Roboto';  
 }
 
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .container {
-  position: fixed;
-  width: 100%;
-  min-height: 97vh;
-  display: flex;
-  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
   background-image: url("../../assets/fundo.png");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
 }
 
 /* HEADER */
@@ -61,12 +72,13 @@
   background: transparent;
   display: flex;
   justify-content: center;
-  gap: 70px; /* antes era 60, agora respira melhor */
-  padding: 5% 20px; /* mais espaço em cima e embaixo */
-  position: relative;
   align-items: center;
-  gap: 40px;
-  padding-bottom: 100px;
+  gap: 70px;
+  position: relative;
+  flex: 1;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 0 20px;
 }
 
 .card {
@@ -138,4 +150,217 @@
 .botao{
   background: linear-gradient(135deg, #1E40AF, #3B82F6);
   font-size: 15px;
+}
+
+/* RESPONSIVIDADE */
+
+/* Tablets - 768px até 1024px */
+@media (max-width: 1024px) {
+  .container {
+    min-height: auto;
+    padding-bottom: 80px;
+  }
+
+  .header {
+    padding: 20px 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .cards {
+    gap: 30px;
+    padding: 3% 15px;
+    flex-wrap: wrap;
+    padding-bottom: 80px;
+  }
+
+  .card {
+    width: 280px;
+    padding: 20px;
+    border: 8px solid #1e3a8a;
+  }
+
+  .card img {
+    height: 150px;
+  }
+
+  .menu button {
+    margin-left: 10px;
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+}
+
+/* Mobile - 480px até 767px */
+@media (max-width: 768px) {
+  .container {
+    min-height: auto;
+    padding-bottom: 70px;
+  }
+
+  .header {
+    padding: 15px 15px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .header h1 {
+    font-size: 22px;
+  }
+
+  .menu {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .menu button {
+    margin-left: 0;
+    padding: 6px 10px;
+    font-size: 13px;
+    flex: 1;
+    min-width: 80px;
+  }
+
+  .cards {
+    gap: 20px;
+    padding: 2% 10px;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 70px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 300px;
+    padding: 15px;
+    border: 6px solid #1e3a8a;
+  }
+
+  .card img {
+    height: 120px;
+  }
+
+  .card h3 {
+    font-size: 18px;
+    margin: 8px 0;
+  }
+
+  .card p {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .card button {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .footer {
+    height: 60px;
+  }
+}
+
+/* Mobile pequeno - até 479px */
+@media (max-width: 480px) {
+  .container {
+    min-height: auto;
+    padding-bottom: 65px;
+  }
+
+  .header {
+    padding: 12px 12px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .menu {
+    width: 100%;
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+  }
+
+  .menu button {
+    margin-left: 0;
+    padding: 8px 10px;
+    font-size: 12px;
+    width: 100%;
+  }
+
+  .cards {
+    gap: 15px;
+    padding: 2% 8px;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 65px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 280px;
+    padding: 12px;
+    border: 5px solid #1e3a8a;
+  }
+
+  .card img {
+    height: 100px;
+  }
+
+  .card h3 {
+    font-size: 16px;
+    margin: 6px 0;
+  }
+
+  .card p {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  .card button {
+    padding: 6px 10px;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  .footer {
+    height: 65px;
+  }
+
+  .botao {
+    font-size: 13px;
+  }
+}
+
+/* Desktop grande - 1200px e acima */
+@media (min-width: 1200px) {
+  .container {
+    min-height: 97vh;
+  }
+
+  .header {
+    padding: 30px 30px;
+  }
+
+  .cards {
+    gap: 70px;
+    padding: 5% 20px;
+    padding-bottom: 100px;
+  }
+
+  .card {
+    width: 320px;
+  }
 }

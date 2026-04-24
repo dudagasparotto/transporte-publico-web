@@ -7,8 +7,9 @@ body {
   width: 100%;
   background-image: url("../../assets/fundo.png");
   background-size: cover;
-  background-position: center; 
-  background-attachment: fixed; 
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 
 .overlay {
@@ -121,4 +122,142 @@ body {
   margin-left: 50px;
   font-size: 30px;
   font-family: 'Roboto'
+}
+
+/* RESPONSIVIDADE */
+
+/* Tablets - 768px e abaixo */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    margin-right: 0;
+  }
+
+  .container {
+    padding: 3%;
+    gap: 2%;
+  }
+
+  .titulinho {
+    margin-left: 0;
+    font-size: 24px;
+  }
+
+  .topo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .button {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .nome {
+    font-size: 18px;
+  }
+
+  .hora {
+    font-size: 12px;
+    padding: 8px 7px;
+  }
+
+  .horarios {
+    gap: 4px;
+  }
+}
+
+/* Mobile pequeno - 480px e abaixo */
+@media (max-width: 480px) {
+  .header {
+    padding: 8px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .container {
+    padding: 2%;
+    gap: 1.5%;
+  }
+
+  .titulinho {
+    font-size: 20px;
+    margin-left: 0;
+  }
+
+  .linha {
+    padding: 1.5%;
+    border-radius: 10px;
+  }
+
+  .card {
+    padding: 1.5%;
+    margin-bottom: 1.5%;
+  }
+
+  .nome {
+    font-size: 16px;
+  }
+
+  .horarios {
+    margin-top: 6px;
+    gap: 3px;
+    font-size: 9px;
+  }
+
+  .hora {
+    font-size: 11px;
+    padding: 6px 5px;
+  }
+
+  .button {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  .topo {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* Mobile extra pequeno - 360px e abaixo */
+@media (max-width: 360px) {
+  .titulinho {
+    font-size: 18px;
+  }
+
+  .container {
+    padding: 2%;
+  }
+
+  .nome {
+    font-size: 14px;
+  }
+
+  .hora {
+    font-size: 10px;
+    padding: 5px 4px;
+  }
+
+  .button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}
+
+/* Desktop - 1200px e acima */
+@media (min-width: 1200px) {
+  .container {
+    padding: 5%;
+  }
+
+  .titulinho {
+    margin-left: 50px;
+  }
 }
