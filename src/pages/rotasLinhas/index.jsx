@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import motoristaImg from '../../assets/motorista.webp';
 
 import styles from './styles.module.css';
 
@@ -9,6 +10,12 @@ export default function RotasLinhas() {
   const [linha, setLinha] = useState('https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d24896.948428396703!2d-50.52369407013919!3d-21.93633798754604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9495b803789ea39f%3A0xe5a9d8bbc523cfc!2zVHVww6MsIFNQ!5e0!3m2!1spt-BR!2sbr!4v1776986140267!5m2!1spt-BR!2sbr');
 
   const navigate = useNavigate();
+
+  const motoristas = [
+    { nome: 'João Paulo Silva', nota: 4.8, status: 'Em serviço' },
+    { nome: 'Maria Oliveira', nota: 4.6, status: 'Em serviço' },
+    { nome: 'Carlos Mendes', nota: 4.7, status: 'Em serviço' },
+  ];
 
   const descricao = [
     {
@@ -42,14 +49,6 @@ export default function RotasLinhas() {
 
       {/* TOPO */}
       <header className={styles.header}>
-        <div className={styles.logoArea}>
-          <div className={styles.motoristaBox}>
-            <button className={styles.motoristaTexto} onClick={() => navigate('/infoMotorista')}>
-              MOTORISTA
-            </button>
-          
-          </div>
-        </div>
 
         <button className={styles.Button} onClick={() => navigate('/')}>
           HOME
@@ -107,6 +106,25 @@ export default function RotasLinhas() {
               </div>
             ))}
           </div>
+
+          {/* ESCOLHER MOTORISTA */}
+          <div className={styles.card}>
+            <h3>Escolha o motorista para fazer uma avaliação:</h3>
+           
+
+            {motoristas.map((m, i) => (
+              <div key={i} className={styles.driverItem}
+                onClick={() => navigate('/infoMotorista')}>
+
+                <div className={styles.fotoMotorista}> <img src={motoristaImg} alt="Motorista" /> </div>
+                <strong className={styles.driverName}> {m.nome} </strong>
+                <span className={styles.status}>{m.status}</span>
+              </div>
+            ))}
+          </div>
+    
+ 
+
         </aside>
       </main>
     </div>

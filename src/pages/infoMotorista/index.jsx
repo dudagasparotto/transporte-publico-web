@@ -28,7 +28,7 @@ export default function InfoMotorista() {
         {/* HEADER */}
         <div className={Styles.header}>
           <button onClick={() => navigate(-1)} className={Styles.backButton}>
-            INÍCIO
+           VOLTAR
           </button>
 
           <div>
