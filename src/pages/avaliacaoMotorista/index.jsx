@@ -1,32 +1,16 @@
-//DUDA
-
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Styles from './styles.module.css';
+import { getCollection } from '../../mockup/localStorage';
 
 export default function AvaliacaoMotorista() {
   const navigate = useNavigate();
+  const [avaliacoes, setAvaliacoes] = useState([]);
 
-  const avaliacoes = [
-    {
-      nome: "Maria Souza",
-      nota: 5,
-      comentario: "Motorista muito educado e pontual!",
-      data: "10/04/2026"
-    },
-    {
-      nome: "Carlos Lima",
-      nota: 4,
-      comentario: "Dirige bem, mas poderia ser mais simpático.",
-      data: "08/04/2026"
-    },
-    {
-      nome: "Ana Clara",
-      nota: 5,
-      comentario: "Excelente profissional, viagem tranquila.",
-      data: "05/04/2026"
-    }
-  ];
+  useEffect(() => {
+    const dados = getCollection('avaliacoes');
+    setAvaliacoes(dados);
+  }, []);
 
   return (
     <div className={Styles.container}>

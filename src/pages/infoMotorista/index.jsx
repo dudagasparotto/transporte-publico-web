@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Styles from './styles.module.css';
 import motoristaImg from '../../assets/motorista.webp';
+import { addToCollection, getCollection, getNextId } from '../../mockup/localStorage';
 
 export default function InfoMotorista() {
   const navigate = useNavigate();
   const [nota, setNota] = useState(0);
   const [hover, setHover] = useState(0);
   const [comentario, setComentario] = useState('');
+  const [motorista, setMotorista] = useState(null);
 
+  useEffect(() => {
+    const motoristas = getCollection('motoristas');
+    setMotorista(motoristas[0] ?? null);
+  }, []);
 
   const enviarAvaliacao = () => {
     if (nota === 0) {
@@ -16,6 +22,15 @@ export default function InfoMotorista() {
       return;
     }
 
+    const avaliacao = {
+      id: getNextId('avaliacoes'),
+      nome: motorista?.nome || 'Passageiro',
+      nota,
+      comentario,
+      data: new Date().toLocaleDateString('pt-BR'),
+    };
+
+    addToCollection('avaliacoes', avaliacao);
     alert(`Avaliação enviada!\nNota: ${nota}`);
     setNota(0);
     setComentario('');
@@ -44,22 +59,22 @@ export default function InfoMotorista() {
           </div>
 
           <div className={Styles.infoBox}>
-            <h2>João Paulo Silva</h2>
+            <h2>{motorista?.nome ?? 'Motorista'}</h2>
 
             <div className={Styles.infoGrid}>
               <div>
                 <span>Linha</span>
-                <strong>Azul</strong>
+                <strong>{motorista?.linha ?? 'N/A'}</strong>
               </div>
 
               <div>
                 <span>Código</span>
-                <strong>MTR-4589</strong>
+                <strong>{motorista?.codigo ?? 'N/A'}</strong>
               </div>
 
               <div>
                 <span>Tempo na plataforma</span>
-                <strong> 2 anos e 3 meses</strong>
+                <strong>{motorista?.tempoPlataforma ?? 'N/A'}</strong>
               </div>
             </div>
           </div>

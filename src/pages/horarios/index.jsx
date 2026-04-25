@@ -1,56 +1,58 @@
+import { useEffect, useState } from 'react';
 import styles from './styles.module.css'
 import { useNavigate } from 'react-router-dom';
-
-
-const linhas = [
-  {
-    id: 1,
-    nome: "Linha Roxa",
-    pontos: [
-      {
-        nome: "Rodoviária",
-        horarios: ["08:00", "09:00", "10:00", "11:00", "12:00"]
-      },
-      {
-        nome: "Mercado Central",
-        horarios: ["08:10", "09:10", "10:10", "11:10"]
-      }
-    ]
-  },
-
-  { id: 2,
-    nome: "Linha Azul",
-    pontos: [
-      {
-        nome: "Escola",
-        horarios: ["08:20", "09:20", "10:20"]
-      }
-    ]
-  },
-
-  { id: 3,
-    nome: "Linha Laranja",
-    pontos: [
-      {
-        nome: "Terminal",
-        horarios: ["07:00", "08:00", "09:00"]
-      }
-    ]
-  },
-
-  { id: 4,
-    nome: "Linha Amarela",
-    pontos: [
-      {
-        nome: "Centro",
-        horarios: ["06:30", "07:30", "08:30"]
-      }
-    ]
-  }
-]
+import { getCollection } from '../../mockup/localStorage';
 
 export default function Horarios() {
+  const [linhas, setLinhas] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const dados = getCollection('horarios');
+    setLinhas(dados.length > 0 ? dados : [
+      {
+        id: 1,
+        linha: "Linha Roxa",
+        pontos: [
+          {
+            nome: "Rodoviária",
+            horarios: ["08:00", "09:00", "10:00", "11:00", "12:00"]
+          },
+          {
+            nome: "Mercado Central",
+            horarios: ["08:10", "09:10", "10:10", "11:10"]
+          }
+        ]
+      },
+      { id: 2,
+        linha: "Linha Azul",
+        pontos: [
+          {
+            nome: "Escola",
+            horarios: ["08:20", "09:20", "10:20"]
+          }
+        ]
+      },
+      { id: 3,
+        linha: "Linha Laranja",
+        pontos: [
+          {
+            nome: "Terminal",
+            horarios: ["07:00", "08:00", "09:00"]
+          }
+        ]
+      },
+      { id: 4,
+        linha: "Linha Amarela",
+        pontos: [
+          {
+            nome: "Centro",
+            horarios: ["06:30", "07:30", "08:30"]
+          }
+        ]
+      }
+    ]);
+  }, []);
 
   return (
     <div className={styles.fundo}> 
@@ -70,7 +72,7 @@ export default function Horarios() {
           <div key={linha.id} className={styles.linha}>
 
             <h2 className={styles.tituloLinha}>
-              {linha.nome}
+              {linha.linha}
             </h2>
 
             {linha.pontos.map((ponto, index) => (

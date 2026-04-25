@@ -17,6 +17,9 @@ import RotasLinhas from './pages/rotasLinhas';
 import Horarios from './pages/horarios';
 import Negado from './pages/loginAdm/negado';
 import EditarHorarios from './pages/editarHoraios';
+import { initializeMockStorage } from './mockup/localStorage';
+
+initializeMockStorage();
 
 
 

@@ -1,58 +1,63 @@
-﻿import { useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./index.module.css";
+import { getCollection, updateCollection } from "../../mockup/localStorage";
 
 export default function EditarPontos() {
   const navigate = useNavigate();
-
-  // mesmas 4 rotas porque consistência é raro mas bonito
-  const rotasDisponiveis = [
-    {
-      nome: "Rota Roxa",
-      mapa:
-        "https://www.google.com/maps/d/u/1/embed?mid=1EifQjeD8Cx_JHRKUjpf0wx2JezX3bxw&ehbc=2E312F&noprof=1",
-    },
-    {
-      nome: "Rota Azul",
-      mapa:
-        "https://www.google.com/maps/d/u/1/embed?mid=1PZnUg7Xd-2Y_LuZgKu0I8XBxSUJqOGg&ehbc=2E312F&noprof=1",
-    },
-    {
-      nome: "Rota Laranja",
-      mapa:
-        "https://www.google.com/maps/d/u/1/embed?mid=1bUGpvBgmP-nTU3OPTjyh48C8-2XWEt4&ehbc=2E312F&noprof=1",
-    },
-    {
-      nome: "Rota Amarela",
-      mapa:
-        "https://www.google.com/maps/d/u/1/embed?mid=1oHTQrYTHxzncd8IdKuHOWY9z0damzVE&ehbc=2E312F&noprof=1",
-    },
-  ];
-
+  const [rotasDisponiveis, setRotasDisponiveis] = useState([]);
   const [rotaSelecionada, setRotaSelecionada] = useState(0);
-  const [mapa, setMapa] = useState(rotasDisponiveis[0].mapa);
+  const [mapa, setMapa] = useState("");
 
   const [pontos, setPontos] = useState([]);
+  const [todosPontos, setTodosPontos] = useState([]);
   const [nome, setNome] = useState("");
   const [sentido, setSentido] = useState("Bairro");
   const [localizacao, setLocalizacao] = useState("");
 
+  useEffect(() => {
+    const rotas = getCollection("rotas");
+    setRotasDisponiveis(rotas);
+  }, []);
+
+  useEffect(() => {
+    const allPontos = getCollection("pontos");
+    setTodosPontos(allPontos);
+  }, []);
+
+  useEffect(() => {
+    const rota = rotasDisponiveis[rotaSelecionada];
+    if (rota) {
+      setMapa(rota.mapa);
+      setPontos(todosPontos.filter((ponto) => ponto.rotaId === rota.id));
+    }
+  }, [rotasDisponiveis, rotaSelecionada, todosPontos]);
+
   function trocarRota(index) {
     setRotaSelecionada(index);
-    setMapa(rotasDisponiveis[index].mapa);
   }
 
   function adicionarPonto() {
-    if (!nome || !localizacao) return;
+    if (!nome || !localizacao) {
+      alert("Preencha nome e localização para adicionar o ponto.");
+      return;
+    }
+
+    const rota = rotasDisponiveis[rotaSelecionada];
+    if (!rota) return;
 
     const novoPonto = {
+      id: Math.max(0, ...todosPontos.map((p) => p.id || 0)) + 1,
       nome,
       sentido,
       localizacao,
-      rota: rotasDisponiveis[rotaSelecionada].nome,
+      rotaId: rota.id,
+      rota: rota.nome,
     };
 
-    setPontos([...pontos, novoPonto]);
+    const atualizados = [...todosPontos, novoPonto];
+    setTodosPontos(atualizados);
+    updateCollection("pontos", atualizados);
     setNome("");
     setLocalizacao("");
   }

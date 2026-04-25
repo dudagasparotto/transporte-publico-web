@@ -1,95 +1,69 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
+import { getCollection, updateCollection } from "../../mockup/localStorage";
 
 export default function EditarRota() {
   const navigate = useNavigate();
-
-  // Agora sim: 4 rotas reais no select, sem esse surto de “101 Vila Nova”
-  const rotasDisponiveis = [
-    {
-      nome: "Rota Roxa",
-      saida: "Terminal Central",
-      destino: "Bairro Roxo",
-      mapa:
-        "https://www.google.com/maps/d/u/1/embed?mid=1EifQjeD8Cx_JHRKUjpf0wx2JezX3bxw&ehbc=2E312F&noprof=1",
-      paradas: [
-        "Terminal Central",
-        "Av. Principal",
-        "Mercado Central",
-        "Bairro Roxo",
-      ],
-    },
-    {
-      nome: "Rota Azul",
-      saida: "Terminal Norte",
-      destino: "Bairro Azul",
-      mapa:
-        "https://www.google.com/maps/d/u/1/embed?mid=1PZnUg7Xd-2Y_LuZgKu0I8XBxSUJqOGg&ehbc=2E312F&noprof=1",
-      paradas: [
-        "Terminal Norte",
-        "Praça Azul",
-        "Hospital Municipal",
-        "Bairro Azul",
-      ],
-    },
-    {
-      nome: "Rota Laranja",
-      saida: "Terminal Sul",
-      destino: "Bairro Laranja",
-      mapa:
-        "https://www.google.com/maps/d/u/1/embed?mid=1bUGpvBgmP-nTU3OPTjyh48C8-2XWEt4&ehbc=2E312F&noprof=1",
-      paradas: [
-        "Terminal Sul",
-        "Av. das Flores",
-        "Shopping Sul",
-        "Bairro Laranja",
-      ],
-    },
-    {
-      nome: "Rota Amarela",
-      saida: "Rodoviária",
-      destino: "Bairro Amarelo",
-      mapa:
-        "https://www.google.com/maps/d/u/1/embed?mid=1oHTQrYTHxzncd8IdKuHOWY9z0damzVE&ehbc=2E312F&noprof=1",
-      paradas: [
-        "Rodoviária",
-        "Centro",
-        "Escola Municipal",
-        "Bairro Amarelo",
-      ],
-    },
-  ];
-
+  const [rotasDisponiveis, setRotasDisponiveis] = useState([]);
   const [rotaSelecionada, setRotaSelecionada] = useState(0);
+  const [rota, setRota] = useState("");
+  const [saida, setSaida] = useState("");
+  const [destino, setDestino] = useState("");
+  const [mapa, setMapa] = useState("");
+  const [paradas, setParadas] = useState([]);
 
-  const [rota, setRota] = useState(rotasDisponiveis[0].nome);
-  const [saida, setSaida] = useState(rotasDisponiveis[0].saida);
-  const [destino, setDestino] = useState(rotasDisponiveis[0].destino);
-  const [mapa, setMapa] = useState(rotasDisponiveis[0].mapa);
-  const [paradas, setParadas] = useState(rotasDisponiveis[0].paradas);
+  useEffect(() => {
+    const rotas = getCollection("rotas");
+    setRotasDisponiveis(rotas);
+  }, []);
+
+  useEffect(() => {
+    const rotaEscolhida = rotasDisponiveis[rotaSelecionada];
+    if (rotaEscolhida) {
+      setRota(rotaEscolhida.nome);
+      setSaida(rotaEscolhida.saida);
+      setDestino(rotaEscolhida.destino);
+      setMapa(rotaEscolhida.mapa);
+      setParadas(rotaEscolhida.paradas);
+    }
+  }, [rotasDisponiveis, rotaSelecionada]);
 
   function trocarRota(index) {
-    const rotaEscolhida = rotasDisponiveis[index];
-
     setRotaSelecionada(index);
-    setRota(rotaEscolhida.nome);
-    setSaida(rotaEscolhida.saida);
-    setDestino(rotaEscolhida.destino);
-    setMapa(rotaEscolhida.mapa);
-    setParadas(rotaEscolhida.paradas);
   }
 
   function adicionarParada() {
     const nova = prompt("Digite o nome da nova parada:");
 
     if (nova) {
-      setParadas([...paradas, nova]);
+      const atualizadas = [...paradas, nova];
+      setParadas(atualizadas);
+      const novasRotas = rotasDisponiveis.map((item, index) =>
+        index === rotaSelecionada ? { ...item, paradas: atualizadas } : item
+      );
+      setRotasDisponiveis(novasRotas);
     }
   }
 
   function removerParada(index) {
-    setParadas(paradas.filter((_, i) => i !== index));
+    const atualizadas = paradas.filter((_, i) => i !== index);
+    setParadas(atualizadas);
+    const novasRotas = rotasDisponiveis.map((item, idx) =>
+      idx === rotaSelecionada ? { ...item, paradas: atualizadas } : item
+    );
+    setRotasDisponiveis(novasRotas);
+  }
+
+  function salvarRota() {
+    const novasRotas = rotasDisponiveis.map((item, idx) =>
+      idx === rotaSelecionada
+        ? { ...item, nome: rota, saida, destino, paradas }
+        : item
+    );
+    setRotasDisponiveis(novasRotas);
+    updateCollection("rotas", novasRotas);
+    alert("Rota salva com sucesso!");
   }
 
   return (
@@ -186,7 +160,7 @@ export default function EditarRota() {
             </div>
 
             <div className={styles.rodape}>
-              <button className={styles.salvar}>
+              <button className={styles.salvar} onClick={salvarRota}>
                 Salvar
               </button>
             </div>
