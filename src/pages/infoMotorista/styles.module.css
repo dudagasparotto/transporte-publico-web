@@ -44,8 +44,6 @@
   margin-top: 2%;
 }
 
-
-
 .backButton:hover {
   background: #3B82F6;
 }
@@ -135,6 +133,42 @@
 
 .avaliacaoBox p {
   color: #6b7280;
+}
+
+/* ALERTA CUSTOMIZADO */
+.alertOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.customAlert {
+  background: white;
+  color: #111827;
+  padding: 20px 35px;
+  border-radius: 18px;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.18);
+  animation: surgir 0.3s ease;
+}
+
+@keyframes surgir {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* STARS */

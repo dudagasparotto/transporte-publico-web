@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Styles from './styles.module.css';
 import { getCollection } from '../../mockup/localStorage';
@@ -8,45 +8,56 @@ export default function AvaliacaoMotorista() {
   const [avaliacoes, setAvaliacoes] = useState([]);
 
   useEffect(() => {
-    const dados = getCollection('avaliacoes');
+    const dados =
+      JSON.parse(localStorage.getItem('avaliacoes')) || [];
+
     setAvaliacoes(dados);
   }, []);
 
   return (
     <div className={Styles.container}>
 
-      <button 
+      <button
         className={Styles.botaoVoltar}
         onClick={() => navigate(-1)}
       >
-        ← Voltar
+        VOLTAR
       </button>
 
-      <h1 className={Styles.titulo}>Avaliações do Motorista</h1>
+      <h1 className={Styles.titulo}>
+        Avaliações do Motorista
+      </h1>
+
       <p className={Styles.subtitulo}>
         Veja o que os passageiros estão dizendo
       </p>
 
       <div className={Styles.listaAvaliacoes}>
-        {avaliacoes.map((item, index) => (
-          <div key={index} className={Styles.card}>
+        {avaliacoes.length > 0 ? (
+          avaliacoes.map((item, index) => (
+            <div key={index} className={Styles.card}>
 
-            <div className={Styles.topoCard}>
-              <h3>{item.nome}</h3>
-              <span className={Styles.data}>{item.data}</span>
+              <div className={Styles.topoCard}>
+                <h3>{item.nome}</h3>
+                <span className={Styles.data}>
+                  {item.data}
+                </span>
+              </div>
+
+              <div className={Styles.estrelas}>
+                {"★".repeat(item.nota)}
+                {"☆".repeat(5 - item.nota)}
+              </div>
+
+              <p className={Styles.comentario}>
+                {item.comentario}
+              </p>
+
             </div>
-
-            <div className={Styles.estrelas}>
-              {"★".repeat(item.nota)}
-              {"☆".repeat(5 - item.nota)}
-            </div>
-
-            <p className={Styles.comentario}>
-              {item.comentario}
-            </p>
-
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>Nenhuma avaliação enviada ainda.</p>
+        )}
       </div>
 
     </div>
