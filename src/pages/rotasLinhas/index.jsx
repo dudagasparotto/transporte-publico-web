@@ -114,9 +114,12 @@ export default function RotasLinhas() {
 
             {motoristas.map((m, i) => (
               <div key={i} className={styles.driverItem}
-                onClick={() => navigate('/infoMotorista')}>
+               onClick={() =>navigate('/infoMotorista', {state: m})}>
 
-                <div className={styles.fotoMotorista}> <img src={motoristaImg} alt="Motorista" /> </div>
+                <div className={styles.fotoMotorista}>
+                   <img src={motoristaImg} alt="Motorista" />
+                </div>
+                
                 <strong className={styles.driverName}> {m.nome} </strong>
                 <span className={styles.status}>{m.status}</span>
               </div>

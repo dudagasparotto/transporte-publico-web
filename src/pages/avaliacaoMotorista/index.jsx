@@ -21,7 +21,7 @@ export default function AvaliacaoMotorista() {
         className={Styles.botaoVoltar}
         onClick={() => navigate(-1)}
       >
-        ← Voltar
+        VOLTAR
       </button>
 
       <h1 className={Styles.titulo}>
