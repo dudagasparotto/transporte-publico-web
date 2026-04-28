@@ -10,11 +10,32 @@ export default function RotasLinhas() {
   const [linha, setLinha] = useState('');
   const navigate = useNavigate();
 
-  const motoristas = [
-    { nome: 'João Paulo Silva', nota: 4.8, status: 'Em serviço' },
-    { nome: 'Maria Oliveira', nota: 4.6, status: 'Em serviço' },
-    { nome: 'Carlos Mendes', nota: 4.7, status: 'Em serviço' },
-  ];
+const motoristas = [
+  {
+    nome: 'João Paulo Silva',
+    codigo: 'MTR-4589',
+    nota: 4.8,
+    status: 'Em serviço',
+    linha: 'Rota Roxa',
+    tempoPlataforma: '2 anos e 3 meses'
+  },
+  {
+    nome: 'Maria Oliveira',
+    codigo: 'MTR-7781',
+    nota: 4.6,
+    status: 'Em serviço',
+    linha: 'Rota Azul',
+    tempoPlataforma: '1 ano e 8 meses'
+  },
+  {
+    nome: 'Carlos Mendes',
+    codigo: 'MTR-9912',
+    nota: 4.7,
+    status: 'Em serviço',
+    linha: 'Rota Laranja',
+    tempoPlataforma: '3 anos'
+  },
+];
 
   useEffect(() => {
     const dados = getCollection('rotas');

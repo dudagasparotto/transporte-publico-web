@@ -33,17 +33,25 @@ export default function InfoMotorista() {
   }, []);
 
   const calcularMedia = () => {
-    const avaliacoes = JSON.parse(localStorage.getItem('avaliacoes')) || [];
+  const chave = `avaliacoes_${motorista.codigo}`;
 
-    if (avaliacoes.length === 0) {
-      setMedia(0);
-      return;
-    }
+  const avaliacoes =
+    JSON.parse(localStorage.getItem(chave)) || [];
 
-    const soma = avaliacoes.reduce((total, item) => total + item.nota, 0);
-    const resultado = soma / avaliacoes.length;
-    setMedia(resultado.toFixed(1));
-  };
+  if (avaliacoes.length === 0) {
+    setMedia(0);
+    return;
+  }
+
+  const soma = avaliacoes.reduce(
+    (total, item) => total + item.nota,
+    0
+  );
+
+  const resultado = soma / avaliacoes.length;
+
+  setMedia(resultado.toFixed(1));
+};
 
   const mostrarMensagem = (texto) => {
     setMensagemAlert(texto);
@@ -66,9 +74,14 @@ export default function InfoMotorista() {
       data: new Date().toLocaleDateString('pt-BR'),
     };
 
-    const avaliacoesSalvas = JSON.parse(localStorage.getItem('avaliacoes')) || [];
+   const chave = `avaliacoes_${motorista.codigo}`;
+    const avaliacoesSalvas =
+    JSON.parse(localStorage.getItem(chave)) || [];
+
     avaliacoesSalvas.unshift(novaAvaliacao);
-    localStorage.setItem('avaliacoes', JSON.stringify(avaliacoesSalvas));
+
+    localStorage.setItem(chave,
+    JSON.stringify(avaliacoesSalvas));
 
     mostrarMensagem('? Avaliação enviada com sucesso!');
     setNota(0);
@@ -126,11 +139,10 @@ export default function InfoMotorista() {
         <div className={Styles.statsContainer}>
           <div className={Styles.statCard}>
             <span>Avaliação média</span>
-            <strong>? {media}</strong>
+            <strong> ★ {media}</strong>
           </div>
 
           <div className={Styles.statCard}>
-            <span>Status</span>
             <strong>{motorista.status}</strong>
           </div>
         </div>
