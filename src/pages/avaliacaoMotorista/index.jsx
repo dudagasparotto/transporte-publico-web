@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Styles from './styles.module.css';
-import { getCollection } from '../../mockup/localStorage';
 
 export default function AvaliacaoMotorista() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const motorista = location.state;
+
   const [avaliacoes, setAvaliacoes] = useState([]);
 
   useEffect(() => {
+    if (!motorista) {
+      navigate(-1);
+      return;
+    }
+
+    const chave = `avaliacoes_${motorista.codigo}`;
+
     const dados =
-      JSON.parse(localStorage.getItem('avaliacoes')) || [];
+      JSON.parse(localStorage.getItem(chave)) || [];
 
     setAvaliacoes(dados);
   }, []);
@@ -25,7 +35,7 @@ export default function AvaliacaoMotorista() {
       </button>
 
       <h1 className={Styles.titulo}>
-        Avaliações do Motorista
+        Avaliações de {motorista?.nome}
       </h1>
 
       <p className={Styles.subtitulo}>
@@ -39,24 +49,27 @@ export default function AvaliacaoMotorista() {
 
               <div className={Styles.topoCard}>
                 <h3>{item.nome}</h3>
+
                 <span className={Styles.data}>
                   {item.data}
                 </span>
               </div>
 
               <div className={Styles.estrelas}>
-                {"★".repeat(item.nota)}
-                {"☆".repeat(5 - item.nota)}
+                {'★'.repeat(item.nota)}
+                {'☆'.repeat(5 - item.nota)}
               </div>
 
               <p className={Styles.comentario}>
-                {item.comentario}
+                {item.comentario || 'Sem comentário'}
               </p>
 
             </div>
           ))
         ) : (
-          <p>Nenhuma avaliação enviada ainda.</p>
+          <p className={Styles.semAvaliacao}>
+            Nenhuma avaliação enviada ainda.
+          </p>
         )}
       </div>
 
