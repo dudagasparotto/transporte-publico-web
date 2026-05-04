@@ -1,66 +1,72 @@
-import styles from "./styles.module.css";
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import styles from "./styles.module.css";
+import { getCollection, updateCollection } from "../../mockup/localStorage";
 
 export default function EditarHorarios() {
-
     const navigate = useNavigate();
+    const [linhaSelecionada, setLinhaSelecionada] = useState(0);
+    const [pontoSelecionado, setPontoSelecionado] = useState("");
+    const [horarios, setHorarios] = useState([]);
+    const [filtroPonto, setFiltroPonto] = useState("");
 
-    const [pontoSelecionado, setPontoSelecionado] = useState("101 Vila Nova");
+    useEffect(() => {
+        const dados = getCollection("horarios");
+        setHorarios(dados);
+        if (dados.length > 0) {
+            setPontoSelecionado(dados[0]?.pontos?.[0]?.nome ?? "");
+        }
+    }, []);
 
-    const pontos = [
-        "101 Vila Nova",
-        "102 Morada Verde",
-        "201 Santo Antônio",
-        "202 Novo Horizonte",
-        "301 Residencial",
-        "302 Parque Sul",
-        "303 Centro Norte",
-    ];
+    const linhaAtual = horarios[linhaSelecionada] || { linha: "", pontos: [] };
+    const pontosFiltrados = linhaAtual.pontos.filter((ponto) =>
+        ponto.nome.toLowerCase().includes(filtroPonto.toLowerCase())
+    );
 
-    // ✅ AGORA É STATE
-    const [horarios, setHorarios] = useState([
-        ["05:30", "06:00", "06:30", "07:00", "07:30"],
-        ["07:30", "08:00", "08:30", "09:00", "09:30"],
-        ["08:30", "09:30", "10:00"],
-        ["10:30", "11:00", "11:30", "12:00", "12:30"],
-        ["13:00", "13:30", "14:00", "14:30", "15:00"],
-        ["15:30", "16:00", "16:30", "17:00", "17:30"],
-        ["18:00", "18:30", "19:00", "19:30", "20:00"],
-        ["20:30", "21:00", "21:30", "22:00"]
-    ]);
-
-    // 🗑 DELETAR LINHA
-    const deletarLinha = (index) => {
-        const novosHorarios = horarios.filter((_, i) => i !== index);
+    const persistirHorarios = (novosHorarios) => {
         setHorarios(novosHorarios);
+        updateCollection("horarios", novosHorarios);
     };
 
-    // ➕ ADICIONAR NOVO HORÁRIO (nova linha)
-    const adicionarHorario = (linhaIndex) => {
+    const deletarLinha = (index) => {
+        const copia = structuredClone(horarios);
+        copia[linhaSelecionada].pontos = copia[linhaSelecionada].pontos.filter((_, i) => i !== index);
+        persistirHorarios(copia);
+    };
+
+    const adicionarHorario = (pontoIndex) => {
         const novo = prompt("Digite o novo horário (ex: 12:30):");
         if (!novo) return;
-        const novos = [...horarios];
 
-        novos[linhaIndex].push(novo); // ✅ adiciona na linha certa
-
-        setHorarios(novos);
+        const copia = structuredClone(horarios);
+        copia[linhaSelecionada].pontos[pontoIndex].horarios.push(novo);
+        persistirHorarios(copia);
     };
 
-    const adicionar = () => {
-        const novo = prompt("Digite o novo horário (ex: 12:30):");
-        if (novo) { const novos = [...horarios]; novos.push([novo]); setHorarios(novos); }
+    const adicionarPonto = () => {
+        const nome = prompt("Digite o nome do novo ponto:");
+        if (!nome) return;
+        const horarioInicial = prompt("Digite o horário inicial (ex: 12:30):");
+        if (!horarioInicial) return;
+
+        const copia = structuredClone(horarios);
+        copia[linhaSelecionada].pontos.push({ nome, horarios: [horarioInicial] });
+        persistirHorarios(copia);
     };
 
-    const deletarHorario = (linhaIndex, horaIndex) => {
-        const novos = [...horarios]; 
-        novos[linhaIndex] = novos[linhaIndex].filter((_, i) => i !== horaIndex);
-        setHorarios(novos);
-};
+    const deletarHorario = (pontoIndex, horaIndex) => {
+        const copia = structuredClone(horarios);
+        copia[linhaSelecionada].pontos[pontoIndex].horarios = copia[linhaSelecionada].pontos[pontoIndex].horarios.filter((_, i) => i !== horaIndex);
+        persistirHorarios(copia);
+    };
+
+    const salvarHorarios = () => {
+        updateCollection("horarios", horarios);
+        alert("Horários salvos com sucesso!");
+    };
 
     return (
         <div className={styles.imagemFundo}>
-
             <div className={styles.header}>
                 <h1 className={styles.titulinho}>PAINEL ADMINISTRATIVO- EDITAR HORÁRIOS</h1>
 
@@ -73,51 +79,75 @@ export default function EditarHorarios() {
             </div>
 
             <div className={styles.conteudo}>
-
-                {/* LADO ESQUERDO */}
                 <div className={styles.ladoesquerdo}>
                     <div className={styles.barraLateral}>
+                        <h3>Selecione a linha</h3>
 
-                        <h3>Selecione o ponto</h3>
+                        <label>Escolher linha:</label>
+                        <select
+                            className={styles.select}
+                            value={linhaSelecionada}
+                            onChange={(e) => {
+                                setLinhaSelecionada(Number(e.target.value));
+                                setPontoSelecionado(horarios[Number(e.target.value)]?.pontos?.[0]?.nome ?? "");
+                            }}
+                        >
+                            {horarios.map((linha, index) => (
+                                <option key={linha.id ?? index} value={index}>
+                                    {linha.linha}
+                                </option>
+                            ))}
+                        </select>
 
-                        <input placeholder="Digite o nome do ponto" />
+                        <label>Filtrar ponto:</label>
+                        <input
+                            className={styles.input}
+                            value={filtroPonto}
+                            onChange={(e) => setFiltroPonto(e.target.value)}
+                            placeholder="Digite o nome do ponto"
+                        />
 
                         <ul className={styles.nomePontos}>
-                            {pontos.map((ponto) => (
+                            {pontosFiltrados.map((ponto) => (
                                 <li
-                                    key={ponto}
-                                    className={`${styles.item} ${ponto === pontoSelecionado ? styles.active : ""
-                                        }`}
-                                    onClick={() => setPontoSelecionado(ponto)}
+                                    key={ponto.nome}
+                                    className={`${styles.item} ${ponto.nome === pontoSelecionado ? styles.active : ""}`}
+                                    onClick={() => setPontoSelecionado(ponto.nome)}
                                 >
-                                    {ponto}
+                                    {ponto.nome}
                                 </li>
                             ))}
                         </ul>
-
                     </div>
                 </div>
 
-                {/* LADO DIREITO */}
                 <div className={styles.ladoDireito}>
                     <div className={styles.conteudoDireito}>
-                        <h3>{pontoSelecionado}</h3>
+                        <h3>{linhaAtual.linha || "Nenhuma linha selecionada"}</h3>
 
                         <div className={styles.horarios}>
-                            {horarios.map((linha, i) => (
-                                <div key={i} className={styles.linha}>
+                            {linhaAtual.pontos.map((ponto, pontoIndex) => (
+                                <div key={ponto.nome} className={styles.linha}>
                                     <div className={styles.horariosContainer}>
-                                        {linha.map((hora, j) => (
-                                            <span key={j} className={styles.hora}>
+                                        <strong>{ponto.nome}</strong>
+                                        {ponto.horarios.map((hora, horaIndex) => (
+                                            <span key={horaIndex} className={styles.hora}>
                                                 {hora}
+                                                <button
+                                                    className={styles.delete}
+                                                    onClick={() => deletarHorario(pontoIndex, horaIndex)}
+                                                    style={{ marginLeft: '8px' }}
+                                                >
+                                                    ✕
+                                                </button>
                                             </span>
                                         ))}
                                     </div>
                                     <div className={styles.botoes}>
-                                        <button className={styles.adicionar} onClick={() => adicionarHorario(i)}>
+                                        <button className={styles.adicionar} onClick={() => adicionarHorario(pontoIndex)}>
                                             +
                                         </button>
-                                        <button className={styles.delete} onClick={() => deletarLinha(i)} >
+                                        <button className={styles.delete} onClick={() => deletarLinha(pontoIndex)}>
                                             🗑
                                         </button>
                                     </div>
@@ -126,14 +156,15 @@ export default function EditarHorarios() {
                         </div>
 
                         <div className={styles.rodape}>
-                            <button className={styles.salvar} onClick={() => adicionar(0)}>
-                                Adicionar
+                            <button className={styles.salvar} onClick={adicionarPonto}>
+                                Adicionar Ponto
+                            </button>
+                            <button className={styles.salvar} onClick={salvarHorarios} style={{ marginLeft: '12px' }}>
+                                Salvar Horários
                             </button>
                         </div>
-
                     </div>
                 </div>
-
             </div>
         </div>
     );
