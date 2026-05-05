@@ -129,7 +129,7 @@ export default function EditarHorarios() {
                             {linhaAtual.pontos.map((ponto, pontoIndex) => (
                                 <div key={ponto.nome} className={styles.linha}>
                                     <div className={styles.horariosContainer}>
-                                        <strong>{ponto.nome}</strong>
+                                        <strong className={styles.nomePontos}>{ponto.nome}</strong>
                                         {ponto.horarios.map((hora, horaIndex) => (
                                             <span key={horaIndex} className={styles.hora}>
                                                 {hora}

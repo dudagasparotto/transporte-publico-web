@@ -1,7 +1,6 @@
 .conteudo {
   display: flex;
-  height: calc(100vh - 60px); /* ocupa a tela tirando o header */
-
+  height: calc(100vh - 60px);
 }
 
 /* FUNDO */
@@ -26,8 +25,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
-  
 }
 
 /* TEXTOS */
@@ -35,7 +32,6 @@
   margin-bottom: 0.9%;
   color: #1E40AF;
   font-family: 'Roboto';
-
 }
 
 .titulinho {
@@ -76,15 +72,14 @@
   border-radius: 10px;
   max-height: 76%;
   cursor: pointer;
-  
 }
 
 .nomePontos {
-  padding: 10px 0; 
+  padding: 10px; 
   font-size: 20px;
   font-family: 'roboto';
   margin-top: 10px;
-  gap: 10px;
+  gap: 20px;
   display: flex;
   flex-direction: column;
 }
@@ -135,7 +130,6 @@
   overflow-y: auto;
   max-height: 76%;
   height: 620px;
-  
 }
 
 .horarios {
@@ -146,7 +140,6 @@
   margin-top: 20px;
   font-weight: bold;
   font-size: 18px;
-
 }
 
 .linha {
@@ -169,8 +162,9 @@
   background: #f3f4f6;
   padding: 8px 12px;
   border-radius: 6px;
-
+  margin-left: 1.2%;
 }
+
 .botoes{
   display: flex;
   gap: 10px;
@@ -193,13 +187,13 @@
   background: #ef4444;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 5px 8px;
   border-radius: 6px;
   cursor: pointer;
 }
 
 .salvar{
-background: #1E40AF;
+  background: #1E40AF;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -223,18 +217,100 @@ background: #1E40AF;
   list-style: none;
 }
 
-/* overlay escuro por cima da imagem e atrás do conteúdo,
-porque legibilidade ainda importa nesse planeta */
+/* overlay escuro */
 .imagemFundo::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.5); /* pode ajustar: 0.35 mais claro / 0.60 mais escuro */
+  background: rgba(0,0,0,0.5);
   z-index: 0;
 }
 
-/* garante que todo conteúdo fique acima do overlay */
 .imagemFundo > * {
   position: relative;
   z-index: 1;
+}
+
+/* ================= RESPONSIVIDADE ================= */
+
+/* TABLET */
+@media (max-width: 1024px) {
+  .ladoesquerdo {
+    width: 30%;
+  }
+
+  .ladoDireito {
+    width: 70%;
+  }
+
+  .conteudoDireito {
+    width: 95%;
+    left: 10px;
+  }
+}
+
+/* CELULAR */
+@media (max-width: 768px) {
+
+  .conteudo {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .titulinho {
+    font-size: 22px;
+  }
+
+  .ladoesquerdo {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .barraLateral {
+    width: 100%;
+    max-height: none;
+  }
+
+  .ladoDireito {
+    width: 100%;
+  }
+
+  .conteudoDireito {
+    position: relative;
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: auto;
+    max-height: none;
+    margin-top: 20px;
+  }
+
+  .linha {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .horariosContainer {
+    flex-wrap: wrap;
+  }
+
+  .botoes {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .rodape {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .salvar {
+    width: 100%;
+  }
 }
