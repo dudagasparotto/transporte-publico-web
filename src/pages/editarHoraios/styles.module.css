@@ -2,6 +2,7 @@
   display: flex;
   padding: 10px;
   gap: 10px;
+  align-items: stretch;
 }
 
 /* FUNDO */
@@ -66,6 +67,7 @@
   width: 20%;
   display: flex;
   justify-content: center;
+  align-items: stretch;
   margin-right: 10px;
 }
 
@@ -73,14 +75,15 @@
   width: 80%;
   background: #F3F4F6;
   padding: 15px;
-  margin: 40px 0;
+  margin: 0;
   overflow-y: auto;
   font-family: 'roboto';
   font-size: 15px;
   border-radius: 10px;
-  max-height: 90%;
+  height: 100%;
   cursor: pointer;
-  
+  min-height: 500px;
+  margin-top: 70px;
 }
 
 .nomePontos {
@@ -116,7 +119,9 @@
 
 .ladoDireito {
   width: 80%;
-  position: relative; 
+  position: relative;
+  display: flex;
+  align-items: stretch;
 }
 
 /* MAPA */
@@ -137,10 +142,10 @@
   width: 100%;
   font-family: 'Roboto';
   overflow-y: auto;
-  max-height: 90%;
-  height: auto;
-  margin: 40px 0;
-  
+  height: 100%;
+  margin: 0;
+  min-height: 500px;
+  margin-top: 70px;
 }
 
 .horarios {
@@ -415,11 +420,12 @@ background: #1E40AF;
   }
 
   .barraLateral {
-    width: 100%;
+    width: 95%;
     max-height: 200px;
     font-size: 13px;
     padding: 8px;
     margin: 10px 0;
+    position: relative;
   }
 
   .nomePontos {
@@ -433,9 +439,6 @@ background: #1E40AF;
     font-size: 12px;
   }
 
-  .ladoDireito {
-    width: 100%;
-  }
 
   .conteudoDireito {
     width: 95%;
@@ -464,6 +467,7 @@ background: #1E40AF;
   .hora {
     padding: 6px 8px;
     font-size: 12px;
+    
   }
 
   .horariosContainer {
