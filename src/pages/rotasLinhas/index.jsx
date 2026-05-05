@@ -1,112 +1,221 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getCollection } from '../../mockup/localStorage';
+
+import joaoImg from '../../assets/motorista.webp';
+import mariaImg from '../../assets/mariaOliveira.webp';
+import carlosImg from '../../assets/carlosMendes.webp';
 
 import styles from './styles.module.css';
 
-
 export default function RotasLinhas() {
-
-  const [linha, setLinha] = useState('https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d24896.948428396703!2d-50.52369407013919!3d-21.93633798754604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9495b803789ea39f%3A0xe5a9d8bbc523cfc!2zVHVww6MsIFNQ!5e0!3m2!1spt-BR!2sbr!4v1776986140267!5m2!1spt-BR!2sbr');
-
+  const [rotas, setRotas] = useState([]);
+  const [linha, setLinha] = useState(null);
   const navigate = useNavigate();
 
-  const descricao = [
+  const motoristas = [
     {
-      nome: 'Rota Roxa',
-      Inicio: 'Tal rua (ponto).',
-      Fim: 'Tal rua (ponto).',
-      descricao: 'Linha que atende a região sul da cidade.',
+      nome: 'João Paulo Silva',
+      codigo: 'MTR-4589',
+      nota: 4.8,
+      status: 'Em serviço',
+      linha: 'Rota Roxa',
+      tempoPlataforma: '2 anos e 3 meses',
+      foto: joaoImg
     },
     {
-      nome: 'Rota Azul',
-      Inicio: 'Tal rua (ponto).',
-      Fim: 'Tal rua (ponto).',
-      descricao: 'Atende moradores da região leste.',
+      nome: 'Maria Oliveira',
+      codigo: 'MTR-7781',
+      nota: 4.6,
+      status: 'Em serviço',
+      linha: 'Rota Azul',
+      tempoPlataforma: '1 ano e 8 meses',
+      foto: mariaImg
     },
     {
-      nome: 'Rota Laranja',
-      Inicio: 'Tal rua (ponto).',
-      Fim: 'Tal rua (ponto).',
-      descricao: 'Linha com passagem pela região universitária.',
-    },
-    {
-      nome: 'Rota Amarela',
-      Inicio: 'Tal rua (ponto).',
-      Fim: 'Tal rua (ponto).',  
-      descricao: 'Trecho com maior fluxo de passageiros.',
+      nome: 'Carlos Mendes',
+      codigo: 'MTR-9912',
+      nota: 4.7,
+      status: 'Em serviço',
+      linha: 'Rota Laranja',
+      tempoPlataforma: '3 anos',
+      foto: carlosImg
     },
   ];
+
+  useEffect(() => {
+    const dados = getCollection('rotas');
+
+    const inicial = dados.length > 0 ? dados : [
+      {
+        id: 1,
+        nome: 'Rota Roxa',
+        saida: 'Terminal Central',
+        destino: 'Bairro Roxo',
+        mapa: 'https://www.google.com/maps/d/u/1/embed?mid=1EifQjeD8Cx_JHRKUjpf0wx2JezX3bxw&ehbc=2E312F&noprof=1',
+        paradas: [
+          'Terminal Central',
+          'Av. Principal',
+          'Mercado Central',
+          'Bairro Roxo'
+        ],
+      },
+      {
+        id: 2,
+        nome: 'Rota Azul',
+        saida: 'Terminal Norte',
+        destino: 'Bairro Azul',
+        mapa: 'https://www.google.com/maps/d/u/1/embed?mid=1PZnUg7Xd-2Y_LuZgKu0I8XBxSUJqOGg&ehbc=2E312F&noprof=1',
+        paradas: [
+          'Terminal Norte',
+          'Praça Azul',
+          'Hospital Municipal',
+          'Bairro Azul'
+        ],
+      },
+      {
+        id: 3,
+        nome: 'Rota Laranja',
+        saida: 'Terminal Sul',
+        destino: 'Bairro Laranja',
+        mapa: 'https://www.google.com/maps/d/u/1/embed?mid=1bUGpvBgmP-nTU3OPTjyh48C8-2XWEt4&ehbc=2E312F&noprof=1',
+        paradas: [
+          'Terminal Sul',
+          'Av. das Flores',
+          'Shopping Sul',
+          'Bairro Laranja'
+        ],
+      },
+      {
+        id: 4,
+        nome: 'Rota Amarela',
+        saida: 'Rodoviária',
+        destino: 'Bairro Amarelo',
+        mapa: 'https://www.google.com/maps/d/u/1/embed?mid=1oHTQrYTHxzncd8IdKuHOWY9z0damzVE&ehbc=2E312F&noprof=1',
+        paradas: [
+          'Rodoviária',
+          'Centro',
+          'Escola Municipal',
+          'Bairro Amarelo'
+        ],
+      },
+    ];
+
+    setRotas(inicial);
+    setLinha(inicial[0]?.mapa || null);
+  }, []);
 
   return (
     <div className={styles.container}>
 
-      {/* TOPO */}
       <header className={styles.header}>
-        <div className={styles.logoArea}>
-          <div className={styles.motoristaBox}>
-            <button className={styles.motoristaTexto} onClick={() => navigate('/infoMotorista')}>
-              MOTORISTA
-            </button>
-          
-          </div>
-        </div>
-
-        <button className={styles.Button} onClick={() => navigate('/')}>
+        <button
+          className={styles.Button}
+          onClick={() => navigate('/')}
+        >
           HOME
         </button>
       </header>
 
       <main className={styles.main}>
-        {/* MAPA DA CIDADE*/}
+
         <section className={styles.mapaSection}>
           <div className={styles.mapaWrapper}>
-            <iframe
-              title="Mapa de Tupã"
-              src={linha}
-              className={styles.mapa}
-              loading="lazy"
-              allowFullScreen
-            ></iframe>
+            {linha && (
+              <iframe
+                title="Mapa de Tupã"
+                src={linha}
+                className={styles.mapa}
+                loading="lazy"
+                allowFullScreen
+              ></iframe>
+            )}
           </div>
         </section>
 
-        {/* PAINEL LATERAL */}
         <aside className={styles.infoPanel}>
-          <h2 className={styles.subtitulo}>Rotas disponíveis</h2>
 
-          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/u/1/embed?mid=1EifQjeD8Cx_JHRKUjpf0wx2JezX3bxw&ehbc=2E312F&noprof=1')}> 
-            <div>
-              ROTA ROXA
-            </div>
-          </button>
-          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/u/1/embed?mid=1PZnUg7Xd-2Y_LuZgKu0I8XBxSUJqOGg&ehbc=2E312F&noprof=1')}> {/*POR O RESTO DOS LINKS*/}
-            <div> 
-              ROTA AZUL
-            </div>
-          </button>
-          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/u/1/embed?mid=1bUGpvBgmP-nTU3OPTjyh48C8-2XWEt4&ehbc=2E312F&noprof=1')}>
-            <div>
-              ROTA LARANJA
-            </div>
-          </button>
-          <button className={styles.Button} onClick={() => setLinha('https://www.google.com/maps/d/u/1/embed?mid=1oHTQrYTHxzncd8IdKuHOWY9z0damzVE&ehbc=2E312F&noprof=1')}>
-            <div>
-              ROTA AMARELA
-            </div>
-          </button>
+          <h2 className={styles.subtitulo}>
+            Rotas disponíveis
+          </h2>
 
-          <h2 className={styles.subtitulo}>Descrição das rotas:</h2>
+          {rotas.map((rotaItem) => (
+            <button
+              key={rotaItem.id}
+              className={styles.Button}
+              onClick={() =>
+                setLinha(rotaItem.mapa)
+              }
+            >
+              <div>
+                {rotaItem.nome.toUpperCase()}
+              </div>
+            </button>
+          ))}
+
+          <h2 className={styles.subtitulo}>
+            Descrição das rotas:
+          </h2>
 
           <div className={styles.descricaoRotas}>
-            {descricao.map((descricao, index) => (
-              <div key={index} className={styles.descricaoItens}>
-                <h4 className={styles.descricaoItem}>{descricao.nome}</h4>
-                <p className={styles.descricaoItem}>Inicio: {descricao.Inicio}</p>
-                <p className={styles.descricaoItem}>Fim: {descricao.Fim}</p>
-                <p className={styles.descricaoItem}>{descricao.descricao}</p>
+            {rotas.map((rotaItem) => (
+              <div
+                key={rotaItem.id}
+                className={styles.descricaoItens}
+              >
+                <h4 className={styles.descricaoItem}>
+                  {rotaItem.nome}
+                </h4>
+
+                <p className={styles.descricaoItem}>
+                  Início: {rotaItem.saida}
+                </p>
+
+                <p className={styles.descricaoItem}>
+                  Fim: {rotaItem.destino}
+                </p>
+
+                <p className={styles.descricaoItem}>
+                  Paradas:{' '}
+                  {rotaItem.paradas?.join(', ')}
+                </p>
               </div>
             ))}
           </div>
+
+          <div className={styles.card}>
+            <h3>
+              Escolha o motorista para fazer uma avaliação:
+            </h3>
+
+            {motoristas.map((m, i) => (
+              <div
+                key={i}
+                className={styles.driverItem}
+                onClick={() =>
+                  navigate('/infoMotorista', {
+                    state: m
+                  })
+                }
+              >
+                <div className={styles.fotoMotorista}>
+                  <img
+                    src={m.foto}
+                    alt={m.nome}
+                  />
+                </div>
+
+                <strong className={styles.driverName}>
+                  {m.nome}
+                </strong>
+
+                <span className={styles.status}>
+                  {m.status}
+                </span>
+              </div>
+            ))}
+          </div>
+
         </aside>
       </main>
     </div>

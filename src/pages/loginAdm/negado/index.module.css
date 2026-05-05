@@ -27,7 +27,7 @@
 /* CARD CENTRAL */
 .negadoBox {
   position: relative;
-  background: white;
+  background: linear-gradient(135deg, #1E40AF, #3B82F6);
   padding: 60px;
   width: 520px;
   border-radius: 16px;
@@ -44,23 +44,25 @@
 /* TITULO */
 .negadoBox h1 {
   font-size: 32px;
-  color: #374151;
+  color: white;
   margin-bottom: 15px;
+  font-family: 'Roboto';
 }
 
 /* TEXTO */
 .negadoBox p {
   font-size: 16px;
-  color: #555;
+  color: white;
   margin-bottom: 30px;
+  font-family: 'Roboto';
 }
 
 /* BOTÃO */
 .negadoBox button {
   padding: 14px 30px;
   font-size: 16px;
-  background: #374151;
-  color: white;
+  background: white;
+  color: #374151;
   border: none;
   border-radius: 10px;
   cursor: pointer;

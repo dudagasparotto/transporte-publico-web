@@ -1,11 +1,16 @@
-import { useState } from "react"; 
+import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
+import { addToCollection, getNextId } from "../../mockup/localStorage";
 
 export default function Motorista() {
   const [cpf, setCpf] = useState("");
   const [cnh, setCnh] = useState("");
   const [nome, setNome] = useState("");
   const [foto, setFoto] = useState(null);
+
+  useEffect(() => {
+    document.title = "Cadastro de Motorista";
+  }, []);
 
   function handleFoto(e) {
     const file = e.target.files[0];
@@ -15,8 +20,29 @@ export default function Motorista() {
   }
 
   function salvar() {
-    const motorista = { cpf, cnh, nome };
-    console.log("Motorista:", motorista);
+    if (!cpf || !cnh || !nome) {
+      alert("Preencha todos os campos para cadastrar o motorista.");
+      return;
+    }
+
+    const motorista = {
+      id: getNextId("motoristas"),
+      cpf,
+      cnh,
+      nome,
+      linha: "Azul",
+      codigo: `MTR-${cpf.slice(-4)}`,
+      tempoPlataforma: "0 anos",
+      foto,
+    };
+
+    addToCollection("motoristas", motorista);
+    setCpf("");
+    setCnh("");
+    setNome("");
+    setFoto(null);
+
+    alert("Motorista cadastrado com sucesso!");
   }
 
   return (
