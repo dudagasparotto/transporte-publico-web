@@ -11,7 +11,10 @@ export default function Home() {
         <h1>TRANSPORTE PÚBLICO</h1>
 
         <nav className={styles.menu}>
-          <Link to='/login'>
+          <Link to='/loginmotorista'>
+          <button className={styles.botao}>Motorista</button>
+          </Link>
+          <Link to='/loginadm'>
           <button className={styles.botao}>Administrador</button>
           </Link>
         </nav>

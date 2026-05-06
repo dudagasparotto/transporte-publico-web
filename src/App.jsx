@@ -17,6 +17,7 @@ import RotasLinhas from './pages/rotasLinhas';
 import Horarios from './pages/horarios';
 import Negado from './pages/loginAdm/negado';
 import EditarHorarios from './pages/editarHoraios';
+import LoginMotora from './pages/loginMotorista';
 import { initializeMockStorage } from './mockup/localStorage';
 
 initializeMockStorage();
@@ -39,7 +40,8 @@ function App() {
       <Route path="/cadpontos" element={<CadastroPontos />} />
       <Route path="/rotas" element={<RotasLinhas />} />
       <Route path="/horarios" element={<Horarios />} />
-      <Route path="/login" element={<LoginAdm />} />
+      <Route path="/loginadm" element={<LoginAdm />} />
+      <Route path="/loginmotorista" element={<LoginMotora />} />
       <Route path="/login/negado" element={<Negado />} />
       <Route path="/adm/editarhorarios" element={<EditarHorarios />} />
     </Routes>
