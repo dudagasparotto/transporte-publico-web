@@ -8,14 +8,11 @@
 /* FUNDO */
 .imagemFundo{
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   background-image: url("../../assets/fundo.png");
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
   background-repeat: no-repeat;
-  margin: 0;
-  padding: 0;
 }
 
 
@@ -217,6 +214,15 @@ background: #1E40AF;
   margin-top: 10px;
 }
 
+.adicionarPonto{
+  background: #1E40AF;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
 .rodape {
   display: flex;
   justify-content: flex-end;
@@ -233,57 +239,20 @@ background: #1E40AF;
   list-style: none;
 }
 
-/* RESPONSIVIDADE */
 
-/* Tablets - 768px até 1024px */
-@media (max-width: 1024px) {
-  .conteudo {
-    flex-direction: column;
-    height: auto;
-  }
 
-  .header {
-    padding: 15px 20px;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
+@media (max-width: 768px) {
 
-  .titulinho {
-    font-size: 24px;
-  }
-
-  .ladoesquerdo {
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
-
-  .barraLateral {
-    width: 100%;
-    max-height: 300px;
-  }
-
-  .ladoDireito {
-    width: 100%;
-  }
-
-  .conteudoDireito {
-    width: 95%;
-    height: auto;
-    max-height: 400px;
-    position: relative;
-    top: 0;
-    left: 0;
-    margin-top: 20px;
-  }
-
-  .nomePontos {
-    font-size: 18px;
-  }
+  .imagemFundo{
+  width: 100%;
+  height: 100vh;
+  background-image: url("../../assets/fundo.png");
+  background-size: 100% 100%;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
-/* Mobile - 480px até 767px */
-@media (max-width: 768px) {
   .conteudo {
     flex-direction: column;
     height: auto;
@@ -313,10 +282,13 @@ background: #1E40AF;
   }
 
   .barraLateral {
-    width: 100%;
-    max-height: 250px;
-    font-size: 14px;
-    padding: 10px;
+    width: 95%;
+    max-height: 100px;
+    font-size: 13px;
+    padding: 8px;
+    margin: 10px 0;
+    position: relative;
+    min-height: 250px;
   }
 
   .nomePontos {
@@ -343,6 +315,7 @@ background: #1E40AF;
     left: 0;
     margin: 15px auto;
     padding: 15px;
+    min-height: 250px;
   }
 
   .horarios {
@@ -368,23 +341,35 @@ background: #1E40AF;
     gap: 8px;
   }
 
-  .adicionar,
+  .adicionar
   .delete {
     padding: 5px 10px;
     font-size: 12px;
   }
 
-  .salvar {
-    padding: 8px 12px;
-    font-size: 13px;
+  .adicionarPonto{
+  width: 100%;
+  max-width: 400px;
+  padding: 8px 12px;
+  font-size: 13px;
+  display: block;
+  margin: 0 auto;
   }
 
   .mapa {
     height: auto;
   }
+
+  .rodape {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
 }
 
-/* Mobile pequeno - até 479px */
+}
 @media (max-width: 480px) {
   .conteudo {
     display: block;
@@ -392,7 +377,12 @@ background: #1E40AF;
   }
 
   .imagemFundo {
-    min-height: auto;
+  width: 100%;
+  min-height: 100vh;
+  background-image: url("../../assets/fundo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   }
 
   .header {
@@ -421,11 +411,12 @@ background: #1E40AF;
 
   .barraLateral {
     width: 95%;
-    max-height: 200px;
+    max-height: 100px;
     font-size: 13px;
     padding: 8px;
     margin: 10px 0;
     position: relative;
+    min-height: 250px;
   }
 
   .nomePontos {
@@ -443,12 +434,13 @@ background: #1E40AF;
   .conteudoDireito {
     width: 95%;
     height: auto;
-    max-height: 300px;
+    max-height: 100px;
     position: relative;
     top: 0;
     left: 0;
     margin: 10px auto;
     padding: 10px;
+    min-height: 300px;
   }
 
   .horarios {
@@ -467,6 +459,8 @@ background: #1E40AF;
   .hora {
     padding: 6px 8px;
     font-size: 12px;
+    margin-left: 10px;
+    margin-top: 7px;
     
   }
 
@@ -487,12 +481,23 @@ background: #1E40AF;
     font-size: 11px;
   }
 
-  .salvar {
-    width: 100%;
-    padding: 6px 10px;
-    font-size: 12px;
+  .salvarBtn {
+  width: 100%;
+  max-width: 400px;
+  padding: 8px 12px;
+  font-size: 13px;
+  display: block;
+  margin: 0 auto;
   }
 
+  .adicionarPonto{
+  width: 100%;
+  max-width: 400px;
+  padding: 8px 12px;
+  font-size: 13px;
+  display: block;
+  margin: 0 auto;
+  }
   .rodape {
     flex-direction: column;
     gap: 8px;

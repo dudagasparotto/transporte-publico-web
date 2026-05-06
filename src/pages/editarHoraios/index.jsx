@@ -156,10 +156,10 @@ export default function EditarHorarios() {
                         </div>
 
                         <div className={styles.rodape}>
-                            <button className={styles.salvar} onClick={adicionarPonto}>
+                            <button className={styles.adicionarPonto} onClick={adicionarPonto}>
                                 Adicionar Ponto
                             </button>
-                            <button className={styles.salvar} onClick={salvarHorarios} style={{ marginLeft: '12px' }}>
+                            <button className={styles.adicionarPonto} onClick={salvarHorarios}>
                                 Salvar Horários
                             </button>
                         </div>
