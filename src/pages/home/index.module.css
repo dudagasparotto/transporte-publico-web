@@ -43,6 +43,7 @@ body {
   font-size: 30px;
   font-weight: bold;
   letter-spacing: 1px;
+  text-align: left;
 }
 
 .menu button {
@@ -59,13 +60,6 @@ body {
   color: black;  
   font-family: 'Roboto';
 }
-
-/* BANNER */
-/* .banner {
-  height: 100px;
-  background-size: cover;
-  background-position: center;
-} */
 
 /* CARDS */
 .cards {
