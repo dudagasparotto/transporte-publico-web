@@ -75,3 +75,15 @@
   color: #374151;
   font-size: 14px;
 }
+
+.semAvaliacao {
+  width: 100%;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 30px;
+  color: #ffffff;
+  font-weight: bold;
+}

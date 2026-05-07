@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Styles from './styles.module.css';
 
 export default function AvaliacaoMotorista() {
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -11,17 +12,41 @@ export default function AvaliacaoMotorista() {
   const [avaliacoes, setAvaliacoes] = useState([]);
 
   useEffect(() => {
+
     if (!motorista) {
       navigate(-1);
       return;
     }
 
-    const chave = `avaliacoes_${motorista.codigo}`;
+    async function carregarAvaliacoes() {
 
-    const dados =
-      JSON.parse(localStorage.getItem(chave)) || [];
+      try {
 
-    setAvaliacoes(dados);
+        const response = await fetch(
+          `http://localhost:3000/avaliacoes`
+        );
+
+        const data = await response.json();
+
+        const avaliacoesMotorista = data.dados.filter(
+          (item) => item.id_motorista === motorista.codigo
+        );
+
+        setAvaliacoes(avaliacoesMotorista);
+
+      } catch (error) {
+
+        console.error(
+          'Erro ao carregar avaliações:',
+          error
+        );
+
+      }
+
+    }
+
+    carregarAvaliacoes();
+
   }, []);
 
   return (
@@ -43,34 +68,52 @@ export default function AvaliacaoMotorista() {
       </p>
 
       <div className={Styles.listaAvaliacoes}>
+
         {avaliacoes.length > 0 ? (
+
           avaliacoes.map((item, index) => (
-            <div key={index} className={Styles.card}>
+
+            <div
+              key={index}
+              className={Styles.card}
+            >
 
               <div className={Styles.topoCard}>
-                <h3>{item.nome}</h3>
+
+                <h3>
+                  Usuário #{item.id_usuario}
+                </h3>
 
                 <span className={Styles.data}>
-                  {item.data}
+                  {item.data_avaliacao}
                 </span>
+
               </div>
 
               <div className={Styles.estrelas}>
-                {'★'.repeat(item.nota)}
-                {'☆'.repeat(5 - item.nota)}
+                {'★'.repeat(item.nota_avaliacao)}
+                {'☆'.repeat(
+                  5 - item.nota_avaliacao
+                )}
               </div>
 
               <p className={Styles.comentario}>
-                {item.comentario || 'Sem comentário'}
+                {item.comentario_avaliacao ||
+                  'Sem comentário'}
               </p>
 
             </div>
+
           ))
+
         ) : (
+
           <p className={Styles.semAvaliacao}>
             Nenhuma avaliação enviada ainda.
           </p>
+
         )}
+
       </div>
 
     </div>
