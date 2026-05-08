@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Styles from './styles.module.css';
 
 export default function InfoMotorista() {
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -16,91 +17,158 @@ export default function InfoMotorista() {
   const [mensagemAlert, setMensagemAlert] = useState('');
 
   useEffect(() => {
+
     if (!motorista) {
       navigate(-1);
       return;
     }
 
     calcularMedia();
+
   }, []);
 
-  const calcularMedia = () => {
-    const chave = `avaliacoes_${motorista.codigo}`;
+  async function calcularMedia() {
 
-    const avaliacoes =
-      JSON.parse(localStorage.getItem(chave)) || [];
+    try {
 
-    if (avaliacoes.length === 0) {
-      setMedia(0);
-      return;
+      const response = await fetch(
+        'http://localhost:3000/avaliacoes'
+      );
+
+      const data = await response.json();
+
+      const avaliacoesMotorista =
+        data.dados.filter(
+          (item) =>
+            item.id_motorista ===
+            motorista.id_motorista
+        );
+
+      if (avaliacoesMotorista.length === 0) {
+        setMedia(0);
+        return;
+      }
+
+      const soma =
+        avaliacoesMotorista.reduce(
+          (total, item) =>
+            total + item.nota_avaliacao,
+          0
+        );
+
+      const resultado =
+        soma / avaliacoesMotorista.length;
+
+      setMedia(resultado.toFixed(1));
+
+    } catch (error) {
+
+      console.error(
+        'Erro ao calcular média:',
+        error
+      );
+
     }
 
-    const soma = avaliacoes.reduce(
-      (total, item) => total + item.nota,
-      0
-    );
-
-    const resultado = soma / avaliacoes.length;
-
-    setMedia(resultado.toFixed(1));
-  };
+  }
 
   const mostrarMensagem = (texto) => {
+
     setMensagemAlert(texto);
     setMostrarAlert(true);
 
     setTimeout(() => {
       setMostrarAlert(false);
     }, 2500);
+
   };
 
-  const enviarAvaliacao = () => {
+  async function enviarAvaliacao() {
+
     if (nota === 0) {
-      mostrarMensagem('⚠️ Selecione uma nota.');
+
+      mostrarMensagem(
+        '⚠️ Selecione uma nota.'
+      );
+
       return;
+
     }
 
-    const novaAvaliacao = {
-      nome: 'Usuário',
-      nota,
-      comentario,
-      data: new Date().toLocaleDateString('pt-BR'),
-    };
+    try {
 
-    const chave = `avaliacoes_${motorista.codigo}`;
+      const response = await fetch(
+        'http://localhost:3000/avaliacoes',
+        {
+          method: 'POST',
 
-    const avaliacoesSalvas =
-      JSON.parse(localStorage.getItem(chave)) || [];
+          headers: {
+            'Content-Type':
+              'application/json',
+          },
 
-    avaliacoesSalvas.unshift(novaAvaliacao);
+          body: JSON.stringify({
+            id_motorista:
+              motorista.id_motorista,
 
-    localStorage.setItem(
-      chave,
-      JSON.stringify(avaliacoesSalvas)
-    );
+            nota_avaliacao: nota,
 
-    mostrarMensagem('✅ Avaliação enviada com sucesso!');
+            comentario_avaliacao:
+              comentario,
 
-    setNota(0);
-    setComentario('');
+            data_avaliacao:
+              new Date()
+                .toISOString()
+                .split('T')[0],
+          }),
+        }
+      );
 
-    calcularMedia();
-  };
+      const data = await response.json();
+
+      if (data.sucesso) {
+
+        mostrarMensagem(
+          '✅ Avaliação enviada com sucesso!'
+        );
+
+        setNota(0);
+        setComentario('');
+
+        calcularMedia();
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        'Erro ao enviar avaliação:',
+        error
+      );
+
+    }
+
+  }
 
   return (
     <div className={Styles.container}>
 
       {mostrarAlert && (
+
         <div className={Styles.alertOverlay}>
+
           <div className={Styles.customAlert}>
             {mensagemAlert}
           </div>
+
         </div>
+
       )}
 
       <div className={Styles.card}>
 
         <div className={Styles.header}>
+
           <button
             onClick={() => navigate(-1)}
             className={Styles.backButton}
@@ -109,97 +177,169 @@ export default function InfoMotorista() {
           </button>
 
           <div>
-            <h1>Informações do Motorista</h1>
-            <p>Visualize os dados e avalie o motorista</p>
+            <h1>
+              Informações do Motorista
+            </h1>
+
+            <p>
+              Visualize os dados e avalie
+              o motorista
+            </p>
           </div>
+
         </div>
 
         <div className={Styles.profileSection}>
+
           <div className={Styles.imageBox}>
+
             <img
-              src={motorista?.foto}
-              alt={motorista?.nome}
+              src={
+                motorista?.foto_motorista
+              }
+              alt={
+                motorista?.nome_motorista
+              }
             />
+
           </div>
 
           <div className={Styles.infoBox}>
-            <h2>{motorista?.nome}</h2>
+
+            <h2>
+              {
+                motorista?.nome_motorista
+              }
+            </h2>
 
             <div className={Styles.infoGrid}>
-              <div>
-                <span>Linha</span>
-                <strong>{motorista?.linha}</strong>
-              </div>
 
               <div>
-                <span>Código</span>
-                <strong>{motorista?.codigo}</strong>
-              </div>
+                <span>ID</span>
 
-              <div>
-                <span>Tempo na plataforma</span>
                 <strong>
-                  {motorista?.tempoPlataforma}
+                  {
+                    motorista?.id_motorista
+                  }
                 </strong>
               </div>
+
+              <div>
+                <span>CPF</span>
+
+                <strong>
+                  {
+                    motorista?.cpf_motorista
+                  }
+                </strong>
+              </div>
+
+              <div>
+                <span>CNH</span>
+
+                <strong>
+                  {
+                    motorista?.cnh_motorista
+                  }
+                </strong>
+              </div>
+
             </div>
+
           </div>
+
         </div>
 
         <div className={Styles.statsContainer}>
+
           <div className={Styles.statCard}>
-            <span>Avaliação média</span>
-            <strong>⭐ {media}</strong>
+
+            <span>
+              Avaliação média
+            </span>
+
+            <strong>
+              ⭐ {media}
+            </strong>
+
           </div>
 
           <div className={Styles.statCard}>
-            <strong>{motorista?.status}</strong>
+
+            <strong>
+              Em serviço
+            </strong>
+
           </div>
+
         </div>
 
         <div className={Styles.avaliacaoBox}>
-          <h2>Avalie o motorista</h2>
-          <p>Sua opinião é importante!</p>
+
+          <h2>
+            Avalie o motorista
+          </h2>
+
+          <p>
+            Sua opinião é importante!
+          </p>
 
           <div className={Styles.stars}>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <span
-                key={star}
-                className={`${Styles.star} ${
-                  star <= (hover || nota)
-                    ? Styles.active
-                    : ''
-                }`}
-                onClick={() => setNota(star)}
-                onMouseEnter={() =>
-                  setHover(star)
-                }
-                onMouseLeave={() =>
-                  setHover(0)
-                }
-              >
-                ★
-              </span>
-            ))}
+
+            {[1, 2, 3, 4, 5].map(
+              (star) => (
+
+                <span
+                  key={star}
+                  className={`${
+                    Styles.star
+                  } ${
+                    star <=
+                    (hover || nota)
+                      ? Styles.active
+                      : ''
+                  }`}
+                  onClick={() =>
+                    setNota(star)
+                  }
+                  onMouseEnter={() =>
+                    setHover(star)
+                  }
+                  onMouseLeave={() =>
+                    setHover(0)
+                  }
+                >
+                  ★
+                </span>
+
+              )
+            )}
+
           </div>
 
           <textarea
             placeholder="Deixe um comentário..."
             value={comentario}
             onChange={(e) =>
-              setComentario(e.target.value)
+              setComentario(
+                e.target.value
+              )
             }
           />
 
           <button
-            className={Styles.primeiroButton}
+            className={
+              Styles.primeiroButton
+            }
             onClick={enviarAvaliacao}
           >
             Enviar avaliação
           </button>
 
           <button
-            className={Styles.segundoButton}
+            className={
+              Styles.segundoButton
+            }
             onClick={() =>
               navigate(
                 '/avaliacaoMotorista',
@@ -213,7 +353,9 @@ export default function InfoMotorista() {
           </button>
 
         </div>
+
       </div>
+
     </div>
   );
 }

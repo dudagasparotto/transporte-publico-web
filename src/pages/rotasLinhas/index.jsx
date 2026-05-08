@@ -184,36 +184,49 @@ export default function RotasLinhas() {
           </div>
 
           <div className={styles.card}>
+
             <h3>
               Escolha o motorista para fazer uma avaliação:
             </h3>
 
-            {motoristas.map((m, i) => (
+            {motoristas.map((m) => (
+
               <div
-                key={i}
+                key={m.id_motorista}
                 className={styles.driverItem}
                 onClick={() =>
                   navigate('/infoMotorista', {
-                    state: m
+                    state: {
+                      id_motorista: m.id_motorista,
+                      nome_motorista: m.nome_motorista,
+                      cpf_motorista: m.cpf_motorista,
+                      cnh_motorista: m.cnh_motorista,
+                      foto_motorista: m.foto_motorista
+                    }
                   })
-                }
-              >
+                }>
+
                 <div className={styles.fotoMotorista}>
+
                   <img
-                    src={m.foto}
-                    alt={m.nome}
+                    src={m.foto_motorista}
+                    alt={m.nome_motorista}
                   />
+
                 </div>
 
                 <strong className={styles.driverName}>
-                  {m.nome}
+                  {m.nome_motorista}
                 </strong>
 
                 <span className={styles.status}>
-                  {m.status}
+                  Em serviço
                 </span>
+
               </div>
+
             ))}
+
           </div>
 
         </aside>
