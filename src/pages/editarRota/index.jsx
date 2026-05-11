@@ -1,74 +1,207 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
-import { getCollection, updateCollection } from "../../mockup/localStorage";
 
 export default function EditarRota() {
+
   const navigate = useNavigate();
+
   const [rotasDisponiveis, setRotasDisponiveis] = useState([]);
   const [rotaSelecionada, setRotaSelecionada] = useState(0);
+
   const [rota, setRota] = useState("");
   const [saida, setSaida] = useState("");
   const [destino, setDestino] = useState("");
   const [mapa, setMapa] = useState("");
+
   const [paradas, setParadas] = useState([]);
 
   useEffect(() => {
-    const rotas = getCollection("rotas");
-    setRotasDisponiveis(rotas);
+
+    async function carregarRotas() {
+
+      try {
+
+        // AQUI VAI SUA API
+
+        // exemplo:
+
+        /*
+        const response = await fetch(
+          "http://localhost:3000/rotas"
+        );
+
+        const data = await response.json();
+
+        setRotasDisponiveis(data.dados);
+        */
+
+      } catch (error) {
+
+        console.error(
+          "Erro ao carregar rotas:",
+          error
+        );
+
+      }
+
+    }
+
+    carregarRotas();
+
   }, []);
 
   useEffect(() => {
-    const rotaEscolhida = rotasDisponiveis[rotaSelecionada];
+
+    const rotaEscolhida =
+      rotasDisponiveis[rotaSelecionada];
+
     if (rotaEscolhida) {
+
       setRota(rotaEscolhida.nome);
       setSaida(rotaEscolhida.saida);
       setDestino(rotaEscolhida.destino);
       setMapa(rotaEscolhida.mapa);
       setParadas(rotaEscolhida.paradas);
+
     }
+
   }, [rotasDisponiveis, rotaSelecionada]);
 
   function trocarRota(index) {
+
     setRotaSelecionada(index);
+
   }
 
-  function adicionarParada() {
-    const nova = prompt("Digite o nome da nova parada:");
+  async function adicionarParada() {
 
-    if (nova) {
-      const atualizadas = [...paradas, nova];
-      setParadas(atualizadas);
-      const novasRotas = rotasDisponiveis.map((item, index) =>
-        index === rotaSelecionada ? { ...item, paradas: atualizadas } : item
+    const nova = prompt(
+      "Digite o nome da nova parada:"
+    );
+
+    if (!nova) return;
+
+    try {
+
+      // AQUI VAI SUA API
+
+      // exemplo:
+
+      /*
+      await fetch(
+        "http://localhost:3000/paradas",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            rotaId:
+              rotasDisponiveis[rotaSelecionada].id,
+            nome: nova,
+          }),
+        }
       );
-      setRotasDisponiveis(novasRotas);
+      */
+
+      setParadas([...paradas, nova]);
+
+    } catch (error) {
+
+      console.error(
+        "Erro ao adicionar parada:",
+        error
+      );
+
     }
+
   }
 
-  function removerParada(index) {
-    const atualizadas = paradas.filter((_, i) => i !== index);
-    setParadas(atualizadas);
-    const novasRotas = rotasDisponiveis.map((item, idx) =>
-      idx === rotaSelecionada ? { ...item, paradas: atualizadas } : item
-    );
-    setRotasDisponiveis(novasRotas);
+  async function removerParada(index) {
+
+    try {
+
+      // AQUI VAI SUA API
+
+      // exemplo:
+
+      /*
+      await fetch(
+        `http://localhost:3000/paradas/${index}`,
+        {
+          method: "DELETE",
+        }
+      );
+      */
+
+      const atualizadas = paradas.filter(
+        (_, i) => i !== index
+      );
+
+      setParadas(atualizadas);
+
+    } catch (error) {
+
+      console.error(
+        "Erro ao remover parada:",
+        error
+      );
+
+    }
+
   }
 
-  function salvarRota() {
-    const novasRotas = rotasDisponiveis.map((item, idx) =>
-      idx === rotaSelecionada
-        ? { ...item, nome: rota, saida, destino, paradas }
-        : item
-    );
-    setRotasDisponiveis(novasRotas);
-    updateCollection("rotas", novasRotas);
-    alert("Rota salva com sucesso!");
+  async function salvarRota() {
+
+    try {
+
+      const rotaAtual =
+        rotasDisponiveis[rotaSelecionada];
+
+      if (!rotaAtual) return;
+
+      // AQUI VAI SUA API
+
+      // exemplo:
+
+      /*
+      await fetch(
+        `http://localhost:3000/rotas/${rotaAtual.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nome: rota,
+            saida,
+            destino,
+            paradas,
+          }),
+        }
+      );
+      */
+
+      alert("Rota salva com sucesso!");
+
+    } catch (error) {
+
+      console.error(
+        "Erro ao salvar rota:",
+        error
+      );
+
+    }
+
   }
 
   return (
+
     <div className={styles.imagemFundo}>
+
       <div className={styles.header}>
+
         <h1 className={styles.titulinho}>
           PAINEL ADMINISTRATIVO - EDITAR ROTAS
         </h1>
@@ -79,59 +212,95 @@ export default function EditarRota() {
         >
           VOLTAR
         </button>
+
       </div>
 
       <div className={styles.conteudo}>
+
         <div className={styles.ladoesquerdo}>
+
           <div className={styles.barraLateral}>
+
             <h3>Editar Rota de Ônibus</h3>
 
             <label>Selecionar Rota:</label>
+
             <select
               className={styles.select}
               value={rotaSelecionada}
-              onChange={(e) => trocarRota(Number(e.target.value))}
+              onChange={(e) =>
+                trocarRota(Number(e.target.value))
+              }
             >
-              {rotasDisponiveis.map((item, index) => (
-                <option key={index} value={index}>
-                  {item.nome}
-                </option>
-              ))}
+
+              {rotasDisponiveis.map(
+                (item, index) => (
+
+                  <option
+                    key={index}
+                    value={index}
+                  >
+                    {item.nome}
+                  </option>
+
+                )
+              )}
+
             </select>
 
             <label>Nome da Rota:</label>
+
             <input
               value={rota}
-              onChange={(e) => setRota(e.target.value)}
+              onChange={(e) =>
+                setRota(e.target.value)
+              }
             />
 
             <label>Saída:</label>
+
             <input
               value={saida}
-              onChange={(e) => setSaida(e.target.value)}
+              onChange={(e) =>
+                setSaida(e.target.value)
+              }
             />
 
             <label>Destino:</label>
+
             <input
               value={destino}
-              onChange={(e) => setDestino(e.target.value)}
+              onChange={(e) =>
+                setDestino(e.target.value)
+              }
             />
 
             <h4>Paradas:</h4>
 
             <ul className={styles.lista}>
+
               {paradas.map((p, index) => (
-                <li key={index} className={styles.item}>
+
+                <li
+                  key={index}
+                  className={styles.item}
+                >
+
                   {p}
 
                   <button
                     className={styles.delete}
-                    onClick={() => removerParada(index)}
+                    onClick={() =>
+                      removerParada(index)
+                    }
                   >
                     X
                   </button>
+
                 </li>
+
               ))}
+
             </ul>
 
             <button
@@ -140,14 +309,19 @@ export default function EditarRota() {
             >
               + Adicionar Parada
             </button>
+
           </div>
+
         </div>
 
         <div className={styles.ladoDireito}>
+
           <div className={styles.conteudoDireito}>
+
             <h3>Mapa da Rota</h3>
 
             <div className={styles.mapa}>
+
               <iframe
                 src={mapa}
                 width="100%"
@@ -157,16 +331,28 @@ export default function EditarRota() {
                 loading="lazy"
                 title="Mapa da Rota"
               />
+
             </div>
 
             <div className={styles.rodape}>
-              <button className={styles.salvar} onClick={salvarRota}>
+
+              <button
+                className={styles.salvar}
+                onClick={salvarRota}
+              >
                 Salvar
               </button>
+
             </div>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
+
   );
+
 }

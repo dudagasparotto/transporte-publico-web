@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
-import { addToCollection, getNextId } from "../../mockup/localStorage";
 
 export default function Motorista() {
+
   const [cpf, setCpf] = useState("");
   const [cnh, setCnh] = useState("");
   const [nome, setNome] = useState("");
@@ -13,51 +13,87 @@ export default function Motorista() {
   }, []);
 
   function handleFoto(e) {
+
     const file = e.target.files[0];
+
     if (file) {
-      setFoto(URL.createObjectURL(file));
+      setFoto(file);
     }
+
   }
 
-  function salvar() {
+  async function salvar() {
+
     if (!cpf || !cnh || !nome) {
-      alert("Preencha todos os campos para cadastrar o motorista.");
+
+      alert(
+        "Preencha todos os campos para cadastrar o motorista."
+      );
+
       return;
+
     }
 
-    const motorista = {
-      id: getNextId("motoristas"),
-      cpf,
-      cnh,
-      nome,
-      linha: "Azul",
-      codigo: `MTR-${cpf.slice(-4)}`,
-      tempoPlataforma: "0 anos",
-      foto,
-    };
+    try {
 
-    addToCollection("motoristas", motorista);
-    setCpf("");
-    setCnh("");
-    setNome("");
-    setFoto(null);
+      // AQUI VAI SUA API
 
-    alert("Motorista cadastrado com sucesso!");
+      // exemplo:
+
+      /*
+      const formData = new FormData();
+
+      formData.append("cpf", cpf);
+      formData.append("cnh", cnh);
+      formData.append("nome", nome);
+      formData.append("foto", foto);
+
+      const response = await fetch(
+        "http://localhost:3000/motoristas",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+      */
+
+      setCpf("");
+      setCnh("");
+      setNome("");
+      setFoto(null);
+
+      alert("Motorista cadastrado com sucesso!");
+
+    } catch (error) {
+
+      console.error(
+        "Erro ao cadastrar motorista:",
+        error
+      );
+
+    }
+
   }
 
   return (
 
-
     <div className={styles.page}>
+
       <div className={styles.container}>
 
         <header className={styles.header}>
+
           <h1>CADASTRO DE MOTORISTAS</h1>
 
-          <button 
-            className={styles["home-btn"]} 
+          <button
+            className={styles["home-btn"]}
             onClick={() => window.location.href = "/adm"}
-          > VOLTAR</button>
+          >
+            VOLTAR
+          </button>
+
         </header>
 
         <div className={styles.card}>
@@ -66,60 +102,99 @@ export default function Motorista() {
 
           <div className={styles.content}>
 
-            {/* FORM */}
             <div className={styles.form}>
 
               <div className={styles["form-row"]}>
+
                 <div className={styles["form-group"]}>
+
                   <label>CPF</label>
+
                   <input
                     value={cpf}
-                    onChange={(e) => setCpf(e.target.value)}
+                    onChange={(e) =>
+                      setCpf(e.target.value)
+                    }
                     placeholder="000.000.000-00"
                   />
+
                 </div>
 
                 <div className={styles["form-group"]}>
+
                   <label>CNH</label>
+
                   <input
                     value={cnh}
-                    onChange={(e) => setCnh(e.target.value)}
+                    onChange={(e) =>
+                      setCnh(e.target.value)
+                    }
                     placeholder="Número da CNH"
                   />
+
                 </div>
+
               </div>
 
               <div className={styles["foto-section"]}>
+
                 <label>Foto</label>
 
                 <div className={styles["foto-box"]}>
+
                   {foto ? (
-                    <img src={foto} alt="preview" />
+
+                    <img
+                      src={URL.createObjectURL(foto)}
+                      alt="preview"
+                    />
+
                   ) : (
+
                     <span>Selecionar Foto</span>
+
                   )}
-                  <input type="file" onChange={handleFoto} />
+
+                  <input
+                    type="file"
+                    onChange={handleFoto}
+                  />
+
                 </div>
+
               </div>
 
               <div className={styles["form-group"]}>
+
                 <label>Nome Completo</label>
+
                 <input
                   value={nome}
-                  onChange={(e) => setNome(e.target.value)}
+                  onChange={(e) =>
+                    setNome(e.target.value)
+                  }
                   placeholder="Nome do motorista"
                 />
+
               </div>
 
-              <button className={styles.btn} onClick={salvar}>
+              <button
+                className={styles.btn}
+                onClick={salvar}
+              >
                 Cadastrar Motorista
               </button>
 
             </div>
 
           </div>
+
         </div>
+
       </div>
-      </div>
+
+    </div>
+
   );
+
 }

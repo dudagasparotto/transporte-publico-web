@@ -11,16 +11,26 @@ export default function InfoMotorista() {
 
   const [nota, setNota] = useState(0);
   const [hover, setHover] = useState(0);
-  const [comentario, setComentario] = useState('');
+
+  const [comentario, setComentario] =
+    useState('');
+
   const [media, setMedia] = useState(0);
-  const [mostrarAlert, setMostrarAlert] = useState(false);
-  const [mensagemAlert, setMensagemAlert] = useState('');
+
+  const [mostrarAlert, setMostrarAlert] =
+    useState(false);
+
+  const [mensagemAlert, setMensagemAlert] =
+    useState('');
 
   useEffect(() => {
 
     if (!motorista) {
+
       navigate(-1);
+
       return;
+
     }
 
     calcularMedia();
@@ -31,35 +41,19 @@ export default function InfoMotorista() {
 
     try {
 
+      // AQUI VAI SUA API
+
+      // exemplo:
+
+      /*
       const response = await fetch(
-        'http://localhost:3000/avaliacoes'
+        `http://localhost:3000/avaliacoes/${motorista.id_motorista}`
       );
 
       const data = await response.json();
 
-      const avaliacoesMotorista =
-        data.dados.filter(
-          (item) =>
-            item.id_motorista ===
-            motorista.id_motorista
-        );
-
-      if (avaliacoesMotorista.length === 0) {
-        setMedia(0);
-        return;
-      }
-
-      const soma =
-        avaliacoesMotorista.reduce(
-          (total, item) =>
-            total + item.nota_avaliacao,
-          0
-        );
-
-      const resultado =
-        soma / avaliacoesMotorista.length;
-
-      setMedia(resultado.toFixed(1));
+      setMedia(data.media);
+      */
 
     } catch (error) {
 
@@ -75,10 +69,13 @@ export default function InfoMotorista() {
   const mostrarMensagem = (texto) => {
 
     setMensagemAlert(texto);
+
     setMostrarAlert(true);
 
     setTimeout(() => {
+
       setMostrarAlert(false);
+
     }, 2500);
 
   };
@@ -97,6 +94,11 @@ export default function InfoMotorista() {
 
     try {
 
+      // AQUI VAI SUA API
+
+      // exemplo:
+
+      /*
       const response = await fetch(
         'http://localhost:3000/avaliacoes',
         {
@@ -124,7 +126,8 @@ export default function InfoMotorista() {
         }
       );
 
-      const data = await response.json();
+      const data =
+        await response.json();
 
       if (data.sucesso) {
 
@@ -133,11 +136,21 @@ export default function InfoMotorista() {
         );
 
         setNota(0);
+
         setComentario('');
 
         calcularMedia();
 
       }
+      */
+
+      mostrarMensagem(
+        '✅ Avaliação enviada com sucesso!'
+      );
+
+      setNota(0);
+
+      setComentario('');
 
     } catch (error) {
 
@@ -151,6 +164,7 @@ export default function InfoMotorista() {
   }
 
   return (
+
     <div className={Styles.container}>
 
       {mostrarAlert && (
@@ -177,6 +191,7 @@ export default function InfoMotorista() {
           </button>
 
           <div>
+
             <h1>
               Informações do Motorista
             </h1>
@@ -185,6 +200,7 @@ export default function InfoMotorista() {
               Visualize os dados e avalie
               o motorista
             </p>
+
           </div>
 
         </div>
@@ -215,6 +231,7 @@ export default function InfoMotorista() {
             <div className={Styles.infoGrid}>
 
               <div>
+
                 <span>ID</span>
 
                 <strong>
@@ -222,9 +239,11 @@ export default function InfoMotorista() {
                     motorista?.id_motorista
                   }
                 </strong>
+
               </div>
 
               <div>
+
                 <span>CPF</span>
 
                 <strong>
@@ -232,9 +251,11 @@ export default function InfoMotorista() {
                     motorista?.cpf_motorista
                   }
                 </strong>
+
               </div>
 
               <div>
+
                 <span>CNH</span>
 
                 <strong>
@@ -242,6 +263,7 @@ export default function InfoMotorista() {
                     motorista?.cnh_motorista
                   }
                 </strong>
+
               </div>
 
             </div>
@@ -357,5 +379,7 @@ export default function InfoMotorista() {
       </div>
 
     </div>
+
   );
+
 }

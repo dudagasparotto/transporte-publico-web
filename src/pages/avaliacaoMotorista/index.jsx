@@ -22,17 +22,16 @@ export default function AvaliacaoMotorista() {
 
       try {
 
-        const response = await fetch(
-          `http://localhost:3000/avaliacoes`
-        );
+        // AQUI VAI SUA API
 
-        const data = await response.json();
+        // exemplo:
+        // const response = await fetch(
+        //   `http://localhost:3000/avaliacoes/${motorista.codigo}`
+        // );
 
-        const avaliacoesMotorista = data.dados.filter(
-          (item) => item.id_motorista === motorista.codigo
-        );
+        // const data = await response.json();
 
-        setAvaliacoes(avaliacoesMotorista);
+        // setAvaliacoes(data.dados);
 
       } catch (error) {
 
