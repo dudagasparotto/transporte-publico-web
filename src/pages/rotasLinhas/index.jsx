@@ -13,64 +13,40 @@ export default function RotasLinhas() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
+useEffect(() => {
 
-    async function carregarDados() {
+  async function carregarDados() {
 
-      try {
+    try {
 
-        // AQUI VAI SUA API DAS ROTAS
-
-        // exemplo:
-
-        /*
-        const responseRotas =
-          await fetch(
-            'http://localhost:3000/rotas'
-          );
-
-        const dataRotas =
-          await responseRotas.json();
-
-        setRotas(dataRotas.dados);
-
-        setLinha(
-          dataRotas.dados[0]?.mapa || null
-        );
-        */
-
-        // AQUI VAI SUA API DOS MOTORISTAS
-
-        // exemplo:
-
-        /*
-        const responseMotoristas =
-          await fetch(
-            'http://localhost:3000/motoristas'
-          );
-
-        const dataMotoristas =
-          await responseMotoristas.json();
-
-        setMotoristas(
-          dataMotoristas.dados
-        );
-        */
-
-      } catch (error) {
-
-        console.error(
-          'Erro ao carregar dados:',
-          error
+      const responseRotas =
+        await fetch(
+          'http://localhost:3333/rotas'
         );
 
-      }
+      const dataRotas =
+        await responseRotas.json();
+
+      setRotas(dataRotas.dados);
+
+      setLinha(
+        dataRotas.dados[0]?.mapa || null
+      );
+
+    } catch (error) {
+
+      console.error(
+        'Erro ao carregar dados:',
+        error
+      );
 
     }
 
-    carregarDados();
+  }
 
-  }, []);
+  carregarDados();
+
+}, []);
 
   return (
 
@@ -80,8 +56,7 @@ export default function RotasLinhas() {
 
         <button
           className={styles.Button}
-          onClick={() => navigate('/')}
-        >
+          onClick={() => navigate('/')}>
           HOME
         </button>
 
@@ -166,17 +141,13 @@ export default function RotasLinhas() {
 
                 <p
                   className={
-                    styles.descricaoItem
-                  }
-                >
-                  Fim: {rotaItem.destino}
-                </p>
+                    styles.descricaoItem}>
+                  Fim: {rotaItem.destino} </p>
 
                 <p
                   className={
                     styles.descricaoItem
-                  }
-                >
+                  }>
                   Paradas:{' '}
                   {rotaItem.paradas?.join(
                     ', '
@@ -191,10 +162,8 @@ export default function RotasLinhas() {
 
           <div className={styles.card}>
 
-            <h3>
-              Escolha o motorista para fazer
-              uma avaliação:
-            </h3>
+            <h3> Escolha o motorista para fazer
+              uma avaliação: </h3>
 
             {motoristas.map((m) => (
 
@@ -221,18 +190,15 @@ export default function RotasLinhas() {
                           m.cnh_motorista,
 
                         foto_motorista:
-                          m.foto_motorista
-                      }
+                          m.foto_motorista}
                     }
                   )
-                }
-              >
+                }>
 
                 <div
                   className={
                     styles.fotoMotorista
-                  }
-                >
+                  }>
 
                   <img
                     src={
@@ -240,8 +206,7 @@ export default function RotasLinhas() {
                     }
                     alt={
                       m.nome_motorista
-                    }
-                  />
+                    }/>
 
                 </div>
 
@@ -256,21 +221,15 @@ export default function RotasLinhas() {
                 <span
                   className={
                     styles.status
-                  }
-                >
+                  }>
                   Em serviço
                 </span>
 
               </div>
-
             ))}
-
           </div>
-
         </aside>
-
       </main>
-
     </div>
 
   );
