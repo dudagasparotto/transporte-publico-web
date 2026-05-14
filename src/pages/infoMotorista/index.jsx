@@ -52,7 +52,7 @@ export default function InfoMotorista() {
     try {
 
       const response = await fetch(
-        `http://localhost:3333/motorista/${id}`
+        `http://localhost:3333/motoristas/${id}`
       );
 
       const data =
@@ -157,7 +157,9 @@ export default function InfoMotorista() {
 
             data_avaliacao:
               new Date()
-                .toISOString(),
+                .toISOString()
+                .slice(0, 19)
+                .replace('T', ' ')
 
           }),
 
@@ -197,7 +199,9 @@ export default function InfoMotorista() {
     return <p>Carregando...</p>;
 
   }
-
+console.log(
+  `http://localhost:3333/fotosMotoristas/${motorista?.foto_motorista}`
+);
   return (
 
     <div className={Styles.container}>
@@ -244,14 +248,23 @@ export default function InfoMotorista() {
 
           <div className={Styles.imageBox}>
 
-            <img
-              src={
-                motorista?.foto_motorista
-              }
-              alt={
-                motorista?.nome_motorista
-              }
-            />
+            {
+              motorista?.foto_motorista && (
+              // <img
+              //   src={`http://localhost:3333/fotosMotoristas/${motorista?.foto_motorista}`}
+              //   alt={motorista?.nome_motorista}
+              //   style={{
+              //     width: '200px',
+              //     height: '200px',
+              //     objectFit: 'cover'
+              //   }}
+              // />
+              <img
+                src={`http://localhost:3333/${motorista?.foto_motorista}`}
+                alt={motorista?.nome_motorista}
+              />
+              )
+            }
 
           </div>
 

@@ -64,10 +64,11 @@
 }
 
 .imageBox img {
-  width: 100%;
+  width: 210px;
+  height: 220px;
+  object-fit: cover;
   border-radius: 15px;
 }
-
 /* INFO */
 .infoBox {
   background: white;
