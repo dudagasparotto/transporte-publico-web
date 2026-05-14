@@ -205,7 +205,7 @@ export default function RotasLinhas() {
                 }
                 onClick={() =>
                   navigate(
-                    '/infoMotorista',
+                    `/infoMotorista/${m.id_motorista}`,
                     {
                       state: {
                         id_motorista:
