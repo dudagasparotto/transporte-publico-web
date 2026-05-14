@@ -1,21 +1,34 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import {
+  useEffect,
+  useState
+} from 'react';
+
+import {
+  useNavigate,
+  useParams
+} from 'react-router-dom';
+
 import Styles from './styles.module.css';
 
 export default function InfoMotorista() {
 
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const motorista = location.state;
+  const { id } = useParams();
+
+  const [motorista, setMotorista] =
+    useState(null);
 
   const [nota, setNota] = useState(0);
-  const [hover, setHover] = useState(0);
+
+  const [hover, setHover] =
+    useState(0);
 
   const [comentario, setComentario] =
     useState('');
 
-  const [media, setMedia] = useState(0);
+  const [media, setMedia] =
+    useState(0);
 
   const [mostrarAlert, setMostrarAlert] =
     useState(false);
@@ -23,37 +36,65 @@ export default function InfoMotorista() {
   const [mensagemAlert, setMensagemAlert] =
     useState('');
 
+  const [carregando, setCarregando] =
+    useState(true);
+
   useEffect(() => {
 
-    if (!motorista) {
-
-      navigate(-1);
-
-      return;
-
-    }
+    carregarMotorista();
 
     calcularMedia();
 
-  }, []);
+  }, [id]);
+
+  async function carregarMotorista() {
+
+    try {
+
+      const response = await fetch(
+        `http://localhost:3333/motorista/${id}`
+      );
+
+      const data =
+        await response.json();
+
+      if (data.sucesso) {
+
+        setMotorista(data.dados);
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        'Erro ao carregar motorista:',
+        error
+      );
+
+    } finally {
+
+      setCarregando(false);
+
+    }
+
+  }
 
   async function calcularMedia() {
 
     try {
 
-      // AQUI VAI SUA API
-
-      // exemplo:
-
-      /*
       const response = await fetch(
-        `http://localhost:3000/avaliacoes/${motorista.id_motorista}`
+        `http://localhost:3333/mediaAvaliacao/${id}`
       );
 
-      const data = await response.json();
+      const data =
+        await response.json();
 
-      setMedia(data.media);
-      */
+      if (data.sucesso) {
+
+        setMedia(data.media);
+
+      }
 
     } catch (error) {
 
@@ -94,14 +135,10 @@ export default function InfoMotorista() {
 
     try {
 
-      // AQUI VAI SUA API
-
-      // exemplo:
-
-      /*
       const response = await fetch(
-        'http://localhost:3000/avaliacoes',
+        'http://localhost:3333/avaliacao',
         {
+
           method: 'POST',
 
           headers: {
@@ -110,8 +147,8 @@ export default function InfoMotorista() {
           },
 
           body: JSON.stringify({
-            id_motorista:
-              motorista.id_motorista,
+
+            id_motorista: id,
 
             nota_avaliacao: nota,
 
@@ -120,9 +157,10 @@ export default function InfoMotorista() {
 
             data_avaliacao:
               new Date()
-                .toISOString()
-                .split('T')[0],
+                .toISOString(),
+
           }),
+
         }
       );
 
@@ -142,15 +180,6 @@ export default function InfoMotorista() {
         calcularMedia();
 
       }
-      */
-
-      mostrarMensagem(
-        '✅ Avaliação enviada com sucesso!'
-      );
-
-      setNota(0);
-
-      setComentario('');
 
     } catch (error) {
 
@@ -160,6 +189,12 @@ export default function InfoMotorista() {
       );
 
     }
+
+  }
+
+  if (carregando) {
+
+    return <p>Carregando...</p>;
 
   }
 
@@ -313,9 +348,7 @@ export default function InfoMotorista() {
 
                 <span
                   key={star}
-                  className={`${
-                    Styles.star
-                  } ${
+                  className={`${Styles.star} ${
                     star <=
                     (hover || nota)
                       ? Styles.active
@@ -364,10 +397,7 @@ export default function InfoMotorista() {
             }
             onClick={() =>
               navigate(
-                '/avaliacaoMotorista',
-                {
-                  state: motorista,
-                }
+                `/avaliacao/${id}`
               )
             }
           >

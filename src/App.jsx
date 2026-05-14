@@ -30,8 +30,8 @@ function App() {
 
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/avaliacao" element={<AvaliacaoMotorista />} />
-      <Route path="/infomotorista" element={<InfoMotorista />} />
+      <Route path="/avaliacao/:id" element={<AvaliacaoMotorista />} />
+      <Route path="/infoMotorista/:id" element={<InfoMotorista />} />
       <Route path="/avaliacaoMotorista" element={<AvaliacaoMotorista />} />
       <Route path="/adm/cadmotora" element={<CadastroMotorista />} />
       <Route path="/adm/editarpontos" element={<EditarPontos />} />
@@ -44,6 +44,8 @@ function App() {
       <Route path="/loginmotorista" element={<LoginMotora />} />
       <Route path="/login/negado" element={<Negado />} />
       <Route path="/adm/editarhorarios" element={<EditarHorarios />} />
+      
+    
     </Routes>
 
   )

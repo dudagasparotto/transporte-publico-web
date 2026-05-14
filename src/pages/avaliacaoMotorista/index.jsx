@@ -1,52 +1,51 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useNavigate,useParams} from 'react-router-dom';
 import Styles from './styles.module.css';
 
 export default function AvaliacaoMotorista() {
 
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const motorista = location.state;
+  const { id } = useParams();
 
   const [avaliacoes, setAvaliacoes] = useState([]);
 
-  useEffect(() => {
+  const [carregando, setCarregando] = useState(true);
 
-    if (!motorista) {
-      navigate(-1);
-      return;
-    }
+  useEffect(() => {
 
     async function carregarAvaliacoes() {
 
       try {
 
-        // AQUI VAI SUA API
+        const response = await fetch(`http://localhost:3333/avaliacao/${id}`);
 
-        // exemplo:
-        // const response = await fetch(
-        //   `http://localhost:3000/avaliacoes/${motorista.codigo}`
-        // );
+        const data = await response.json();
 
-        // const data = await response.json();
+        console.log(data);
 
-        // setAvaliacoes(data.dados);
+        if (data.sucesso) {
+          setAvaliacoes(data.dados);
+        }
 
-      } catch (error) {
+      } 
+      catch (error) {
 
         console.error(
           'Erro ao carregar avaliações:',
           error
         );
+      } 
 
+      finally {
+        setCarregando(false);
       }
-
     }
 
     carregarAvaliacoes();
 
-  }, []);
+    },
+  [id]);
 
   return (
     <div className={Styles.container}>
@@ -59,46 +58,60 @@ export default function AvaliacaoMotorista() {
       </button>
 
       <h1 className={Styles.titulo}>
-        Avaliações de {motorista?.nome}
+        Avaliações do motorista
       </h1>
 
       <p className={Styles.subtitulo}>
-        Veja o que os passageiros estão dizendo
+        Veja os comentários enviados
       </p>
 
       <div className={Styles.listaAvaliacoes}>
 
-        {avaliacoes.length > 0 ? (
+        {carregando ? (
+
+          <p>Carregando...</p>
+
+        ) : avaliacoes.length > 0 ? (
 
           avaliacoes.map((item, index) => (
 
             <div
-              key={index}
+              key={item.id_avaliacao}
               className={Styles.card}
             >
 
               <div className={Styles.topoCard}>
 
                 <h3>
-                  Usuário #{item.id_usuario}
+                  Avaliação   {index + 1}
                 </h3>
 
                 <span className={Styles.data}>
-                  {item.data_avaliacao}
+                  {
+                    new Date(
+                      item.data_avaliacao
+                    ).toLocaleDateString('pt-BR')
+                  }
                 </span>
 
               </div>
 
               <div className={Styles.estrelas}>
-                {'★'.repeat(item.nota_avaliacao)}
+
+                {'★'.repeat(
+                  item.nota_avaliacao
+                )}
+
                 {'☆'.repeat(
                   5 - item.nota_avaliacao
                 )}
+
               </div>
 
               <p className={Styles.comentario}>
-                {item.comentario_avaliacao ||
-                  'Sem comentário'}
+
+                {item.comentario_avaliacao}
+
               </p>
 
             </div>
@@ -108,7 +121,7 @@ export default function AvaliacaoMotorista() {
         ) : (
 
           <p className={Styles.semAvaliacao}>
-            Nenhuma avaliação enviada ainda.
+            Nenhuma avaliação encontrada
           </p>
 
         )}
@@ -116,5 +129,7 @@ export default function AvaliacaoMotorista() {
       </div>
 
     </div>
+
   );
+
 }
