@@ -101,7 +101,7 @@ useEffect(() => {
             >
 
               <div>
-                {rotaItem.nome.toUpperCase()}
+                {rotaItem.nome_linha?.toUpperCase()}
               </div>
 
             </button>
@@ -128,7 +128,7 @@ useEffect(() => {
                     styles.descricaoItem
                   }
                 >
-                  {rotaItem.nome}
+                  {rotaItem.nome_linhas}
                 </h4>
 
                 <p
