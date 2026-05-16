@@ -1,628 +1,325 @@
-.conteudo {
-  display: flex;
-  padding: 10px;
-  gap: 10px;
-  align-items: stretch;
-}
-
-/* FUNDO */
 .imagemFundo{
   width: 100%;
   min-height: 100vh;
   background-image: url("../../assets/fundo.png");
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
 }
 
+.overlay{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+}
 
-
-/* HEADER */
 .header{
   position: relative;
   z-index: 2;
   width: 100%;
-  background: linear-gradient(135deg, #1E40AF,#374151);
-  padding: 20px 40px;
+  background: linear-gradient(135deg,#1E40AF,#374151);
+  padding: 22px 40px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
-  
 }
 
-/* TEXTOS */
-.tituloLinha {
-  margin-bottom: 0.9%;
-  color: #1E40AF;
+.titulo{
+  color: white;
   font-family: 'Roboto';
-
+  font-size: 34px;
+  font-weight: bold;
 }
 
-.titulinho {
-  margin-bottom: 0.9%;
-  color: #ffffff;
-  font-family: 'Roboto';
-  font-size: 28px;
-}
+.botaoVoltar{
+  background: linear-gradient(
+    135deg,
+    #3B82F6,
+    #2563EB
+  );
 
-/* BOTÃO */
-.button {
-  background: linear-gradient(135deg, #3B82F6, #1E40AF);
-  color: #E0F2FE;
-  border: none;     
-  padding: 10px 28px;
-  border-radius: 10px;
-  font-size: 15px;
+  border: none;
+  color: white;
+
+  padding: 12px 28px;
+
+  border-radius: 12px;
+
   font-weight: bold;
   cursor: pointer;
-  font-family: 'Roboto';
-}   
 
-.ladoesquerdo {
-  margin-top: 0;
-  width: 20%;
+  transition: 0.2s;
+}
+
+.botaoVoltar:hover{
+  transform: scale(1.05);
+}
+
+.container{
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+
   display: flex;
   justify-content: center;
-  align-items: stretch;
-  margin-right: 10px;
+
+  padding: 40px;
 }
 
-.barraLateral{
-  width: 80%;
-  background: #F3F4F6;
-  padding: 15px;
-  margin: 0;
-  overflow-y: auto;
-  font-family: 'roboto';
-  font-size: 15px;
-  border-radius: 10px;
-  height: 100%;
-  cursor: pointer;
-  min-height: 500px;
-  margin-top: 70px;
+.card{
+  width: 95%;
+  max-width: 1500px;
+
+  background: rgba(255,255,255,0.12);
+
+  backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255,255,255,0.15);
+
+  border-radius: 30px;
+
+  padding: 35px;
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,0.35);
 }
 
-.nomePontos {
-  padding: 10px 0; 
-  font-size: 20px;
-  font-family: 'roboto';
-  margin-top: 10px;
-  gap: 10px;
+.topoCard{
   display: flex;
-  flex-direction: column;
-}
-
-.ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.li {
-  background-color: white;
-  padding: 10px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-}
-
-.active {
-  background-color: #E0F2FE;
-  color: #1E40AF;
-  font-weight: bold;
-  border-radius: 3%;
-}
-
-.ladoDireito {
-  width: 80%;
-  position: relative;
-  display: flex;
-  align-items: stretch;
-}
-
-/* MAPA */
-.mapa {
-  width: 100%;
-  height: 100%;
-}
-
-/* CARD DE HORÁRIOS */
-.conteudoDireito{
-  margin-top: 0;
-  position: relative;
-  top: 0;
-  left: 0;
-  background: #F3F4F6;
-  padding: 20px;
-  border-radius: 10px;
-  width: 100%;
-  font-family: 'Roboto';
-  overflow-y: auto;
-  height: 100%;
-  margin: 0;
-  min-height: 500px;
-  margin-top: 70px;
-}
-
-.horarios {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  font-family: 'Roboto';
-  margin-top: 20px;
-  font-weight: bold;
-  font-size: 18px;
-
-}
-
-.linha {
-  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px; 
-  padding: 10px;
-  margin-bottom: 5px;
-  border-radius: 6px;
-  background: #e1e4e9;
+
+  margin-bottom: 30px;
 }
 
-.horariosContainer {
-  display: flex;
-  gap: 5px;
-  flex-grow: 1;
-}
-
-.hora {
-  background: #f3f4f6;
-  padding: 8px 12px;
-  border-radius: 6px;
-
-}
-.botoes{
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-end;
-  flex-shrink: 0;
-  width: 120px;
-}
-
-.adicionar{
-  background: #3b82f6;
+.subtitulo{
   color: white;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  font-size: 38px;
+  font-family: 'Roboto';
 }
 
-.delete{
-  background: #ef4444;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 6px;
-  cursor: pointer;
+.descricao{
+  color: #dbeafe;
+  margin-top: 8px;
+  font-size: 16px;
+  font-family: 'Roboto';
 }
 
 .salvar{
-background: #1E40AF;
-  color: white;
+  background: linear-gradient(
+    135deg,
+    #2563EB,
+    #1D4ED8
+  );
+
   border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
-  margin-top: 10px;
-}
-
-.adicionarPonto{
-  background: #1E40AF;
   color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
-  margin-top: 10px;
-}
 
-.rodape {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
+  padding: 15px 25px;
 
-.item{
-  background-color: #ffffff; 
-  padding: 12px 15px;       
-  border-radius: 15px; 
-  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+
+  font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  list-style: none;
+
+  transition: 0.2s;
 }
 
-
-
-@media (max-width: 768px) {
-
-  .imagemFundo{
-  width: 100%;
-  height: 100vh;
-  background-image: url("../../assets/fundo.png");
-  background-size: 100% 100%;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+.salvar:hover{
+  transform: translateY(-2px);
 }
 
-  .conteudo {
-    flex-direction: column;
-    height: auto;
-    display: block;
-  }
+.rotas{
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
 
-  .header {
-    padding: 12px 15px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
+  margin-bottom: 35px;
+}
 
-  .titulinho {
-    font-size: 22px;
-  }
+.botaoRota{
+  border: none;
 
-  .button {
-    padding: 8px 15px;
-    font-size: 13px;
-  }
+  padding: 14px 28px;
 
-  .ladoesquerdo {
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 15px;
-  }
+  border-radius: 14px;
 
-  .barraLateral {
-    width: 95%;
-    max-height: 100px;
-    font-size: 13px;
-    padding: 8px;
-    margin: 10px 0;
-    position: relative;
-    min-height: 250px;
-  }
+  background: rgba(255,255,255,0.12);
 
-  .nomePontos {
-    font-size: 16px;
-    padding: 8px 0;
-  }
+  color: white;
 
-  .li {
-    padding: 8px;
-    margin-bottom: 6px;
-    font-size: 14px;
-  }
+  font-weight: bold;
+  cursor: pointer;
 
-  .ladoDireito {
-    width: 100%;
-  }
+  transition: 0.2s;
+}
 
-  .conteudoDireito {
-    width: 95%;
-    height: auto;
-    max-height: 350px;
-    position: relative;
-    top: 0;
-    left: 0;
-    margin: 15px auto;
-    padding: 15px;
-    min-height: 250px;
-  }
+.botaoRota:hover{
+  background: rgba(255,255,255,0.22);
+}
 
-  .horarios {
-    gap: 8px;
-    font-size: 16px;
-    margin-top: 15px;
-  }
+.ativo{
+  background: linear-gradient(
+    135deg,
+    #7C3AED,
+    #9333EA
+  );
 
-  .linha {
-    flex-direction: column;
-    gap: 8px;
-    padding: 8px;
-  }
+  box-shadow:
+    0 0 15px rgba(147,51,234,0.5);
+}
 
-  .horariosContainer {
-    width: 100%;
-    flex-wrap: wrap;
-  }
-
-  .botoes {
-    width: 100%;
-    justify-content: flex-start;
-    gap: 8px;
-  }
-
-  .adicionar
-  .delete {
-    padding: 5px 10px;
-    font-size: 12px;
-  }
-
-  .adicionarPonto{
-  width: 100%;
-  max-width: 400px;
-  padding: 8px 12px;
-  font-size: 13px;
-  display: block;
-  margin: 0 auto;
-  }
-
-  .mapa {
-    height: auto;
-  }
-
-  .rodape {
+.listaPontos{
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
+  gap: 20px;
 }
 
-}
-@media (max-width: 480px) {
-  .conteudo {
-    display: block;
-    height: auto;
-  }
+.cardPonto{
+  background: rgba(255,255,255,0.08);
 
-  .imagemFundo {
-  width: 100%;
-  min-height: 100vh;
-  background-image: url("../../assets/fundo.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  }
+  border: 1px solid rgba(255,255,255,0.12);
 
-  .header {
-    padding: 10px 10px;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 8px;
-  }
-
-  .titulinho {
-    font-size: 20px;
-  }
-
-  .button {
-    padding: 6px 12px;
-    font-size: 12px;
-    width: 100%;
-  }
-
-  .ladoesquerdo {
-    width: 100%;
-    margin-top: 8px;
-    margin-bottom: 10px;
-  }
-
-  .barraLateral {
-    width: 95%;
-    max-height: 100px;
-    font-size: 13px;
-    padding: 8px;
-    margin: 10px 0;
-    position: relative;
-    min-height: 250px;
-  }
-
-  .nomePontos {
-    font-size: 14px;
-    padding: 6px 0;
-  }
-
-  .li {
-    padding: 6px;
-    margin-bottom: 5px;
-    font-size: 12px;
-  }
-
-
-  .conteudoDireito {
-    width: 95%;
-    height: auto;
-    max-height: 100px;
-    position: relative;
-    top: 0;
-    left: 0;
-    margin: 10px auto;
-    padding: 10px;
-    min-height: 300px;
-  }
-
-  .horarios {
-    gap: 6px;
-    font-size: 14px;
-    margin-top: 10px;
-  }
-
-  .linha {
-    flex-direction: column;
-    gap: 6px;
-    padding: 6px;
-    font-size: 13px;
-  }
-
-  .hora {
-    padding: 6px 8px;
-    font-size: 12px;
-    margin-left: 10px;
-    margin-top: 7px;
-    
-  }
-
-  .horariosContainer {
-    width: 100%;
-    gap: 3px;
-  }
-
-  .botoes {
-    width: 100%;
-    justify-content: flex-start;
-    gap: 5px;
-  }
-
-  .adicionar,
-  .delete {
-    padding: 4px 8px;
-    font-size: 11px;
-  }
-
-  .salvarBtn {
-  width: 100%;
-  max-width: 400px;
-  padding: 8px 12px;
-  font-size: 13px;
-  display: block;
-  margin: 0 auto;
-  }
-
-  .adicionarPonto{
-  width: 100%;
-  max-width: 400px;
-  padding: 8px 12px;
-  font-size: 13px;
-  display: block;
-  margin: 0 auto;
-  }
-  .rodape {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .item {
-    padding: 10px 12px;
-    font-size: 13px;
-  }
-}
-
-.overlay{
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  z-index: 9999;
-}
-
-.modal{
-  width: 400px;
-  background: white;
   border-radius: 20px;
+
   padding: 25px;
 
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  justify-content: space-between;
+  align-items: center;
 
+  gap: 25px;
+
+  transition: 0.2s;
+}
+
+.cardPonto:hover{
+  transform: translateY(-2px);
+
+  background: rgba(255,255,255,0.12);
+}
+
+.infoPonto h3{
+  color: white;
+  font-size: 24px;
+  margin-bottom: 8px;
   font-family: 'Roboto';
-
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-.inputModal{
-  height: 45px;
-  border-radius: 10px;
-  border: 1px solid #d1d5db;
-  padding: 10px;
-  font-size: 15px;
+.infoPonto span{
+  color: #d1d5db;
+  font-family: 'Roboto';
 }
 
-.modalButtons{
+.horarios{
   display: flex;
-  justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 10px;
-}
-
-.cancelar{
-  background: #e5e7eb;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.salvarModal{
-  background: #1E40AF;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.modalSalvar{
-  width: 350px;
-  background: white;
-  border-radius: 20px;
-  padding: 30px;
-
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 15px;
-
-  font-family: 'Roboto';
-
-  animation: aparecer 0.3s ease;
 }
 
-.iconeSucesso{
-  width: 70px;
-  height: 70px;
+.inputHora{
+  width: 120px;
 
-  border-radius: 50%;
+  padding: 12px;
 
-  background: #22c55e;
-  color: white;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: 35px;
-  font-weight: bold;
-}
-
-.botaoOk{
-  background: #1E40AF;
-  color: white;
+  border-radius: 12px;
 
   border: none;
-  border-radius: 10px;
 
-  padding: 10px 30px;
+  background: rgba(255,255,255,0.15);
 
-  cursor: pointer;
+  color: white;
 
   font-size: 15px;
-  font-weight: bold;
+  font-family: 'Roboto';
 }
 
-@keyframes aparecer{
-  from{
-    opacity: 0;
-    transform: scale(0.8);
+.inputHora::-webkit-calendar-picker-indicator{
+  filter: invert(1);
+}
+
+.adicionar{
+  width: 45px;
+  height: 45px;
+
+  border-radius: 12px;
+
+  border: none;
+
+  background: #22C55E;
+
+  color: white;
+
+  font-size: 22px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.adicionar:hover{
+  transform: scale(1.08);
+}
+
+@media (max-width: 900px){
+
+  .topoCard{
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
   }
 
-  to{
-    opacity: 1;
-    transform: scale(1);
+  .cardPonto{
+    flex-direction: column;
+    align-items: flex-start;
   }
+
+  .titulo{
+    font-size: 24px;
+  }
+
+  .subtitulo{
+    font-size: 28px;
+  }
+
+}
+
+@media (max-width: 600px){
+
+  .header{
+    padding: 18px;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .container{
+    padding: 15px;
+  }
+
+  .card{
+    padding: 20px;
+  }
+
+  .titulo{
+    text-align: center;
+    font-size: 20px;
+  }
+
+  .subtitulo{
+    font-size: 24px;
+  }
+
+  .botaoRota{
+    width: 100%;
+  }
+
+  .inputHora{
+    width: 100%;
+  }
+
 }

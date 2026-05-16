@@ -4,492 +4,314 @@ import styles from "./styles.module.css";
 
 export default function EditarHorarios() {
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const [linhaSelecionada, setLinhaSelecionada] = useState(0);
-    const [pontoSelecionado, setPontoSelecionado] = useState("");
-    const [horarios, setHorarios] = useState([]);
-    const [filtroPonto, setFiltroPonto] = useState("");
+  const [rotas, setRotas] = useState([]);
+  const [rotaSelecionada, setRotaSelecionada] = useState(null);
 
-    const [abrirModalPonto, setAbrirModalPonto] = useState(false);
-    const [nomeNovoPonto, setNomeNovoPonto] = useState("");
-    const [horarioInicial, setHorarioInicial] = useState("");
+  useEffect(() => {
+    carregarRotas();
+  }, []);
 
-    const [abrirModalHorario, setAbrirModalHorario] = useState(false);
-    const [novoHorario, setNovoHorario] = useState("");
+  async function carregarRotas() {
 
-    const [abrirModalSalvar, setAbrirModalSalvar] = useState(false);
-    const [mensagemSalvar, setMensagemSalvar] = useState("");
+    try {
 
-    useEffect(() => {
+      const response = await fetch(
+        "http://localhost:3333/rotas-com-pontos"
+      );
 
-        const dados =
-            JSON.parse(localStorage.getItem("horarios")) || [];
+      const data = await response.json();
 
-        setHorarios(dados);
+      if (data.sucesso) {
+        setRotas(data.dados);
 
-        if (dados.length > 0) {
-            setPontoSelecionado(
-                dados[0]?.pontos?.[0]?.nome ?? ""
-            );
+        if (data.dados.length > 0) {
+          setRotaSelecionada(data.dados[0].id_linha);
         }
+      }
 
-    }, []);
+    } catch (error) {
 
-    const linhaAtual =
-        horarios[linhaSelecionada] || {
-            linha: "",
-            pontos: []
-        };
+      console.error(
+        "Erro ao carregar rotas:",
+        error
+      );
 
-    const pontosFiltrados = linhaAtual.pontos.filter((ponto) =>
-        ponto.nome
-            .toLowerCase()
-            .includes(filtroPonto.toLowerCase())
-    );
+    }
 
-    const persistirHorarios = (novosHorarios) => {
-
-        setHorarios(novosHorarios);
-
-        localStorage.setItem(
-            "horarios",
-            JSON.stringify(novosHorarios)
-        );
-    };
-
-    const deletarLinha = (index) => {
-
-        const copia = structuredClone(horarios);
-
-        copia[linhaSelecionada].pontos =
-            copia[linhaSelecionada].pontos.filter(
-                (_, i) => i !== index
-            );
-
-        persistirHorarios(copia);
-    };
-
-    
-    const adicionarHorario = (pontoIndex) => {
-
-        setPontoIndexSelecionado(pontoIndex);
-        setAbrirModalHorario(true);
-    };
-
-
-    const salvarNovoHorario = () => {
-    if (!novoHorario) return;
-
-    const copia = structuredClone(horarios);
-
-    copia[linhaSelecionada]
-        .pontos[pontoIndexSelecionado]
-        .horarios.push(novoHorario);
-
-    persistirHorarios(copia);
-
-    setNovoHorario("");
-
-    setAbrirModalHorario(false);
-       
-    };
-
-    const salvarNovoPonto = () => {
-
-         if (!nomeNovoPonto || !horarioInicial) return;
-
-    const copia = [...horarios];
-
-    copia[linhaSelecionada].pontos.push({
-        nome: nomeNovoPonto,
-        horarios: [horarioInicial]
-    });
-
-    setHorarios(copia);
-    localStorage.setItem(
-        "horarios",
-        JSON.stringify(copia)
-    );
-
-    setNomeNovoPonto("");
-    setHorarioInicial("");
-
-    setAbrirModalPonto(false);
   }
 
-    const adicionarPonto = () => {
-        setAbrirModalPonto(true);
-    };
+  function alterarHorario(
+    pontoId,
+    indexHorario,
+    valor
+  ) {
 
-    const deletarHorario = (pontoIndex, horaIndex) => {
+    const copia = [...rotas];
 
-        const copia = structuredClone(horarios);
+    const rotaIndex = copia.findIndex(
+      (r) => r.id_linha === rotaSelecionada
+    );
 
-        copia[linhaSelecionada].pontos[pontoIndex].horarios =
-            copia[linhaSelecionada].pontos[pontoIndex].horarios.filter(
-                (_, i) => i !== horaIndex
-            );
+    const pontoIndex = copia[
+      rotaIndex
+    ].pontos.findIndex(
+      (p) => p.id_ponto === pontoId
+    );
 
-        persistirHorarios(copia);
-    };
+    copia[rotaIndex]
+      .pontos[pontoIndex]
+      .horarios[indexHorario] = valor;
 
-    const salvarHorarios = () => {
+    setRotas(copia);
 
-        localStorage.setItem(
-            "horarios",
-            JSON.stringify(horarios)
+  }
+
+  function adicionarHorario(
+    pontoId
+  ) {
+
+    const copia = [...rotas];
+
+    const rotaIndex = copia.findIndex(
+      (r) => r.id_linha === rotaSelecionada
+    );
+
+    const pontoIndex = copia[
+      rotaIndex
+    ].pontos.findIndex(
+      (p) => p.id_ponto === pontoId
+    );
+
+    copia[rotaIndex]
+      .pontos[pontoIndex]
+      .horarios.push("");
+
+    setRotas(copia);
+
+  }
+
+  async function salvarHorarios() {
+
+    try {
+
+      const rotaAtual = rotas.find(
+        (r) => r.id_linha === rotaSelecionada
+      );
+
+      const response = await fetch(
+        "http://localhost:3333/salvar-horarios",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+          body: JSON.stringify({
+            pontos: rotaAtual.pontos,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.sucesso) {
+
+        alert(
+          "Horários salvos com sucesso!"
         );
 
-        setMensagemSalvar("Horários salvos com sucesso!");
-        setAbrirModalSalvar(true);
-    };
+      } else {
 
-    return (
+        alert(
+          "Erro ao salvar horários."
+        );
 
-        <div className={styles.imagemFundo}>
+      }
 
-            <div className={styles.header}>
+    } catch (error) {
 
-                <h1 className={styles.titulinho}>
-                    PAINEL ADMINISTRATIVO- EDITAR HORÁRIOS
-                </h1>
+      console.error(
+        "Erro ao salvar:",
+        error
+      );
 
-                <button
-                    className={styles.button}
-                    onClick={() => navigate('/adm')}
+    }
+
+  }
+
+  const rotaAtual = rotas.find(
+    (r) => r.id_linha === rotaSelecionada
+  );
+
+  return (
+
+    <div className={styles.imagemFundo}>
+
+      <div className={styles.overlay} />
+
+      <div className={styles.header}>
+
+        <h1 className={styles.titulo}>
+          PAINEL ADMINISTRATIVO - EDITAR HORÁRIOS
+        </h1>
+
+        <button
+          className={styles.botaoVoltar}
+          onClick={() =>
+            navigate("/adm")
+          }
+        >
+          VOLTAR
+        </button>
+
+      </div>
+
+      <div className={styles.container}>
+
+        <div className={styles.card}>
+
+          <div className={styles.topoCard}>
+
+            <div>
+
+              <h2 className={styles.subtitulo}>
+                Gerenciar Horários
+              </h2>
+
+              <p className={styles.descricao}>
+                Selecione uma rota e
+                edite os horários dos
+                pontos.
+              </p>
+
+            </div>
+
+            <button
+              className={styles.salvar}
+              onClick={salvarHorarios}
+            >
+              SALVAR HORÁRIOS
+            </button>
+
+          </div>
+
+          <div className={styles.rotas}>
+
+            {rotas.map((rota) => (
+
+              <button
+                key={rota.id_linha}
+                className={`${
+                  styles.botaoRota
+                } ${
+                  rotaSelecionada ===
+                  rota.id_linha
+                    ? styles.ativo
+                    : ""
+                }`}
+                onClick={() =>
+                  setRotaSelecionada(
+                    rota.id_linha
+                  )
+                }
+              >
+                {rota.nome_linha}
+              </button>
+
+            ))}
+
+          </div>
+
+          <div className={styles.listaPontos}>
+
+            {rotaAtual?.pontos?.map(
+              (ponto) => (
+
+                <div
+                  key={ponto.id_ponto}
+                  className={
+                    styles.cardPonto
+                  }
                 >
-                    VOLTAR
-                </button>
 
-            </div>
+                  <div
+                    className={
+                      styles.infoPonto
+                    }
+                  >
 
-            <div className={styles.conteudo}>
+                    <h3>
+                      {ponto.nome_ponto}
+                    </h3>
 
-                <div className={styles.ladoesquerdo}>
+                    <span>
+                      {ponto.localizacao}
+                    </span>
 
-                    <div className={styles.barraLateral}>
+                  </div>
 
-                        <h3>Selecione a linha</h3>
+                  <div
+                    className={
+                      styles.horarios
+                    }
+                  >
 
-                        <label>Escolher linha:</label>
-
-                        <select
-                            className={styles.select}
-                            value={linhaSelecionada}
-                            onChange={(e) => {
-
-                                setLinhaSelecionada(
-                                    Number(e.target.value)
-                                );
-
-                                setPontoSelecionado(
-                                    horarios[
-                                        Number(e.target.value)
-                                    ]?.pontos?.[0]?.nome ?? ""
-                                );
-                            }}
-                        >
-
-                            {horarios.map((linha, index) => (
-
-                                <option
-                                    key={linha.id ?? index}
-                                    value={index}
-                                >
-                                    {linha.linha}
-                                </option>
-
-                            ))}
-
-                        </select>
-
-                        <label>Filtrar ponto:</label>
+                    {ponto.horarios.map(
+                      (
+                        horario,
+                        index
+                      ) => (
 
                         <input
-                            className={styles.input}
-                            value={filtroPonto}
-                            onChange={(e) =>
-                                setFiltroPonto(e.target.value)
-                            }
-                            placeholder="Digite o nome do ponto"
+                          key={index}
+                          type="time"
+                          value={horario}
+                          className={
+                            styles.inputHora
+                          }
+                          onChange={(e) =>
+                            alterarHorario(
+                              ponto.id_ponto,
+                              index,
+                              e.target
+                                .value
+                            )
+                          }
                         />
 
-                        <ul className={styles.nomePontos}>
+                      )
+                    )}
 
-                            {pontosFiltrados.map((ponto) => (
+                    <button
+                      className={
+                        styles.adicionar
+                      }
+                      onClick={() =>
+                        adicionarHorario(
+                          ponto.id_ponto
+                        )
+                      }
+                    >
+                      +
+                    </button>
 
-                                <li
-                                    key={ponto.nome}
-                                    className={`${styles.item} ${
-                                        ponto.nome === pontoSelecionado
-                                            ? styles.active
-                                            : ""
-                                    }`}
-                                    onClick={() =>
-                                        setPontoSelecionado(ponto.nome)
-                                    }
-                                >
-                                    {ponto.nome}
-                                </li>
-
-                            ))}
-
-                        </ul>
-
-                    </div>
+                  </div>
 
                 </div>
 
-                <div className={styles.ladoDireito}>
-
-                    <div className={styles.conteudoDireito}>
-
-                        <h3>
-                            {linhaAtual.linha ||
-                                "Nenhuma linha selecionada"}
-                        </h3>
-
-                        <div className={styles.horarios}>
-
-                            {linhaAtual.pontos.map((ponto, pontoIndex) => (
-
-                                <div
-                                    key={ponto.nome}
-                                    className={styles.linha}
-                                >
-
-                                    <div className={styles.horariosContainer}>
-
-                                        <strong className={styles.nomePontos}>
-                                            {ponto.nome}
-                                        </strong>
-
-                                        {ponto.horarios.map((hora, horaIndex) => (
-
-                                            <span
-                                                key={horaIndex}
-                                                className={styles.hora}
-                                            >
-
-                                                {hora}
-
-                                                <button
-                                                    className={styles.delete}
-                                                    onClick={() =>
-                                                        deletarHorario(
-                                                            pontoIndex,
-                                                            horaIndex
-                                                        )
-                                                    }
-                                                    style={{
-                                                        marginLeft: '8px'
-                                                    }}
-                                                >
-                                                    ✕
-                                                </button>
-
-                                            </span>
-
-                                        ))}
-
-                                    </div>
-
-                                    <div className={styles.botoes}>
-
-                                        <button
-                                            className={styles.adicionar}
-                                            onClick={() =>
-                                                adicionarHorario(
-                                                    pontoIndex
-                                                )
-                                            }
-                                        >
-                                            +
-                                        </button>
-
-                                        <button
-                                            className={styles.delete}
-                                            onClick={() =>
-                                                deletarLinha(
-                                                    pontoIndex
-                                                )
-                                            }
-                                        >
-                                            🗑
-                                        </button>
-
-                                    </div>
-
-                                </div>
-
-                            ))}
-
-                        </div>
-
-                        <div className={styles.rodape}>
-
-                            <button
-                                className={styles.adicionarPonto}
-                                onClick={adicionarPonto}
-                            >
-                                Adicionar Ponto
-                            </button>
-
-                            <button
-                                className={styles.adicionarPonto}
-                                onClick={salvarHorarios}
-                            >
-                                Salvar Horários
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            {/* MODAL PONTO */}
-
-            {abrirModalPonto && (
-
-                <div className={styles.overlay}>
-
-                    <div className={styles.modal}>
-
-                        <h2>Novo ponto</h2>
-
-                        <input
-                            className={styles.inputModal}
-                            type="text"
-                            placeholder="Nome do ponto"
-                            value={nomeNovoPonto}
-                            onChange={(e) =>
-                                setNomeNovoPonto(
-                                    e.target.value
-                                )
-                            }
-                        />
-
-                        <input
-                            className={styles.inputModal}
-                            type="text"
-                            placeholder="Horário inicial"
-                            value={horarioInicial}
-                            onChange={(e) =>
-                                setHorarioInicial(
-                                    e.target.value
-                                )
-                            }
-                        />
-
-                        <div className={styles.modalButtons}>
-
-                            <button
-                                className={styles.cancelar}
-                                onClick={() =>
-                                    setAbrirModalPonto(false)
-                                }
-                            >
-                                Cancelar
-                            </button>
-
-                            <button
-                                className={styles.salvarModal}
-                                onClick={salvarNovoPonto}
-                            >
-                                Salvar
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+              )
             )}
 
-            {/* MODAL HORÁRIO */}
-
-            {abrirModalHorario && (
-
-                <div className={styles.overlay}>
-
-                    <div className={styles.modal}>
-
-                        <h2>Novo horário</h2>
-
-                        <input
-                            className={styles.inputModal}
-                            type="text"
-                            placeholder="Digite o horário"
-                            value={novoHorario}
-                            onChange={(e) =>
-                                setNovoHorario(
-                                    e.target.value
-                                )
-                            }
-                        />
-
-                        <div className={styles.modalButtons}>
-
-                            <button
-                                className={styles.cancelar}
-                                onClick={() =>
-                                    setAbrirModalHorario(false)
-                                }
-                            >
-                                Cancelar
-                            </button>
-
-                            <button
-                                className={styles.salvarModal}
-                                onClick={salvarNovoHorario}
-                            >
-                                Salvar
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            )}
-
-            {/* MODAL SALVAR */}
-
-            {abrirModalSalvar && (
-
-                <div className={styles.overlay}>
-
-                    <div className={styles.modalSalvar}>
-
-                        <div className={styles.iconeSucesso}>
-                            ✓
-                        </div>
-
-                        <h2>Sucesso</h2>
-
-                        <p>{mensagemSalvar}</p>
-
-                        <button
-                            className={styles.botaoOk}
-                            onClick={() =>
-                                setAbrirModalSalvar(false)
-                            }
-                        >
-                            OK
-                        </button>
-
-                    </div>
-
-                </div>
-
-            )}
+          </div>
 
         </div>
-    );
+
+      </div>
+
+    </div>
+
+  );
+
 }

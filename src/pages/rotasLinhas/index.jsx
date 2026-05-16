@@ -13,40 +13,54 @@ export default function RotasLinhas() {
 
   const navigate = useNavigate();
 
-useEffect(() => {
+  useEffect(() => {
 
-  async function carregarDados() {
+    async function carregarDados() {
 
-    try {
+      try {
 
-      const responseRotas =
-        await fetch(
-          'http://localhost:3333/rotas'
+        // ROTAS
+        const responseRotas =
+          await fetch(
+            'http://localhost:3333/rotas'
+          );
+
+        const dataRotas =
+          await responseRotas.json();
+
+        setRotas(dataRotas.dados);
+
+        setLinha(
+          dataRotas.dados[0]?.mapa || null
         );
 
-      const dataRotas =
-        await responseRotas.json();
+        // MOTORISTAS
+        const responseMotoristas =
+          await fetch(
+            'http://localhost:3333/motoristas'
+          );
 
-      setRotas(dataRotas.dados);
+        const dataMotoristas =
+          await responseMotoristas.json();
 
-      setLinha(
-        dataRotas.dados[0]?.mapa || null
-      );
+        setMotoristas(
+          dataMotoristas.dados
+        );
 
-    } catch (error) {
+      } catch (error) {
 
-      console.error(
-        'Erro ao carregar dados:',
-        error
-      );
+        console.error(
+          'Erro ao carregar dados:',
+          error
+        );
+
+      }
 
     }
 
-  }
+    carregarDados();
 
-  carregarDados();
-
-}, []);
+  }, []);
 
   return (
 
@@ -93,7 +107,7 @@ useEffect(() => {
           {rotas.map((rotaItem) => (
 
             <button
-              key={rotaItem.id}
+              key={rotaItem.id_rota}
               className={styles.Button}
               onClick={() =>
                 setLinha(rotaItem.mapa)
@@ -101,7 +115,7 @@ useEffect(() => {
             >
 
               <div>
-                {rotaItem.nome_linha?.toUpperCase()}
+                {rotaItem.nome_linhas?.toUpperCase()}
               </div>
 
             </button>
@@ -169,9 +183,7 @@ useEffect(() => {
 
               <div
                 key={m.id_motorista}
-                className={
-                  styles.driverItem
-                }
+                className={styles.driverItem}
                 onClick={() =>
                   navigate(
                     `/infoMotorista/${m.id_motorista}`,
@@ -190,42 +202,32 @@ useEffect(() => {
                           m.cnh_motorista,
 
                         foto_motorista:
-                          m.foto_motorista}
+                          m.foto_motorista
+                      }
                     }
                   )
-                }>
+                }
+              >
 
-                <div
-                  className={
-                    styles.fotoMotorista
-                  }>
+                <div className={styles.fotoMotorista}>
 
                   <img
-                    src={
-                      m.foto_motorista
-                    }
-                    alt={
-                      m.nome_motorista
-                    }/>
+                    src={`http://localhost:3333/${m.foto_motorista}`}
+                    alt={m.nome_motorista}
+                  />
 
                 </div>
 
-                <strong
-                  className={
-                    styles.driverName
-                  }
-                >
+                <strong className={styles.driverName}>
                   {m.nome_motorista}
                 </strong>
 
-                <span
-                  className={
-                    styles.status
-                  }>
+                <span className={styles.status}>
                   Em serviço
                 </span>
 
               </div>
+
             ))}
           </div>
         </aside>

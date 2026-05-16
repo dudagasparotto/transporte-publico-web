@@ -1,336 +1,157 @@
-﻿import { useEffect, useState } from "react";
+﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import styles from "./index.module.css";
 
 export default function EditarPontos() {
 
   const navigate = useNavigate();
 
-  const [rotasDisponiveis, setRotasDisponiveis] = useState([]);
-  const [rotaSelecionada, setRotaSelecionada] = useState(0);
-  const [mapa, setMapa] = useState("");
+  const rotas = [
 
-  const [pontos, setPontos] = useState([]);
+    {
+      nome: "ROXA",
+      cor: "#7C3AED",
 
-  const [nome, setNome] = useState("");
-  const [sentido, setSentido] = useState("Bairro");
-  const [localizacao, setLocalizacao] = useState("");
+      mapa:
+        "https://www.google.com/maps/d/embed?mid=1EifQjeD8Cx_JHRKUjpf0wx2JezX3bxw&ehbc=2E312F",
 
-  useEffect(() => {
+      editar:
+        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1EifQjeD8Cx_JHRKUjpf0wx2JezX3bxw&ll=-21.92382017330368%2C-50.50826300000001&z=14",
+    },
 
-    async function carregarRotas() {
+    {
+      nome: "AZUL",
+      cor: "#2563EB",
 
-      try {
+      mapa:
+        "https://www.google.com/maps/d/embed?mid=1PZnUg7Xd-2Y_LuZgKu0I8XBxSUJqOGg&ehbc=2E312F",
 
-        // AQUI VAI SUA API
+      editar:
+        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1PZnUg7Xd-2Y_LuZgKu0I8XBxSUJqOGg&ll=-21.933259358327934%2C-50.50249973895575&z=15",
+    },
 
-        // exemplo:
+    {
+      nome: "LARANJA",
+      cor: "#EA580C",
 
-        /*
-        const response = await fetch(
-          "http://localhost:3000/rotas"
-        );
+      mapa:
+        "https://www.google.com/maps/d/embed?mid=1bUGpvBgmP-nTU3OPTjyh48C8-2XWEt4&ehbc=2E312F",
 
-        const data = await response.json();
+      editar:
+        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1bUGpvBgmP-nTU3OPTjyh48C8-2XWEt4&ll=-21.931932733565503%2C-50.504239999999996&z=15",
+    },
 
-        setRotasDisponiveis(data.dados);
-        */
+    {
+      nome: "AMARELA",
+      cor: "#EAB308",
 
-      } catch (error) {
+      mapa:
+        "https://www.google.com/maps/d/embed?mid=1oHTQrYTHxzncd8IdKuHOWY9z0damzVE&ehbc=2E312F",
 
-        console.error(
-          "Erro ao carregar rotas:",
-          error
-        );
+      editar:
+        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1oHTQrYTHxzncd8IdKuHOWY9z0damzVE&ll=-21.938244634367194%2C-50.50728750000001&z=15",
+    },
 
-      }
+  ];
 
-    }
-
-    carregarRotas();
-
-  }, []);
-
-  useEffect(() => {
-
-    async function carregarPontos() {
-
-      try {
-
-        const rota = rotasDisponiveis[rotaSelecionada];
-
-        if (!rota) return;
-
-        // AQUI VAI SUA API
-
-        // exemplo:
-
-        /*
-        const response = await fetch(
-          `http://localhost:3000/pontos/${rota.id}`
-        );
-
-        const data = await response.json();
-
-        setPontos(data.dados);
-
-        setMapa(rota.mapa);
-        */
-
-      } catch (error) {
-
-        console.error(
-          "Erro ao carregar pontos:",
-          error
-        );
-
-      }
-
-    }
-
-    carregarPontos();
-
-  }, [rotasDisponiveis, rotaSelecionada]);
-
-  function trocarRota(index) {
-
-    setRotaSelecionada(index);
-
-  }
-
-  async function adicionarPonto() {
-
-    if (!nome || !localizacao) {
-
-      alert(
-        "Preencha nome e localização para adicionar o ponto."
-      );
-
-      return;
-
-    }
-
-    try {
-
-      const rota = rotasDisponiveis[rotaSelecionada];
-
-      if (!rota) return;
-
-      // AQUI VAI SUA API
-
-      // exemplo:
-
-      /*
-      const response = await fetch(
-        "http://localhost:3000/pontos",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            nome,
-            sentido,
-            localizacao,
-            rotaId: rota.id,
-          }),
-        }
-      );
-
-      const data = await response.json();
-      */
-
-      setNome("");
-      setLocalizacao("");
-
-      // recarregar pontos depois do cadastro
-      // carregarPontos();
-
-    } catch (error) {
-
-      console.error(
-        "Erro ao adicionar ponto:",
-        error
-      );
-
-    }
-
-  }
+  const [rotaSelecionada, setRotaSelecionada] =
+    useState(rotas[0]);
 
   return (
 
-    <div className={styles.imagemFundo}>
+    <div className={styles.container}>
 
-      <div className={styles.header}>
+      <div className={styles.overlay}></div>
 
-        <h1 className={styles.titulinho}>
+      <header className={styles.header}>
+
+        <h1 className={styles.titulo}>
           PAINEL ADMINISTRATIVO - EDITAR PONTOS
         </h1>
 
         <button
-          className={styles.button}
+          className={styles.botaoVoltar}
           onClick={() => navigate("/adm")}
         >
           VOLTAR
         </button>
 
-      </div>
+      </header>
 
-      <div className={styles.conteudo}>
+      <main className={styles.card}>
 
-        <div className={styles.ladoesquerdo}>
+        <div className={styles.topo}>
 
-          <div className={styles.barraLateral}>
+          <div>
 
-            <h3>Editar Ponto de Ônibus</h3>
+            <h2 className={styles.subtitulo}>
+              Editar Rotas e Pontos
+            </h2>
 
-            <label>Selecionar Rota:</label>
+            <p className={styles.descricao}>
+              Selecione uma rota para editar os
+              pontos diretamente no Google Maps.
+            </p>
 
-            <select
-              value={rotaSelecionada}
-              onChange={(e) =>
-                trocarRota(Number(e.target.value))
-              }
-            >
+          </div>
 
-              {rotasDisponiveis.map((rota, index) => (
+        </div>
 
-                <option
-                  key={index}
-                  value={index}
-                >
-                  {rota.nome}
-                </option>
+        <div className={styles.botoesRotas}>
 
-              ))}
-
-            </select>
-
-            <label>Nome do Ponto:</label>
-
-            <input
-              value={nome}
-              onChange={(e) =>
-                setNome(e.target.value)
-              }
-              placeholder="Av. Central"
-            />
-
-            <label>Sentido:</label>
-
-            <select
-              value={sentido}
-              onChange={(e) =>
-                setSentido(e.target.value)
-              }
-            >
-
-              <option>Bairro</option>
-              <option>Centro</option>
-
-            </select>
-
-            <label>Localização:</label>
-
-            <input
-              value={localizacao}
-              onChange={(e) =>
-                setLocalizacao(e.target.value)
-              }
-              placeholder="Rua Principal, 321"
-            />
+          {rotas.map((rota) => (
 
             <button
-              className={styles.salvar}
-              onClick={adicionarPonto}
+              key={rota.nome}
+              className={`${styles.botaoRota} ${
+                rotaSelecionada.nome === rota.nome
+                  ? styles.ativo
+                  : ""
+              }`}
+              style={{
+                background:
+                  rotaSelecionada.nome === rota.nome
+                    ? rota.cor
+                    : "#6B7280",
+              }}
+              onClick={() =>
+                setRotaSelecionada(rota)
+              }
             >
-              Adicionar Ponto
+              {rota.nome}
             </button>
 
-          </div>
+          ))}
 
         </div>
 
-        <div className={styles.ladoDireito}>
+        <div className={styles.areaMapa}>
 
-          <div className={styles.conteudoDireito}>
-
-            <h3>Pontos cadastrados</h3>
-
-            <div className={styles.mapa}>
-
-              <iframe
-                src={mapa}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-                title="Mapa de Pontos"
-              />
-
-            </div>
-
-            <div className={styles.tabelaContainer}>
-
-              <table className={styles.table}>
-
-                <thead>
-
-                  <tr>
-                    <th>Nome</th>
-                    <th>Sentido</th>
-                    <th>Localização</th>
-                    <th>Rota</th>
-                    <th>Ação</th>
-                  </tr>
-
-                </thead>
-
-                <tbody>
-
-                  {pontos.map((ponto, index) => (
-
-                    <tr key={index}>
-
-                      <td>{ponto.nome}</td>
-                      <td>{ponto.sentido}</td>
-                      <td>{ponto.localizacao}</td>
-                      <td>{ponto.rota}</td>
-
-                      <td>
-
-                        <button
-                          className={styles.delete}
-                        >
-                          Editar
-                        </button>
-
-                      </td>
-
-                    </tr>
-
-                  ))}
-
-                </tbody>
-
-              </table>
-
-            </div>
-
-            <div className={styles.rodape}>
-
-              <button className={styles.salvar}>
-                Concluir
-              </button>
-
-            </div>
-
-          </div>
+          <iframe
+            src={rotaSelecionada.mapa}
+            title={rotaSelecionada.nome}
+            className={styles.iframe}
+            loading="lazy"
+            allowFullScreen
+          ></iframe>
 
         </div>
 
-      </div>
+        <div className={styles.rodape}>
+
+          <a
+            href={rotaSelecionada.editar}
+            target="_blank"
+            rel="noreferrer"
+            className={styles.botaoEditar}
+          >
+            EDITAR MAPA DA ROTA
+          </a>
+
+        </div>
+
+      </main>
 
     </div>
 
