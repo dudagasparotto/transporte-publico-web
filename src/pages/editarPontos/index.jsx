@@ -140,6 +140,13 @@ export default function EditarPontos() {
 
         <div className={styles.rodape}>
 
+          <button
+            className={styles.botaoCadPontos}
+            onClick={() => navigate("/cadPontos")}
+          >
+            CADASTRAR PONTO
+          </button>
+
           <a
             href={rotaSelecionada.editar}
             target="_blank"

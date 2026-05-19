@@ -125,9 +125,10 @@
 
 .botoesRotas {
   display: flex;
+  justify-content: center;
   gap: 18px;
   flex-wrap: wrap;
-
+  
   margin-bottom: 28px;
 }
 
@@ -140,7 +141,7 @@
 
   color: white;
 
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: 800;
 
   cursor: pointer;
@@ -185,6 +186,8 @@
 .rodape {
   display: flex;
   justify-content: flex-end;
+  gap: 16px;
+  align-items: center;
 
   margin-top: 28px;
 }
@@ -213,6 +216,36 @@
 }
 
 .botaoEditar:hover {
+  transform: scale(1.04);
+}
+
+.botaoCadPontos {
+  text-decoration: none;
+  border: none;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+
+  color: white;
+
+  padding: 16px 28px;
+
+  border-radius: 16px;
+
+  font-size: 15px;
+  font-weight: 800;
+
+  letter-spacing: 0.5px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.botaoCadPontos:hover {
   transform: scale(1.04);
 }
 
