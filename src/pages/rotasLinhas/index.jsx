@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './styles.module.css';
+import api, { getArquivoUrl } from '../../services/apis';
+import { listarRotasComPontos } from '../../services/transporte';
 
 export default function RotasLinhas() {
 
@@ -19,29 +21,15 @@ export default function RotasLinhas() {
 
       try {
 
-        // ROTAS
-        const responseRotas =
-          await fetch(
-            'http://localhost:3333/rotas'
-          );
-
-        const dataRotas =
-          await responseRotas.json();
-
-        setRotas(dataRotas.dados);
+        const dataRotas = await listarRotasComPontos();
+        setRotas(dataRotas);
 
         setLinha(
-          dataRotas.dados[0]?.mapa || null
+          dataRotas[0]?.mapa || null
         );
 
-        // MOTORISTAS
-        const responseMotoristas =
-          await fetch(
-            'http://localhost:3333/motoristas'
-          );
-
-        const dataMotoristas =
-          await responseMotoristas.json();
+        const { data: dataMotoristas } =
+          await api.get('/motoristas');
 
         setMotoristas(
           dataMotoristas.dados
@@ -212,7 +200,7 @@ export default function RotasLinhas() {
                 <div className={styles.fotoMotorista}>
 
                   <img
-                    src={`http://localhost:3333/${m.foto_motorista}`}
+                    src={getArquivoUrl(m.foto_motorista)}
                     alt={m.nome_motorista}
                   />
 

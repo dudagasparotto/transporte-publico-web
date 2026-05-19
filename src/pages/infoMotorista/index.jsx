@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useState
 } from 'react';
@@ -9,6 +10,7 @@ import {
 } from 'react-router-dom';
 
 import Styles from './styles.module.css';
+import api, { getArquivoUrl } from '../../services/apis';
 
 export default function InfoMotorista() {
 
@@ -39,24 +41,13 @@ export default function InfoMotorista() {
   const [carregando, setCarregando] =
     useState(true);
 
-  useEffect(() => {
-
-    carregarMotorista();
-
-    calcularMedia();
-
-  }, [id]);
-
-  async function carregarMotorista() {
+  const carregarMotorista = useCallback(async function carregarMotorista() {
 
     try {
 
-      const response = await fetch(
-        `http://localhost:3333/motoristas/${id}`
+      const { data } = await api.get(
+        `/motoristas/${id}`
       );
-
-      const data =
-        await response.json();
 
       if (data.sucesso) {
 
@@ -77,18 +68,15 @@ export default function InfoMotorista() {
 
     }
 
-  }
+  }, [id]);
 
-  async function calcularMedia() {
+  const calcularMedia = useCallback(async function calcularMedia() {
 
     try {
 
-      const response = await fetch(
-        `http://localhost:3333/mediaAvaliacao/${id}`
+      const { data } = await api.get(
+        `/mediaAvaliacao/${id}`
       );
-
-      const data =
-        await response.json();
 
       if (data.sucesso) {
 
@@ -105,7 +93,15 @@ export default function InfoMotorista() {
 
     }
 
-  }
+  }, [id]);
+
+  useEffect(() => {
+
+    carregarMotorista();
+
+    calcularMedia();
+
+  }, [carregarMotorista, calcularMedia]);
 
   const mostrarMensagem = (texto) => {
 
@@ -135,18 +131,9 @@ export default function InfoMotorista() {
 
     try {
 
-      const response = await fetch(
-        'http://localhost:3333/avaliacao',
+      const { data } = await api.post(
+        '/avaliacao',
         {
-
-          method: 'POST',
-
-          headers: {
-            'Content-Type':
-              'application/json',
-          },
-
-          body: JSON.stringify({
 
             id_motorista: id,
 
@@ -161,13 +148,8 @@ export default function InfoMotorista() {
                 .slice(0, 19)
                 .replace('T', ' ')
 
-          }),
-
         }
       );
-
-      const data =
-        await response.json();
 
       if (data.sucesso) {
 
@@ -199,9 +181,7 @@ export default function InfoMotorista() {
     return <p>Carregando...</p>;
 
   }
-console.log(
-  `http://localhost:3333/fotosMotoristas/${motorista?.foto_motorista}`
-);
+
   return (
 
     <div className={Styles.container}>
@@ -250,17 +230,8 @@ console.log(
 
             {
               motorista?.foto_motorista && (
-              // <img
-              //   src={`http://localhost:3333/fotosMotoristas/${motorista?.foto_motorista}`}
-              //   alt={motorista?.nome_motorista}
-              //   style={{
-              //     width: '200px',
-              //     height: '200px',
-              //     objectFit: 'cover'
-              //   }}
-              // />
               <img
-                src={`http://localhost:3333/${motorista?.foto_motorista}`}
+                src={getArquivoUrl(motorista?.foto_motorista)}
                 alt={motorista?.nome_motorista}
               />
               )

@@ -1,25 +1,27 @@
 .imagemFundo{
+  position: relative;
   width: 100%;
   min-height: 100vh;
   background-image: url("../../assets/fundo.png");
   background-size: cover;
   background-position: center;
-  position: relative;
   overflow: hidden;
+  font-family: "Roboto", sans-serif;
 }
 
 .overlay{
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.55);
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(3px);
 }
 
 .header{
   position: relative;
   z-index: 2;
   width: 100%;
-  background: linear-gradient(135deg,#1E40AF,#374151);
-  padding: 22px 40px;
+  background: linear-gradient(135deg,#1d4ed8,#1e3a8a);
+  padding: 24px 42px;
 
   display: flex;
   justify-content: space-between;
@@ -27,10 +29,11 @@
 }
 
 .titulo{
+  margin: 0;
   color: white;
-  font-family: 'Roboto';
-  font-size: 34px;
-  font-weight: bold;
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
 }
 
 .botaoVoltar{
@@ -66,12 +69,12 @@
   display: flex;
   justify-content: center;
 
-  padding: 40px;
+  padding: 40px 0;
 }
 
 .card{
-  width: 95%;
-  max-width: 1500px;
+  width: 90%;
+  max-width: 1550px;
 
   background: rgba(255,255,255,0.12);
 
@@ -79,9 +82,9 @@
 
   border: 1px solid rgba(255,255,255,0.15);
 
-  border-radius: 30px;
+  border-radius: 28px;
 
-  padding: 35px;
+  padding: 38px;
 
   box-shadow:
     0 8px 30px rgba(0,0,0,0.35);
@@ -96,16 +99,16 @@
 }
 
 .subtitulo{
+  margin: 0;
   color: white;
-  font-size: 38px;
-  font-family: 'Roboto';
+  font-size: 3rem;
+  font-weight: 800;
 }
 
 .descricao{
-  color: #dbeafe;
-  margin-top: 8px;
-  font-size: 16px;
-  font-family: 'Roboto';
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 12px;
+  font-size: 1.5rem;
 }
 
 .salvar{
@@ -134,6 +137,7 @@
 
 .rotas{
   display: flex;
+  justify-content: center;
   gap: 15px;
   flex-wrap: wrap;
 
@@ -143,33 +147,27 @@
 .botaoRota{
   border: none;
 
-  padding: 14px 28px;
+  padding: 16px 34px;
 
-  border-radius: 14px;
-
-  background: rgba(255,255,255,0.12);
+  border-radius: 16px;
 
   color: white;
 
-  font-weight: bold;
+  font-size: 1.5rem;
+  font-weight: 800;
   cursor: pointer;
 
-  transition: 0.2s;
+  transition: 0.25s;
 }
 
 .botaoRota:hover{
-  background: rgba(255,255,255,0.22);
+  transform: translateY(-3px);
 }
 
 .ativo{
-  background: linear-gradient(
-    135deg,
-    #7C3AED,
-    #9333EA
-  );
-
   box-shadow:
-    0 0 15px rgba(147,51,234,0.5);
+    0 0 0 3px rgba(255, 255, 255, 0.15),
+    0 10px 24px rgba(0, 0, 0, 0.35);
 }
 
 .listaPontos{
@@ -179,17 +177,17 @@
 }
 
 .cardPonto{
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.1);
 
   border: 1px solid rgba(255,255,255,0.12);
 
-  border-radius: 20px;
+  border-radius: 18px;
 
   padding: 25px;
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto;
+  align-items: flex-start;
 
   gap: 25px;
 
@@ -219,6 +217,7 @@
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .inputHora{
@@ -266,6 +265,46 @@
   transform: scale(1.08);
 }
 
+.botaoEditar{
+  border: none;
+  background: linear-gradient(
+    135deg,
+    #2563EB,
+    #1D4ED8
+  );
+  color: white;
+  padding: 14px 22px;
+  border-radius: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.botaoEditar:hover{
+  transform: translateY(-2px);
+}
+
+.editorHorarios{
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,0.14);
+}
+
+.semHorario,
+.semPonto{
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 700;
+}
+
+.semPonto{
+  text-align: center;
+  font-size: 1.2rem;
+}
+
 @media (max-width: 900px){
 
   .topoCard{
@@ -275,12 +314,22 @@
   }
 
   .cardPonto{
+    grid-template-columns: 1fr;
+  }
+
+  .horarios{
+    justify-content: flex-start;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .editorHorarios{
     flex-direction: column;
     align-items: flex-start;
   }
 
   .titulo{
-    font-size: 24px;
+    font-size: 1.2rem;
   }
 
   .subtitulo{

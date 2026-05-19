@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styles from './index.module.css';
+import { autenticarUsuario } from "../../services/auth";
 
 export default function LoginMotora() {
 
@@ -26,32 +27,9 @@ export default function LoginMotora() {
 
     try {
 
-      // AQUI VAI SUA API
+      const usuarioEncontrado = await autenticarUsuario(usuario, senha, 2);
 
-      // exemplo:
-
-      /*
-      const response = await fetch(
-        'http://localhost:3000/login',
-        {
-          method: 'POST',
-
-          headers: {
-            'Content-Type':
-              'application/json',
-          },
-
-          body: JSON.stringify({
-            usuario,
-            senha,
-          }),
-        }
-      );
-
-      const data =
-        await response.json();
-
-      if (data.sucesso) {
+      if (usuarioEncontrado) {
 
         navigate('/adm');
 
@@ -60,9 +38,6 @@ export default function LoginMotora() {
         alert('Login inválido');
 
       }
-      */
-
-      navigate('/adm');
 
     } catch (error) {
 
@@ -70,6 +45,8 @@ export default function LoginMotora() {
         'Erro ao fazer login:',
         error
       );
+
+      alert('Erro ao fazer login.');
 
     }
 

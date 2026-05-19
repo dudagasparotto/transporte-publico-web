@@ -18,9 +18,6 @@ import Horarios from './pages/horarios';
 import Negado from './pages/loginAdm/negado';
 import EditarHorarios from './pages/editarHoraios';
 import LoginMotora from './pages/loginMotorista';
-import { initializeMockStorage } from './mockup/localStorage';
-
-initializeMockStorage();
 
 
 

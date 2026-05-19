@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './styles.module.css';
 import { useNavigate } from 'react-router-dom';
+import { listarRotasComPontos } from '../../services/transporte';
 
 export default function Horarios() {
 
@@ -14,19 +15,8 @@ export default function Horarios() {
 
       try {
 
-        // AQUI VAI SUA API
-
-        // exemplo:
-
-        /*
-        const response = await fetch(
-          'http://localhost:3000/horarios'
-        );
-
-        const data = await response.json();
-
-        setLinhas(data.dados);
-        */
+        const dados = await listarRotasComPontos();
+        setLinhas(dados);
 
       } catch (error) {
 
@@ -69,12 +59,12 @@ export default function Horarios() {
         {linhas.map((linha) => (
 
           <div
-            key={linha.id}
+            key={linha.id_linha}
             className={styles.linha}
           >
 
             <h2 className={styles.tituloLinha}>
-              {linha.linha}
+              {linha.nome_linha}
             </h2>
 
             {linha.pontos.map((ponto, index) => (
@@ -87,7 +77,7 @@ export default function Horarios() {
                 <div className={styles.topo}>
 
                   <span className={styles.nome}>
-                    {ponto.nome}
+                    {ponto.nome_ponto}
                   </span>
 
                 </div>

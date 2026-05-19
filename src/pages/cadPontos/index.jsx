@@ -1,50 +1,45 @@
 import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
+import api from "../../services/apis";
 
 export default function CadastroPontos() {
     const [nomePonto, setNomePonto] = useState("");
-    const [sentido, setSentido] = useState("bairro");
-    const [localizacao, setLocalizacao] = useState("");
+    const [latitude, setLatitude] = useState("");
+    const [longitude, setLongitude] = useState("");
 
     useEffect(() => {
         document.title = "Cadastro de Pontos";
     }, []);
 
     async function salvar() {
-        if (!nomePonto || !sentido || !localizacao) {
+        if (!nomePonto || !latitude || !longitude) {
             alert("Preencha todos os campos para cadastrar o ponto.");
             return;
         }
 
         try {
-            // AQUI VAI SUA API
-            // exemplo:
-            /*
-            const response = await fetch(
-                "http://localhost:3000/pontos",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        nome: nomePonto,
-                        sentido: sentido,
-                        localizacao: localizacao,
-                    }),
-                }
-            );
+            const { data } = await api.post("/pontos", {
+                nome_dos_pontos: nomePonto,
+                latitude_dos_pontos: Number(latitude),
+                longitude_dos_pontos: Number(longitude),
+            });
 
-            const data = await response.json();
-            */
+            if (!data.sucesso) {
+                alert(data.mensagem || "Erro ao cadastrar ponto.");
+                return;
+            }
 
             setNomePonto("");
-            setSentido("bairro");
-            setLocalizacao("");
+            setLatitude("");
+            setLongitude("");
 
             alert("Ponto cadastrado com sucesso!");
         } catch (error) {
             console.error("Erro ao cadastrar ponto:", error);
+            alert(
+                error.response?.data?.mensagem ||
+                "Erro ao cadastrar ponto."
+            );
         }
     }
 
@@ -70,26 +65,26 @@ export default function CadastroPontos() {
                             </div>
 
                             <div className={styles.formGroup}>
-                                <label htmlFor="sentido">Sentido</label>
-                                <select
-                                    id="sentido"
-                                    value={sentido}
-                                    onChange={(e) => setSentido(e.target.value)}
-                                    className={styles.select}
-                                >
-                                    <option value="bairro">Bairro</option>
-                                    <option value="centro">Centro</option>
-                                </select>
+                                <label htmlFor="latitude">Latitude</label>
+                                <input
+                                    id="latitude"
+                                    type="number"
+                                    step="0.00000001"
+                                    placeholder="Ex: -21.93325935"
+                                    value={latitude}
+                                    onChange={(e) => setLatitude(e.target.value)}
+                                />
                             </div>
 
                             <div className={styles.formGroup}>
-                                <label htmlFor="localizacao">Localização</label>
+                                <label htmlFor="longitude">Longitude</label>
                                 <input
-                                    id="localizacao"
-                                    type="text"
-                                    placeholder="Ex: Rua Principal, 123"
-                                    value={localizacao}
-                                    onChange={(e) => setLocalizacao(e.target.value)}
+                                    id="longitude"
+                                    type="number"
+                                    step="0.00000001"
+                                    placeholder="Ex: -50.50249973"
+                                    value={longitude}
+                                    onChange={(e) => setLongitude(e.target.value)}
                                 />
                             </div>
 

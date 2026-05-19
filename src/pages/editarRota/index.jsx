@@ -1,355 +1,157 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./styles.module.css";
+
+import styles from "../editarPontos/index.module.css";
 
 export default function EditarRota() {
 
   const navigate = useNavigate();
 
-  const [rotasDisponiveis, setRotasDisponiveis] = useState([]);
-  const [rotaSelecionada, setRotaSelecionada] = useState(0);
+  const rotas = [
 
-  const [rota, setRota] = useState("");
-  const [saida, setSaida] = useState("");
-  const [destino, setDestino] = useState("");
-  const [mapa, setMapa] = useState("");
+    {
+      nome: "ROXA",
+      cor: "#7C3AED",
 
-  const [paradas, setParadas] = useState([]);
+      mapa:
+        "https://www.google.com/maps/d/embed?mid=1EifQjeD8Cx_JHRKUjpf0wx2JezX3bxw&ehbc=2E312F",
 
-  useEffect(() => {
+      editar:
+        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1EifQjeD8Cx_JHRKUjpf0wx2JezX3bxw&ll=-21.92382017330368%2C-50.50826300000001&z=14",
+    },
 
-    async function carregarRotas() {
+    {
+      nome: "AZUL",
+      cor: "#2563EB",
 
-      try {
+      mapa:
+        "https://www.google.com/maps/d/embed?mid=1PZnUg7Xd-2Y_LuZgKu0I8XBxSUJqOGg&ehbc=2E312F",
 
-        // AQUI VAI SUA API
+      editar:
+        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1PZnUg7Xd-2Y_LuZgKu0I8XBxSUJqOGg&ll=-21.933259358327934%2C-50.50249973895575&z=15",
+    },
 
-        // exemplo:
+    {
+      nome: "LARANJA",
+      cor: "#EA580C",
 
-        /*
-        const response = await fetch(
-          "http://localhost:3000/rotas"
-        );
+      mapa:
+        "https://www.google.com/maps/d/embed?mid=1bUGpvBgmP-nTU3OPTjyh48C8-2XWEt4&ehbc=2E312F",
 
-        const data = await response.json();
+      editar:
+        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1bUGpvBgmP-nTU3OPTjyh48C8-2XWEt4&ll=-21.931932733565503%2C-50.504239999999996&z=15",
+    },
 
-        setRotasDisponiveis(data.dados);
-        */
+    {
+      nome: "AMARELA",
+      cor: "#EAB308",
 
-      } catch (error) {
+      mapa:
+        "https://www.google.com/maps/d/embed?mid=1oHTQrYTHxzncd8IdKuHOWY9z0damzVE&ehbc=2E312F",
 
-        console.error(
-          "Erro ao carregar rotas:",
-          error
-        );
+      editar:
+        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1oHTQrYTHxzncd8IdKuHOWY9z0damzVE&ll=-21.938244634367194%2C-50.50728750000001&z=15",
+    },
 
-      }
+  ];
 
-    }
-
-    carregarRotas();
-
-  }, []);
-
-  useEffect(() => {
-
-    const rotaEscolhida =
-      rotasDisponiveis[rotaSelecionada];
-
-    if (rotaEscolhida) {
-
-      setRota(rotaEscolhida.nome);
-      setSaida(rotaEscolhida.saida);
-      setDestino(rotaEscolhida.destino);
-      setMapa(rotaEscolhida.mapa);
-      setParadas(rotaEscolhida.paradas);
-
-    }
-
-  }, [rotasDisponiveis, rotaSelecionada]);
-
-  function trocarRota(index) {
-
-    setRotaSelecionada(index);
-
-  }
-
-  async function adicionarParada() {
-
-    const nova = prompt(
-      "Digite o nome da nova parada:"
-    );
-
-    if (!nova) return;
-
-    try {
-
-      // AQUI VAI SUA API
-
-      // exemplo:
-
-      /*
-      await fetch(
-        "http://localhost:3000/paradas",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            rotaId:
-              rotasDisponiveis[rotaSelecionada].id,
-            nome: nova,
-          }),
-        }
-      );
-      */
-
-      setParadas([...paradas, nova]);
-
-    } catch (error) {
-
-      console.error(
-        "Erro ao adicionar parada:",
-        error
-      );
-
-    }
-
-  }
-
-  async function removerParada(index) {
-
-    try {
-
-      // AQUI VAI SUA API
-
-      // exemplo:
-
-      /*
-      await fetch(
-        `http://localhost:3000/paradas/${index}`,
-        {
-          method: "DELETE",
-        }
-      );
-      */
-
-      const atualizadas = paradas.filter(
-        (_, i) => i !== index
-      );
-
-      setParadas(atualizadas);
-
-    } catch (error) {
-
-      console.error(
-        "Erro ao remover parada:",
-        error
-      );
-
-    }
-
-  }
-
-  async function salvarRota() {
-
-    try {
-
-      const rotaAtual =
-        rotasDisponiveis[rotaSelecionada];
-
-      if (!rotaAtual) return;
-
-      // AQUI VAI SUA API
-
-      // exemplo:
-
-      /*
-      await fetch(
-        `http://localhost:3000/rotas/${rotaAtual.id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            nome: rota,
-            saida,
-            destino,
-            paradas,
-          }),
-        }
-      );
-      */
-
-      alert("Rota salva com sucesso!");
-
-    } catch (error) {
-
-      console.error(
-        "Erro ao salvar rota:",
-        error
-      );
-
-    }
-
-  }
+  const [rotaSelecionada, setRotaSelecionada] =
+    useState(rotas[0]);
 
   return (
 
-    <div className={styles.imagemFundo}>
+    <div className={styles.container}>
 
-      <div className={styles.header}>
+      <div className={styles.overlay}></div>
 
-        <h1 className={styles.titulinho}>
+      <header className={styles.header}>
+
+        <h1 className={styles.titulo}>
           PAINEL ADMINISTRATIVO - EDITAR ROTAS
         </h1>
 
         <button
-          className={styles.button}
+          className={styles.botaoVoltar}
           onClick={() => navigate("/adm")}
         >
           VOLTAR
         </button>
 
-      </div>
+      </header>
 
-      <div className={styles.conteudo}>
+      <main className={styles.card}>
 
-        <div className={styles.ladoesquerdo}>
+        <div className={styles.topo}>
 
-          <div className={styles.barraLateral}>
+          <div>
 
-            <h3>Editar Rota de Ônibus</h3>
+            <h2 className={styles.subtitulo}>
+              Editar Rotas
+            </h2>
 
-            <label>Selecionar Rota:</label>
+            <p className={styles.descricao}>
+              Selecione uma rota para visualizar
+              ou editar o mapa no Google Maps.
+            </p>
 
-            <select
-              className={styles.select}
-              value={rotaSelecionada}
-              onChange={(e) =>
-                trocarRota(Number(e.target.value))
-              }
-            >
+          </div>
 
-              {rotasDisponiveis.map(
-                (item, index) => (
+        </div>
 
-                  <option
-                    key={index}
-                    value={index}
-                  >
-                    {item.nome}
-                  </option>
+        <div className={styles.botoesRotas}>
 
-                )
-              )}
-
-            </select>
-
-            <label>Nome da Rota:</label>
-
-            <input
-              value={rota}
-              onChange={(e) =>
-                setRota(e.target.value)
-              }
-            />
-
-            <label>Saída:</label>
-
-            <input
-              value={saida}
-              onChange={(e) =>
-                setSaida(e.target.value)
-              }
-            />
-
-            <label>Destino:</label>
-
-            <input
-              value={destino}
-              onChange={(e) =>
-                setDestino(e.target.value)
-              }
-            />
-
-            <h4>Paradas:</h4>
-
-            <ul className={styles.lista}>
-
-              {paradas.map((p, index) => (
-
-                <li
-                  key={index}
-                  className={styles.item}
-                >
-
-                  {p}
-
-                  <button
-                    className={styles.delete}
-                    onClick={() =>
-                      removerParada(index)
-                    }
-                  >
-                    X
-                  </button>
-
-                </li>
-
-              ))}
-
-            </ul>
+          {rotas.map((rota) => (
 
             <button
-              className={styles.salvar}
-              onClick={adicionarParada}
+              key={rota.nome}
+              className={`${styles.botaoRota} ${
+                rotaSelecionada.nome === rota.nome
+                  ? styles.ativo
+                  : ""
+              }`}
+              style={{
+                background:
+                  rotaSelecionada.nome === rota.nome
+                    ? rota.cor
+                    : "#6B7280",
+              }}
+              onClick={() =>
+                setRotaSelecionada(rota)
+              }
             >
-              + Adicionar Parada
+              {rota.nome}
             </button>
 
-          </div>
+          ))}
 
         </div>
 
-        <div className={styles.ladoDireito}>
+        <div className={styles.areaMapa}>
 
-          <div className={styles.conteudoDireito}>
-
-            <h3>Mapa da Rota</h3>
-
-            <div className={styles.mapa}>
-
-              <iframe
-                src={mapa}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-                title="Mapa da Rota"
-              />
-
-            </div>
-
-            <div className={styles.rodape}>
-
-              <button
-                className={styles.salvar}
-                onClick={salvarRota}
-              >
-                Salvar
-              </button>
-
-            </div>
-
-          </div>
+          <iframe
+            src={rotaSelecionada.mapa}
+            title={rotaSelecionada.nome}
+            className={styles.iframe}
+            loading="lazy"
+            allowFullScreen
+          ></iframe>
 
         </div>
 
-      </div>
+        <div className={styles.rodape}>
+
+          <a
+            href={rotaSelecionada.editar}
+            target="_blank"
+            rel="noreferrer"
+            className={styles.botaoEditar}
+          >
+            EDITAR MAPA DA ROTA
+          </a>
+
+        </div>
+
+      </main>
 
     </div>
 

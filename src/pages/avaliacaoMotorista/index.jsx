@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate,useParams} from 'react-router-dom';
 import Styles from './styles.module.css';
+import api from '../../services/apis';
 
 export default function AvaliacaoMotorista() {
 
@@ -18,11 +19,7 @@ export default function AvaliacaoMotorista() {
 
       try {
 
-        const response = await fetch(`http://localhost:3333/avaliacao/${id}`);
-
-        const data = await response.json();
-
-        console.log(data);
+        const { data } = await api.get(`/avaliacao/${id}`);
 
         if (data.sucesso) {
           setAvaliacoes(data.dados);

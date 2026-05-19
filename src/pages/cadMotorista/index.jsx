@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
+import api from "../../services/apis";
 
 export default function Motorista() {
 
@@ -36,28 +37,23 @@ export default function Motorista() {
 
     try {
 
-      // AQUI VAI SUA API
-
-      // exemplo:
-
-      /*
       const formData = new FormData();
 
-      formData.append("cpf", cpf);
-      formData.append("cnh", cnh);
-      formData.append("nome", nome);
-      formData.append("foto", foto);
+      formData.append("cpf_motorista", cpf);
+      formData.append("cnh_motorista", cnh);
+      formData.append("nome_motorista", nome);
 
-      const response = await fetch(
-        "http://localhost:3000/motoristas",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      if (foto) {
+        formData.append("foto", foto);
+        formData.append("foto_motorista", foto);
+      }
 
-      const data = await response.json();
-      */
+      const { data } = await api.post("/motoristas", formData);
+
+      if (!data.sucesso) {
+        alert(data.mensagem || "Erro ao cadastrar motorista.");
+        return;
+      }
 
       setCpf("");
       setCnh("");
@@ -72,6 +68,8 @@ export default function Motorista() {
         "Erro ao cadastrar motorista:",
         error
       );
+
+      alert("Erro ao cadastrar motorista.");
 
     }
 

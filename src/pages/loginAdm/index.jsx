@@ -1,7 +1,33 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import styles from './index.module.css';
+import { autenticarUsuario } from "../../services/auth";
 
 export default function LoginAdm() {
+  const navigate = useNavigate();
+  const [usuario, setUsuario] = useState("");
+  const [senha, setSenha] = useState("");
+
+  async function fazerLogin() {
+    if (!usuario || !senha) {
+      alert("Preencha usuário e senha.");
+      return;
+    }
+
+    try {
+      const usuarioEncontrado = await autenticarUsuario(usuario, senha, 1);
+
+      if (usuarioEncontrado) {
+        navigate("/adm");
+      } else {
+        alert("Login inválido.");
+      }
+    } catch (error) {
+      console.error("Erro ao fazer login:", error);
+      alert("Erro ao fazer login.");
+    }
+  }
+
   return (
     <div className={styles.loginContainer}>
       
@@ -18,17 +44,30 @@ export default function LoginAdm() {
 
         <div className={styles.inputGroup}>
           <label>Nome de usuário</label>
-          <input type="text" placeholder="Digite seu usuário" />
+          <input
+            type="text"
+            placeholder="Digite seu usuário"
+            value={usuario}
+            onChange={(e) => setUsuario(e.target.value)}
+          />
         </div>
 
         <div className={styles.inputGroup}>
           <label>Senha</label>
-          <input type="password" placeholder="Digite sua senha" />
+          <input
+            type="password"
+            placeholder="Digite sua senha"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+          />
         </div>
 
-        <Link to="/adm">
-          <button className={styles.loginBtn}>Entrar</button>
-        </Link>
+        <button
+          className={styles.loginBtn}
+          onClick={fazerLogin}
+        >
+          Entrar
+        </button>
       </div>
     </div>
   );
