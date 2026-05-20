@@ -220,6 +220,12 @@
   justify-content: flex-start;
 }
 
+.horarioItem{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .inputHora{
   width: 120px;
 
@@ -263,6 +269,22 @@
 
 .adicionar:hover{
   transform: scale(1.08);
+}
+
+.excluirHorario{
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: none;
+  background: #EF4444;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.excluirHorario:hover{
+  transform: scale(1.05);
 }
 
 .botaoEditar{

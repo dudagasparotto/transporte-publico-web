@@ -84,17 +84,22 @@ export default function Horarios() {
 
                 <div className={styles.horarios}>
 
-                  {ponto.horarios.map(
-                    (hora, i) => (
+                  {ponto.horarios.length > 0 ? (
+                    ponto.horarios.map(
+                    (horario, i) => (
 
                       <span
                         key={i}
                         className={styles.hora}
                       >
-                        {hora}
+                        {horario.hora}
                       </span>
 
                     )
+                  )) : (
+                    <span className={styles.semHorario}>
+                      Nenhum horário cadastrado
+                    </span>
                   )}
 
                 </div>
