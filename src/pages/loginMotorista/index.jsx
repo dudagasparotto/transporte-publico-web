@@ -1,25 +1,22 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+
 import styles from './index.module.css';
+
 import { autenticarUsuario } from "../../services/auth";
 
 export default function LoginMotora() {
 
   const navigate = useNavigate();
 
-  const [usuario, setUsuario] =
-    useState('');
-
-  const [senha, setSenha] =
-    useState('');
+  const [usuario, setUsuario] = useState('');
+  const [senha, setSenha] = useState('');
 
   async function fazerLogin() {
 
     if (!usuario || !senha) {
 
-      alert(
-        'Preencha usuário e senha.'
-      );
+      alert('Preencha usuário e senha.');
 
       return;
 
@@ -27,11 +24,18 @@ export default function LoginMotora() {
 
     try {
 
-      const usuarioEncontrado = await autenticarUsuario(usuario, senha, 2);
+      const usuarioEncontrado =
+        await autenticarUsuario(
+          usuario,
+          senha,
+          2
+        );
 
       if (usuarioEncontrado) {
 
-        navigate('/adm');
+        navigate(
+          `/teladomotorista/${usuarioEncontrado.id_motorista}`
+        );
 
       } else {
 
@@ -74,9 +78,7 @@ export default function LoginMotora() {
 
         <div className={styles.inputGroup}>
 
-          <label>
-            Nome de usuário
-          </label>
+          <label>Nome de usuário</label>
 
           <input
             type="text"

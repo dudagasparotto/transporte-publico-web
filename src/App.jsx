@@ -18,7 +18,7 @@ import Horarios from './pages/horarios';
 import Negado from './pages/loginAdm/negado';
 import EditarHorarios from './pages/editarHoraios';
 import LoginMotora from './pages/loginMotorista';
-
+import TelaDoMotorista from './pages/telaDoMotorista';
 
 
 function App() {
@@ -41,6 +41,7 @@ function App() {
       <Route path="/loginmotorista" element={<LoginMotora />} />
       <Route path="/login/negado" element={<Negado />} />
       <Route path="/adm/editarhorarios" element={<EditarHorarios />} />
+      <Route path="/teladomotorista/:id"element={<TelaDoMotorista />}/>
       
     
     </Routes>
