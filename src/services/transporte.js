@@ -32,12 +32,19 @@ function localizacaoPonto(ponto) {
 }
 
 export async function listarRotasComPontos() {
-  const [linhasResp, rotasResp, pontosResp, horariosResp] = await Promise.all([
+  const [linhasResp, rotasResp, pontosResp] = await Promise.all([
     api.get('/linhas'),
     api.get('/rotas'),
     api.get('/pontos'),
-    api.get('/horarios'),
   ]);
+
+  let horariosResp = { data: { dados: [] } };
+
+  try {
+    horariosResp = await api.get('/horarios');
+  } catch (error) {
+    console.error('Erro ao carregar horários do backend:', error);
+  }
 
   const linhas = linhasResp.data.dados || [];
   const rotas = rotasResp.data.dados || [];
@@ -49,20 +56,29 @@ export async function listarRotasComPontos() {
     const dadosMapa = mapasDasLinhas[nomeLinha] || {};
     const rotasDaLinha = rotas.filter((rota) => rota.id_linha === linha.id_linha);
 
-    const pontosDaLinha = rotasDaLinha
-      .map((rota) => pontos.find((ponto) => ponto.id_pontos === rota.id_ponto))
-      .filter(Boolean)
+    const pontosDaLinha = pontos
+      .filter((ponto) =>
+        rotasDaLinha.some((rota) =>
+          ponto.id_rota
+            ? ponto.id_rota === rota.id_rota
+            : ponto.id_pontos === rota.id_ponto
+        )
+      )
       .map((ponto) => ({
         id_ponto: ponto.id_pontos,
         nome_ponto: ponto.nome_pontos,
         localizacao: localizacaoPonto(ponto),
         horarios: horarios
           .filter((horario) => horario.id_ponto === ponto.id_pontos)
-          .map((horario) => horaCurta(horario.passagem_horarios)),
+          .map((horario) => ({
+            id_horario: horario.id_horario,
+            hora: horaCurta(horario.passagem_horarios),
+          })),
       }));
 
     return {
       id_linha: linha.id_linha,
+      id_rota: rotasDaLinha[0]?.id_rota,
       nome_linha: nomeLinha,
       nome_linhas: nomeLinha,
       mapa: dadosMapa.mapa || '',

@@ -99,6 +99,12 @@ body {
   font-family: 'Roboto'; 
 }
 
+.semHorario {
+  color: #475569;
+  font-size: 14px;
+  font-weight: bold;
+}
+
 .button {
   background: linear-gradient(135deg, #3B82F6, #1E40AF);
   color: #E0F2FE;

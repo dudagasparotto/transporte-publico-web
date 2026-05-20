@@ -51,7 +51,8 @@ CREATE TABLE pontos (
     id_pontos SMALLINT PRIMARY KEY AUTO_INCREMENT,
     nome_pontos VARCHAR(100) NOT NULL,
     latitude_pontos DECIMAL(11,8) NOT NULL,
-    longitude_pontos DECIMAL(11,8) NOT NULL
+    longitude_pontos DECIMAL(11,8) NOT NULL,
+    id_rota MEDIUMINT NOT NULL
 );
 
 CREATE TABLE rotas (
@@ -62,6 +63,10 @@ CREATE TABLE rotas (
     FOREIGN KEY (id_ponto) REFERENCES pontos(id_pontos),
     FOREIGN KEY (id_linha) REFERENCES linhas(id_linha)
 );
+
+ALTER TABLE pontos
+ADD CONSTRAINT fk_pontos_rota
+FOREIGN KEY (id_rota) REFERENCES rotas(id_rota);
 
 
 CREATE TABLE rota_onibus (

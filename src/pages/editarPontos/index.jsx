@@ -10,6 +10,7 @@ export default function EditarPontos() {
   const rotas = [
 
     {
+      id_rota: 1,
       nome: "ROXA",
       cor: "#7C3AED",
 
@@ -21,6 +22,7 @@ export default function EditarPontos() {
     },
 
     {
+      id_rota: 2,
       nome: "AZUL",
       cor: "#2563EB",
 
@@ -32,6 +34,7 @@ export default function EditarPontos() {
     },
 
     {
+      id_rota: 3,
       nome: "LARANJA",
       cor: "#EA580C",
 
@@ -43,6 +46,7 @@ export default function EditarPontos() {
     },
 
     {
+      id_rota: 4,
       nome: "AMARELA",
       cor: "#EAB308",
 
@@ -142,7 +146,14 @@ export default function EditarPontos() {
 
           <button
             className={styles.botaoCadPontos}
-            onClick={() => navigate("/cadPontos")}
+            onClick={() =>
+              navigate("/cadpontos", {
+                state: {
+                  id_rota: rotaSelecionada.id_rota,
+                  nome_rota: rotaSelecionada.nome,
+                },
+              })
+            }
           >
             CADASTRAR PONTO
           </button>
