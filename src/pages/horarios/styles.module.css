@@ -5,7 +5,7 @@ body {
 
 .fundo {
   width: 100%;
-  background-image: url("../../assets/fundo.png");
+  background-image: url("/src/assets/fundo.png");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -45,27 +45,30 @@ body {
 
 
 .linha {
-  background: #ffffff;
-  padding: 1%;
-  border-radius: 15px;
-  color: black;
-  font-family: 'Roboto'
-  
+  background: rgba(255, 255, 255, 0.12);
+  padding: 2%;
+  border-radius: 24px;
+  color: white;
+  font-family: 'Roboto';
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
 }
 
 
 
 .tituloLinha {
   margin-bottom: 0.9%;
-  color: #1E40AF;
+  color: white;
 }
 
 
 .card {
-  background: #f9f9f9;
-  padding: 1%;
-  border-radius: 2%;
+  background: rgba(255,255,255,0.1);
+  padding: 1.4%;
+  border-radius: 18px;
   margin-bottom: 1%;
+  border: 1px solid rgba(255,255,255,0.12);
 }
 
 .topo {
@@ -78,6 +81,7 @@ body {
   font-weight: bold;
   font-size: 20px;
   font-family: 'Roboto'; 
+  color: white;
 }
 
 
@@ -100,7 +104,7 @@ body {
 }
 
 .semHorario {
-  color: #475569;
+  color: rgba(255, 255, 255, 0.75);
   font-size: 14px;
   font-weight: bold;
 }

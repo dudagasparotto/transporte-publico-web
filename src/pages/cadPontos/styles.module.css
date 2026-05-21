@@ -11,10 +11,26 @@ body {
 /* CONTAINER */
 .container {
   width: 100%;
-  background-image: url("../../assets/fundo.png");
+  background-image: url("/src/assets/fundo.png");
   background-size: cover;
   background-position: center;
   min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(3px);
+  z-index: 0;
+}
+
+.container > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* HEADER */
@@ -41,16 +57,20 @@ body {
   width: 100%;
   max-width: 600px;
   margin: auto;
-  background: white;
+  background: rgba(255,255,255,0.12);
   padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 28px;
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  backdrop-filter: blur(14px);
+  color: white;
   font-family: "roboto";
   margin-top: 8%;
 }
 
 .card h2 {
   margin-bottom: 20px;
+  color: white;
 }
 
 /* FORM */
@@ -72,7 +92,7 @@ label {
   display: block;
   font-size: 13px;
   margin-bottom: 5px;
-  color: #374151;
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 500;
 }
 
@@ -80,11 +100,21 @@ input,
 select {
   width: 100%;
   padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
   font-size: 14px;
   font-family: "roboto";
   box-sizing: border-box;
+  background-color: rgba(255,255,255,0.15);
+  color: white;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+select option {
+  color: #111827;
 }
 
 input:focus,

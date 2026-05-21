@@ -12,10 +12,12 @@ body {
 /* CONTAINER */
 .container {
   width: 100%;
-  background-image: url("../../assets/fundo.png");
+  background-image: url("/src/assets/fundo.png");
   background-size: cover;
   background-position: center; 
   min-height: 100vh;
+  position: relative;
+  overflow: hidden;
 }
 
 /* HEADER */
@@ -43,16 +45,22 @@ body {
   width: 100%;
   max-width: 600px;
   margin: auto;
-  background: white;
+  background: rgba(255,255,255,0.12);
   padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border-radius: 28px;
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  backdrop-filter: blur(14px);
+  color: white;
   font-family: "roboto";
-  margin-top: 8%;
+  margin-top: 3%;
+  align-items: center;
+  justify-content: center;
 }
 
 .card h2 {
   margin-bottom: 20px;
+  color: white;
 }
 
 /* FORM */
@@ -79,15 +87,21 @@ label {
   display: block;
   font-size: 13px;
   margin-bottom: 5px;
-  color: #374151;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 input {
   width: 100%;
   padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
   font-size: 14px;
+  background: rgba(255,255,255,0.15);
+  color: white;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.65);
 }
 
 /* FOTO */
@@ -101,8 +115,8 @@ input {
   width: 100%;
   max-width: 300px;
   height: 200px;
-  border: 2px dashed #cbd5e1;
-  border-radius: 10px;
+  border: 2px dashed rgba(255,255,255,0.35);
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,7 +130,7 @@ input {
 }
 
 .foto-box span {
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .foto-box input {

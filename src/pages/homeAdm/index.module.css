@@ -15,7 +15,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image: url("../../assets/fundo.png");
+  background-image: url("/src/assets/fundo.png");
   background-size: cover;
   background-position: center;
   width: 100%;
@@ -56,8 +56,8 @@ body {
 
 /* CARD */
 .adminCard {
-  background: white;
-  border: 6px solid #1e3a8a;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.15);
   padding: 20px;
   width: 260px;
   height: 300px;
@@ -67,8 +67,10 @@ body {
   justify-content: space-between;
 
   text-align: center;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  border-radius: 24px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  backdrop-filter: blur(14px);
+  color: white;
   transition: 0.3s;
 }
 
