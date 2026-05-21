@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./index.module.css";
+import LeafletRouteMap from "../../components/LeafletRouteMap";
 
 export default function EditarPontos() {
 
@@ -94,8 +95,8 @@ export default function EditarPontos() {
             </h2>
 
             <p className={styles.descricao}>
-              Selecione uma rota para editar os
-              pontos diretamente no Google Maps.
+              Selecione uma rota para visualizar
+              os pontos desenhados no mapa.
             </p>
 
           </div>
@@ -132,13 +133,10 @@ export default function EditarPontos() {
 
         <div className={styles.areaMapa}>
 
-          <iframe
-            src={rotaSelecionada.mapa}
-            title={rotaSelecionada.nome}
+          <LeafletRouteMap
+            rotaNome={rotaSelecionada.nome}
             className={styles.iframe}
-            loading="lazy"
-            allowFullScreen
-          ></iframe>
+          />
 
         </div>
 

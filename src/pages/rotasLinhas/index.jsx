@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './styles.module.css';
 import api, { getArquivoUrl } from '../../services/apis';
 import { listarRotasComPontos } from '../../services/transporte';
+import LeafletRouteMap from '../../components/LeafletRouteMap';
 
 export default function RotasLinhas() {
 
@@ -25,7 +26,7 @@ export default function RotasLinhas() {
         setRotas(dataRotas);
 
         setLinha(
-          dataRotas[0]?.mapa || null
+          dataRotas[0]?.nome_linha || null
         );
 
         const { data: dataMotoristas } =
@@ -72,13 +73,10 @@ export default function RotasLinhas() {
 
             {linha && (
 
-              <iframe
-                title="Mapa de Tupã"
-                src={linha}
+              <LeafletRouteMap
+                rotaNome={linha}
                 className={styles.mapa}
-                loading="lazy"
-                allowFullScreen
-              ></iframe>
+              />
 
             )}
 
@@ -98,7 +96,7 @@ export default function RotasLinhas() {
               key={rotaItem.id_rota}
               className={styles.Button}
               onClick={() =>
-                setLinha(rotaItem.mapa)
+                setLinha(rotaItem.nome_linha)
               }
             >
 
