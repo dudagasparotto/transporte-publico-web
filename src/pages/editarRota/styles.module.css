@@ -9,7 +9,7 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background-image: url("../../assets/fundo.png");
+  background-image: url("/src/assets/fundo.png");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -54,9 +54,13 @@
 .barraLateral {
   width: 100%;
   max-width: 320px;
-  background: #F3F4F6;
+  background: rgba(255,255,255,0.12);
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  backdrop-filter: blur(14px);
+  color: white;
 }
 
 .barraLateral h3 {
@@ -69,11 +73,20 @@ input,
   width: 100%;
   padding: 10px;
   margin: 8px 0 16px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
   font-family: "Roboto";
   font-size: 14px;
-  background: white;
+  background: rgba(255,255,255,0.15);
+  color: white;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.select option {
+  color: #111827;
 }
 
 .lista {
@@ -86,11 +99,12 @@ input,
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ffffff;
+  background: rgba(255,255,255,0.1);
   padding: 12px 15px;
   margin-bottom: 8px;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: white;
 }
 
 .delete {
@@ -110,10 +124,14 @@ input,
 
 .conteudoDireito {
   margin-top: 20px;
-  background: #F3F4F6;
+  background: rgba(255,255,255,0.12);
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 24px;
   width: 100%;
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  backdrop-filter: blur(14px);
+  color: white;
 }
 
 .mapa {

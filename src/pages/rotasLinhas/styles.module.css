@@ -34,18 +34,20 @@
 .motoristaBox {
   display: flex;
   align-items: center;
-  background-color: #f2f2f2;
+  background: rgba(255,255,255,0.12);
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(14px);
 }
 
 .motoristaTexto {
   padding: 16px 22px;
   font-size: 16px;
   font-weight: bold;
-  color: #1d1d1d;
-  background-color: white;
+  color: white;
+  background: rgba(255,255,255,0.1);
 }
 
 .Button {
@@ -97,18 +99,21 @@
 /* LATERAL */
 .infoPanel {
   flex: 1;
-  background-color: #ffffff;
-  border-radius: 14px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 24px;
   padding: 22px;
   box-sizing: border-box;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(14px);
   overflow-y: auto;
   height:100%;
+  color: white;
 }
 
 .subtitulo {
   font-size: 22px;
-  color: #111827;
+  color: white;
   margin-top: 5%;
   margin-bottom: 16px;
 }
@@ -120,20 +125,21 @@
 }
 
 .descricaoItens {
-  background-color: #eef2f8;
-  border-radius: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 18px;
   padding: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
 } 
 
 .descricaoItem {
   margin: 0 0 6px 0;
-  color: #1d2940;
+  color: white;
   font-size: 16px;
 }
 
 .descricaoItem p {
   margin: 0;
-  color: #666;
+  color: rgba(255, 255, 255, 0.75);
   font-size: 14px;
   line-height: 1.4;
 }
@@ -141,9 +147,10 @@
 /* CARD */
 .card {
   margin-top: auto;
-  background: white;
-  border-radius: 16px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 18px;
   padding: 15px;
+  border: 1px solid rgba(255,255,255,0.12);
 }
 
 /*MOTORISTA**/
@@ -154,18 +161,18 @@
   padding: 12px;
   border-radius: 10px;
   margin-top: 10px;
-  background: #f1f5f9;
+  background: rgba(255,255,255,0.1);
   cursor: pointer;
   transition: 0.2s;
 }
 
 .driverItem:hover {
-  background: #e2e8f0;
+  background: rgba(255,255,255,0.16);
 }
 
 .driverName {
   font-size: 16px;
-  color:#1d2940;
+  color: white;
 } 
 
 .status {

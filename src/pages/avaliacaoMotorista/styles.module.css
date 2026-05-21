@@ -2,8 +2,24 @@
   min-height: 100vh;
   width: 100%;
   padding: 40px;
-  background: linear-gradient(135deg, #1E40AF, #3B82F6);
+  background-image: url("/src/assets/fundo.png");
+  background-size: cover;
+  background-position: center;
+  position: relative;
   font-family: Arial, sans-serif;
+}
+
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(3px);
+}
+
+.container > * {
+  position: relative;
+  z-index: 1;
 }
 
 .botaoVoltar {
@@ -39,10 +55,13 @@
 }
 
 .card {
-  background: #fff;
-  border-radius: 20px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 24px;
   padding: 20px;
-  box-shadow: 0px 6px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(14px);
+  color: white;
   transition: 0.3s;
 }
 
@@ -57,12 +76,12 @@
 }
 
 .topoCard h3 {
-  color: #111827;
+  color: white;
 }
 
 .data {
   font-size: 12px;
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .estrelas {
@@ -72,7 +91,7 @@
 }
 
 .comentario {
-  color: #374151;
+  color: rgba(255, 255, 255, 0.82);
   font-size: 14px;
 }
 
@@ -89,11 +108,12 @@
 }
 
 .card {
-  background: white;
-  color: black;
+  background: rgba(255,255,255,0.12);
+  color: white;
   padding: 20px;
-  border-radius: 16px;
+  border-radius: 24px;
   margin-top: 20px;
+  border: 1px solid rgba(255,255,255,0.15);
 }
 
 .estrelas {
