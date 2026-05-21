@@ -41,7 +41,7 @@ function App() {
       <Route path="/loginmotorista" element={<LoginMotora />} />
       <Route path="/login/negado" element={<Negado />} />
       <Route path="/adm/editarhorarios" element={<EditarHorarios />} />
-      <Route path="/teladomotorista/:id"element={<TelaDoMotorista />}/>
+      <Route path="/teladomotorista/" element={<TelaDoMotorista />}/>
       
     
     </Routes>
