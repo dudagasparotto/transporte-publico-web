@@ -32,11 +32,8 @@ export default function LoginMotora() {
         );
 
       if (usuarioEncontrado) {
-
-        navigate(
-          `/teladomotorista/${usuarioEncontrado.id_motorista}`
-        );
-
+        console.log('Usuário autenticado:', usuarioEncontrado);
+      navigate(`/teladomotorista/${usuarioEncontrado.id_usuario}`)
       } else {
 
         alert('Login inválido');

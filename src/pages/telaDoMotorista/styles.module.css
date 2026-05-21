@@ -1,490 +1,421 @@
-/* =====================
-   Container principal
-   ===================== */
+/* =========================
+   CONTAINER
+========================= */
 .container {
     min-height: 100vh;
-    background-color: #e8f1fb;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    background: linear-gradient(135deg, #111827, #1E40AF);
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
 }
 
-/* =====================
-   Loading
-   ===================== */
+/* =========================
+   LOADING
+========================= */
 .loadingContainer {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     gap: 16px;
-    background-color: #e8f1fb;
-    color: #1a5fa8;
-    font-size: 1rem;
+    background: linear-gradient(135deg, #111827, #1E40AF);
+    color: white;
 }
 
 .spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid #c2dfff;
-    border-top-color: #1a5fa8;
+    width: 45px;
+    height: 45px;
+    border: 4px solid rgba(255,255,255,0.2);
+    border-top-color: white;
     border-radius: 50%;
     animation: girar 0.8s linear infinite;
 }
 
 @keyframes girar {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
-/* =====================
-   Header
-   ===================== */
+/* =========================
+   HEADER
+========================= */
 .header {
-    background: linear-gradient(135deg, #1a5fa8 0%, #0d3d72 100%);
-    color: white;
-    padding: 24px 0 0 0;
-    box-shadow: 0 4px 16px rgba(13, 61, 114, 0.25);
+    width: 100%;
+    padding: 24px;
+    box-sizing: border-box;
 }
 
 .headerInner {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 24px 24px 24px;
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 24px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 24px;
     flex-wrap: wrap;
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
 }
 
-/* Avatar */
+/* =========================
+   AVATAR
+========================= */
 .avatarArea {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 18px;
     flex: 1;
-    min-width: 220px;
+}
+
+.avatarFoto,
+.avatarIniciais {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
 .avatarFoto {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
     object-fit: cover;
-    border: 3px solid rgba(255, 255, 255, 0.4);
+    border: 3px solid rgba(255,255,255,0.3);
 }
 
 .avatarIniciais {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    border: 3px solid rgba(255, 255, 255, 0.4);
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: white;
-    flex-shrink: 0;
+    align-items: center;
+    background: rgba(255,255,255,0.15);
+    border: 3px solid rgba(255,255,255,0.25);
+    font-size: 28px;
+    font-weight: bold;
 }
 
 .headerInfo {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
 }
 
 .boasVindas {
-    font-size: 0.8rem;
-    opacity: 0.75;
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    opacity: 0.7;
+    letter-spacing: 1px;
 }
 
 .nomeMotorista {
-    font-size: 1.4rem;
-    font-weight: 700;
     margin: 0;
-    line-height: 1.2;
+    font-size: 32px;
 }
 
 .idTag {
-    font-size: 0.78rem;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 2px 8px;
-    border-radius: 12px;
+    font-size: 13px;
+    background: rgba(255,255,255,0.12);
+    padding: 5px 12px;
+    border-radius: 20px;
     width: fit-content;
-    opacity: 0.85;
 }
 
-/* Stats no header */
+/* =========================
+   STATS
+========================= */
 .headerStats {
     display: flex;
     align-items: center;
-    gap: 0;
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 14px;
-    padding: 12px 20px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 18px;
+    overflow: hidden;
 }
 
 .statItem {
+    padding: 18px 28px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 16px;
-    gap: 2px;
 }
 
 .statValor {
-    font-size: 1.5rem;
-    font-weight: 700;
-    line-height: 1;
+    font-size: 28px;
+    font-weight: bold;
 }
 
 .statLabel {
-    font-size: 0.72rem;
+    font-size: 12px;
     opacity: 0.7;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
 }
 
 .statDivisor {
     width: 1px;
-    height: 36px;
-    background: rgba(255, 255, 255, 0.25);
+    height: 40px;
+    background: rgba(255,255,255,0.15);
 }
 
-/* Botão sair */
+/* =========================
+   BOTÃO
+========================= */
 .botaoSair {
-    background: rgba(255, 255, 255, 0.15);
+    background: linear-gradient(135deg, #1E40AF, #3B82F6);
     color: white;
-    border: 1.5px solid rgba(255, 255, 255, 0.35);
-    padding: 10px 22px;
-    border-radius: 8px;
-    font-size: 0.88rem;
-    font-weight: 600;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: bold;
     cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-    white-space: nowrap;
+    transition: 0.2s;
 }
 
 .botaoSair:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-1px);
-}
-
-.botaoSair:active {
-    transform: translateY(0);
-}
-
-/* =====================
-   Abas
-   ===================== */
-.abas {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 24px;
-    display: flex;
-    gap: 4px;
-    position: relative;
-    top: -1px;
-}
-
-.aba {
-    padding: 12px 28px;
-    border: none;
-    background: rgba(255, 255, 255, 0.5);
-    color: #1a5fa8;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: 10px 10px 0 0;
-    transition: background 0.2s, color 0.2s;
-}
-
-.aba:hover {
-    background: rgba(255, 255, 255, 0.75);
-}
-
-.abaAtiva {
-    background: white;
-    color: #0d3d72;
-    box-shadow: 0 -2px 8px rgba(13, 61, 114, 0.08);
-}
-
-/* =====================
-   Conteúdo
-   ===================== */
-.conteudo {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 24px 48px 24px;
-    background: transparent;
-}
-
-.secao {
-    background: white;
-    border-radius: 0 12px 12px 12px;
-    padding: 28px;
-    box-shadow: 0 2px 12px rgba(13, 61, 114, 0.07);
-    min-height: 200px;
-}
-
-/* =====================
-   Estado vazio
-   ===================== */
-.vazio {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 20px;
-    color: #7a9cbf;
-    gap: 12px;
-}
-
-.vazioCone {
-    font-size: 3rem;
-    filter: grayscale(0.3);
-}
-
-.vazio p {
-    font-size: 1rem;
-    margin: 0;
-}
-
-/* =====================
-   Cards de Rotas
-   ===================== */
-.listaRotas {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.cardRota {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    padding: 20px;
-    border: 1.5px solid #d8e8f5;
-    border-radius: 12px;
-    background: #f7faff;
-    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
-}
-
-.cardRota:hover {
-    border-color: #1a5fa8;
-    box-shadow: 0 4px 16px rgba(26, 95, 168, 0.1);
     transform: translateY(-2px);
 }
 
-.rotaNumero {
-    background: #1a5fa8;
+/* =========================
+   ABAS
+========================= */
+.abas {
+    display: flex;
+    gap: 12px;
+    padding: 0 24px;
+}
+
+.aba {
+    border: none;
+    padding: 14px 24px;
+    border-radius: 14px 14px 0 0;
+    background: rgba(255,255,255,0.08);
     color: white;
-    font-size: 1.1rem;
-    font-weight: 800;
-    padding: 8px 14px;
-    border-radius: 8px;
-    min-width: 60px;
-    text-align: center;
-    flex-shrink: 0;
-    letter-spacing: 0.03em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.aba:hover {
+    background: rgba(255,255,255,0.14);
+}
+
+.abaAtiva {
+    background: rgba(255,255,255,0.18);
+}
+
+/* =========================
+   CONTEUDO
+========================= */
+.conteudo {
+    flex: 1;
+    width: 100%;
+    padding: 0 24px 24px;
+    box-sizing: border-box;
+}
+
+.secao {
+    width: 100%;
+    min-height: 500px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 0 24px 24px 24px;
+    padding: 28px;
+    box-sizing: border-box;
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+}
+
+/* =========================
+   VAZIO
+========================= */
+.vazio {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255,255,255,0.7);
+}
+
+.vazioCone {
+    font-size: 60px;
+}
+
+/* =========================
+   ROTAS
+========================= */
+.listaRotas {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.cardRota {
+    background: rgba(255,255,255,0.08);
+    border-radius: 18px;
+    padding: 22px;
+    display: flex;
+    gap: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: 0.2s;
+}
+
+.cardRota:hover {
+    transform: translateY(-3px);
+    background: rgba(255,255,255,0.12);
+}
+
+.rotaNumero {
+    min-width: 70px;
+    height: 70px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #1E40AF, #3B82F6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .rotaInfo {
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    flex: 1;
 }
 
 .rotaNome {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #0d3d72;
     margin: 0;
+    font-size: 22px;
 }
 
 .rotaPercurso {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    gap: 10px;
     flex-wrap: wrap;
-}
-
-.parada {
-    font-size: 0.88rem;
-    color: #4a6a8a;
-}
-
-.setaPercurso {
-    font-size: 1rem;
-    color: #1a5fa8;
-    font-weight: 700;
+    color: rgba(255,255,255,0.8);
 }
 
 .horario {
-    font-size: 0.82rem;
-    color: #5a7a9a;
-    background: #edf4ff;
-    padding: 3px 10px;
-    border-radius: 20px;
     width: fit-content;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.1);
+    font-size: 13px;
 }
 
-/* Badges de status */
 .badge {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 3px 12px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
     width: fit-content;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .badge_ativo {
-    background: #d4edda;
-    color: #1a6b35;
+    background: #22c55e;
+    color: white;
 }
 
 .badge_inativo {
-    background: #f8d7da;
-    color: #721c24;
+    background: #ef4444;
+    color: white;
 }
 
 .badge_pendente {
-    background: #fff3cd;
-    color: #856404;
+    background: #f59e0b;
+    color: white;
 }
 
-/* =====================
-   Resumo de avaliações
-   ===================== */
-.resumoAvaliacoes {
+/* =========================
+   AVALIAÇÕES
+========================= */
+.listaAvaliacoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.cardAvaliacao {
+    background: rgba(255,255,255,0.08);
+    border-radius: 18px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
     display: flex;
-    justify-content: center;
-    margin-bottom: 28px;
-    padding-bottom: 24px;
-    border-bottom: 1.5px solid #e8f1fb;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.avaliacaoTopo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.avaliacaoEstrelas {
+    font-size: 20px;
+}
+
+.avaliacaoComentario {
+    line-height: 1.5;
+    color: rgba(255,255,255,0.8);
+}
+
+.avaliacaoRodape {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+.estrelaCheia {
+    color: #facc15;
+}
+
+.estrelaVazia {
+    color: rgba(255,255,255,0.2);
+}
+
+/* =========================
+   RESUMO
+========================= */
+.resumoAvaliacoes {
+    margin-bottom: 30px;
 }
 
 .mediaGrande {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
 }
 
 .mediaNumero {
-    font-size: 3.5rem;
-    font-weight: 800;
-    color: #1a5fa8;
-    line-height: 1;
+    font-size: 70px;
+    font-weight: bold;
 }
 
 .mediaEstrelas {
-    display: flex;
-    gap: 4px;
-    font-size: 1.6rem;
+    font-size: 28px;
 }
 
 .mediaSub {
-    font-size: 0.85rem;
-    color: #7a9cbf;
+    opacity: 0.7;
 }
 
-/* Estrelas */
-.estrelaCheia {
-    color: #f5a623;
-}
+/* =========================
+   RESPONSIVO
+========================= */
+@media (max-width: 900px) {
 
-.estrelaVazia {
-    color: #d8e0ea;
-}
-
-/* =====================
-   Cards de Avaliações
-   ===================== */
-.listaAvaliacoes {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px;
-}
-
-.cardAvaliacao {
-    padding: 18px;
-    border: 1.5px solid #d8e8f5;
-    border-radius: 12px;
-    background: #f7faff;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.cardAvaliacao:hover {
-    border-color: #f5a623;
-    box-shadow: 0 4px 14px rgba(245, 166, 35, 0.12);
-}
-
-.avaliacaoTopo {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.avaliacaoEstrelas {
-    display: flex;
-    gap: 2px;
-    font-size: 1.15rem;
-}
-
-.avaliacaoNota {
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: #0d3d72;
-}
-
-.avaliacaoComentario {
-    font-size: 0.9rem;
-    color: #3a5a7a;
-    font-style: italic;
-    line-height: 1.5;
-    margin: 0;
-    flex: 1;
-}
-
-.avaliacaoRodape {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 8px;
-    border-top: 1px solid #e4eef7;
-    flex-wrap: wrap;
-    gap: 4px;
-}
-
-.avaliacaoPassageiro {
-    font-size: 0.8rem;
-    color: #5a7a9a;
-    font-weight: 600;
-}
-
-.avaliacaoData {
-    font-size: 0.78rem;
-    color: #8aaabb;
-}
-
-/* =====================
-   Responsivo
-   ===================== */
-@media (max-width: 640px) {
     .headerInner {
         flex-direction: column;
         align-items: flex-start;
-        gap: 16px;
     }
 
     .headerStats {
@@ -494,38 +425,41 @@
 
     .botaoSair {
         width: 100%;
-        text-align: center;
     }
 
+    .cardRota {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .conteudo,
+    .header,
     .abas {
-        padding: 0 12px;
-    }
-
-    .aba {
-        padding: 10px 16px;
-        font-size: 0.85rem;
-        flex: 1;
-        text-align: center;
-    }
-
-    .conteudo {
-        padding: 0 12px 40px 12px;
+        padding-left: 14px;
+        padding-right: 14px;
     }
 
     .secao {
-        padding: 20px 16px;
+        padding: 18px;
     }
 
     .listaAvaliacoes {
         grid-template-columns: 1fr;
     }
 
-    .cardRota {
-        flex-direction: column;
-        gap: 12px;
+    .aba {
+        flex: 1;
+        text-align: center;
+        padding: 12px;
     }
 
-    .rotaNumero {
-        width: fit-content;
+    .nomeMotorista {
+        font-size: 24px;
+    }
+
+    .mediaNumero {
+        font-size: 52px;
     }
 }
