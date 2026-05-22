@@ -1,225 +1,188 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  Clock,
+  Home,
+  MapPin,
+} from 'lucide-react';
 
 import styles from './styles.module.css';
-import api, { getArquivoUrl } from '../../services/apis';
 import { listarRotasComPontos } from '../../services/transporte';
 import LeafletRouteMap from '../../components/LeafletRouteMap';
 
 export default function RotasLinhas() {
-
   const [rotas, setRotas] = useState([]);
-  const [linha, setLinha] = useState(null);
-
-  const [motoristas, setMotoristas] =
-    useState([]);
+  const [rotaSelecionada, setRotaSelecionada] = useState(null);
+  const [abaSelecionada, setAbaSelecionada] = useState('');
 
   const navigate = useNavigate();
 
   useEffect(() => {
-
     async function carregarDados() {
-
       try {
-
         const dataRotas = await listarRotasComPontos();
         setRotas(dataRotas);
-
-        setLinha(
-          dataRotas[0]?.nome_linha || null
-        );
-
-        const { data: dataMotoristas } =
-          await api.get('/motoristas');
-
-        setMotoristas(
-          dataMotoristas.dados
-        );
-
       } catch (error) {
-
-        console.error(
-          'Erro ao carregar dados:',
-          error
-        );
-
+        console.error('Erro ao carregar dados:', error);
       }
-
     }
 
     carregarDados();
-
   }, []);
 
   return (
-
     <div className={styles.container}>
-
-      <header className={styles.header}>
-
+      <aside className={styles.sidebar}>
         <button
-          className={styles.Button}
-          onClick={() => navigate('/')}>
-          HOME
+          className={styles.menuButton}
+          onClick={() => navigate('/')}
+        >
+          <Home size={26} />
+          <span>HOME</span>
         </button>
 
-      </header>
+        <button
+          className={`${styles.menuButton} ${
+            abaSelecionada === 'pontos' ? styles.menuAtivo : ''
+          }`}
+          onClick={() => setAbaSelecionada('pontos')}
+        >
+          <MapPin size={26} />
+          <span>PONTOS</span>
+        </button>
 
-      <main className={styles.main}>
+        <button
+          className={`${styles.menuButton} ${
+            abaSelecionada === 'horarios' ? styles.menuAtivo : ''
+          }`}
+          onClick={() => setAbaSelecionada('horarios')}
+        >
+          <Clock size={26} />
+          <span>HORARIOS</span>
+        </button>
+      </aside>
 
-        <section className={styles.mapaSection}>
+      <main className={styles.conteudo}>
+        <section className={styles.hero}>
+          <div className={styles.heroTexto}>
+            <div className={styles.heroIcone}>
+              <MapPin size={36} />
+            </div>
 
-          <div className={styles.mapaWrapper}>
-
-            {linha && (
-
-              <LeafletRouteMap
-                rotaNome={linha}
-                className={styles.mapa}
-              />
-
-            )}
-
+            <div>
+              <h1>Rotas disponiveis</h1>
+              <p>Selecione uma rota para visualizar no mapa</p>
+            </div>
           </div>
 
+          <div className={styles.heroDecoracao}>
+            <div className={styles.tracoRota}></div>
+            <MapPin size={82} />
+          </div>
         </section>
 
-        <aside className={styles.infoPanel}>
+        <section className={styles.painelMapa}>
+          <div className={styles.rotasArea}>
+            {rotas.map((rotaItem) => (
+              <button
+                key={rotaItem.id_linha}
+                className={`${styles.botaoRota} ${
+                  rotaSelecionada &&
+                  rotaSelecionada.id_linha === rotaItem.id_linha
+                    ? styles.rotaAtiva
+                    : ''
+                }`}
+                style={{ background: rotaItem.cor }}
+                onClick={() => {
+                  setRotaSelecionada(rotaItem);
+                  setAbaSelecionada('');
+                }}
+              >
+                <span className={styles.bolinhaRota}></span>
+                {rotaItem.nome_linha}
+              </button>
+            ))}
+          </div>
 
-          <h2 className={styles.subtitulo}>
-            Rotas disponíveis
-          </h2>
+          {abaSelecionada && (
+            <div className={styles.painelDados}>
+              {!rotaSelecionada ? (
+                <p>Selecione uma rota para visualizar os dados.</p>
+              ) : abaSelecionada === 'pontos' ? (
+                <>
+                  <h3>Pontos da rota {rotaSelecionada.nome_linha}</h3>
 
-          {rotas.map((rotaItem) => (
+                  <div className={styles.listaDados}>
+                    {rotaSelecionada.pontos.length > 0 ? (
+                      rotaSelecionada.pontos.map((ponto) => (
+                        <span key={ponto.id_ponto}>
+                          {ponto.nome_ponto}
+                        </span>
+                      ))
+                    ) : (
+                      <p>Nenhum ponto cadastrado para esta rota.</p>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3>Horarios da rota {rotaSelecionada.nome_linha}</h3>
 
-            <button
-              key={rotaItem.id_rota}
-              className={styles.Button}
-              onClick={() =>
-                setLinha(rotaItem.nome_linha)
-              }
-            >
+                  <div className={styles.listaDados}>
+                    {rotaSelecionada.pontos.map((ponto) => (
+                      <div
+                        key={ponto.id_ponto}
+                        className={styles.itemHorario}
+                      >
+                        <strong>{ponto.nome_ponto}</strong>
+
+                        <div>
+                          {ponto.horarios.length > 0 ? (
+                            ponto.horarios.map((horario) => (
+                              <span key={horario.id_horario}>
+                                {horario.hora}
+                              </span>
+                            ))
+                          ) : (
+                            <small>Sem horarios cadastrados</small>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+
+          <div className={styles.mapaWrapper}>
+            <LeafletRouteMap
+              rotaNome={rotaSelecionada ? rotaSelecionada.nome_linha : null}
+              className={styles.mapa}
+            />
+
+            <div className={styles.cardCidade}>
+              <div className={styles.cardCidadeIcone}>
+                <MapPin size={30} />
+              </div>
 
               <div>
-                {rotaItem.nome_linhas?.toUpperCase()}
-              </div>
-
-            </button>
-
-          ))}
-
-          <h2 className={styles.subtitulo}>
-            Descrição das rotas:
-          </h2>
-
-          <div className={styles.descricaoRotas}>
-
-            {rotas.map((rotaItem) => (
-
-              <div
-                key={rotaItem.id}
-                className={
-                  styles.descricaoItens
-                }
-              >
-
-                <h4
-                  className={
-                    styles.descricaoItem
-                  }
-                >
-                  {rotaItem.nome_linhas}
-                </h4>
-
-                <p
-                  className={
-                    styles.descricaoItem
-                  }
-                >
-                  Início: {rotaItem.saida}
-                </p>
-
-                <p
-                  className={
-                    styles.descricaoItem}>
-                  Fim: {rotaItem.destino} </p>
-
-                <p
-                  className={
-                    styles.descricaoItem
-                  }>
-                  Paradas:{' '}
-                  {rotaItem.paradas?.join(
-                    ', '
-                  )}
-                </p>
-
-              </div>
-
-            ))}
-
-          </div>
-
-          <div className={styles.card}>
-
-            <h3> Escolha o motorista para fazer
-              uma avaliação: </h3>
-
-            {motoristas.map((m) => (
-
-              <div
-                key={m.id_motorista}
-                className={styles.driverItem}
-                onClick={() =>
-                  navigate(
-                    `/infoMotorista/${m.id_motorista}`,
-                    {
-                      state: {
-                        id_motorista:
-                          m.id_motorista,
-
-                        nome_motorista:
-                          m.nome_motorista,
-
-                        cpf_motorista:
-                          m.cpf_motorista,
-
-                        cnh_motorista:
-                          m.cnh_motorista,
-
-                        foto_motorista:
-                          m.foto_motorista
-                      }
-                    }
-                  )
-                }
-              >
-
-                <div className={styles.fotoMotorista}>
-
-                  <img
-                    src={getArquivoUrl(m.foto_motorista)}
-                    alt={m.nome_motorista}
-                  />
-
-                </div>
-
-                <strong className={styles.driverName}>
-                  {m.nome_motorista}
+                <strong>
+                  {rotaSelecionada
+                    ? `Rota ${rotaSelecionada.nome_linha}`
+                    : 'Tupa - SP'}
                 </strong>
 
-                <span className={styles.status}>
-                  Em serviço
-                </span>
-
+                <p>
+                  {rotaSelecionada
+                    ? 'Rota selecionada no mapa.'
+                    : 'Visualize as rotas disponiveis na cidade e regiao.'}
+                </p>
               </div>
-
-            ))}
+            </div>
           </div>
-        </aside>
+        </section>
       </main>
     </div>
-
   );
-
 }

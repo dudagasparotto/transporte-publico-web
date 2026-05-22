@@ -74,12 +74,19 @@ export default function LeafletRouteMap({ rotaNome, className }) {
 
     layer.clearLayers();
 
-    const rota =
-      rotasLeaflet.find(
-        (item) => normalizarNome(item.nome) === normalizarNome(rotaNome)
-      ) || rotasLeaflet[0];
+    if (!rotaNome) {
+      map.setView([-21.9333, -50.5195], 14);
+      setTimeout(() => map.invalidateSize(), 0);
+      return;
+    }
+
+    const rota = rotasLeaflet.find(
+      (item) => normalizarNome(item.nome) === normalizarNome(rotaNome)
+    );
 
     if (!rota) {
+      map.setView([-21.9333, -50.5195], 14);
+      setTimeout(() => map.invalidateSize(), 0);
       return;
     }
 
