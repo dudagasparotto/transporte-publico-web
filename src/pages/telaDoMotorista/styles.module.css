@@ -4,7 +4,7 @@
 .container {
     min-height: 100vh;
     width: 100%;
-    background: linear-gradient(135deg, #111827, #1E40AF);
+    background: linear-gradient(135deg, #abbbdf, #6079ca);
     display: flex;
     flex-direction: column;
     font-family: Arial, Helvetica, sans-serif;

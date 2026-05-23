@@ -1,255 +1,183 @@
 .container {
   width: 100%;
-  min-height: 100vh;
-  display: flex;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
   background:
-    radial-gradient(circle at top left, rgba(59, 130, 246, 0.28), transparent 34%),
-    linear-gradient(135deg, #071130 0%, #12307A 48%, #2563EB 100%);
+    radial-gradient(circle at 14% -10%, rgba(47, 124, 255, 0.26), transparent 32%),
+    linear-gradient(135deg, #06142e 0%, #0b2f7a 54%, #1264e8 100%);
   color: white;
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.sidebar {
-  width: 118px;
-  min-height: 100vh;
-  padding: 24px 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-  background: rgba(7, 17, 48, 0.72);
-  border-right: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 24%),
+    radial-gradient(circle at 38% -30%, rgba(96, 165, 250, 0.14), transparent 34%);
 }
 
-.menuButton {
-  width: 86px;
-  height: 84px;
-  padding: 0;
+.homeButton {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 96px;
+  height: 46px;
+  padding: 0 16px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  border: none;
-  border-radius: 10px;
+  gap: 9px;
+  border: 1px solid rgba(147, 197, 253, 0.32);
+  border-radius: 12px;
   color: white;
-  background: rgba(255, 255, 255, 0.04);
+  background: linear-gradient(135deg, #2f7cff, #0057d9);
+  box-shadow:
+    0 0 18px rgba(47, 124, 255, 0.42),
+    0 12px 24px rgba(0, 20, 80, 0.26);
   font-size: 12px;
-  font-weight: bold;
+  font-weight: 900;
   cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
+  transition: transform 0.2s, filter 0.2s, box-shadow 0.2s;
 }
 
-.menuButton:hover {
-  background: rgba(255, 255, 255, 0.12);
-  transform: translateY(-2px);
+.homeButton:hover {
+  transform: translateY(calc(-50% - 2px));
+  filter: brightness(1.12);
+  box-shadow:
+    0 0 27px rgba(96, 165, 250, 0.62),
+    0 20px 38px rgba(0, 20, 80, 0.32);
 }
 
-.menuButton:first-child,
-.menuAtivo {
-  background: linear-gradient(180deg, #3B82F6, #1E40AF);
-  box-shadow: 0 14px 30px rgba(30, 64, 175, 0.34);
-}
-
-.menuButton span {
-  font-size: 12px;
+.homeButton span {
   line-height: 1;
 }
 
 .conteudo {
-  flex: 1;
-  min-width: 0;
-  padding: 24px 28px 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.hero {
-  min-height: 105px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 22px;
-  border: 1px solid rgba(147, 197, 253, 0.18);
-  border-radius: 14px;
-  background: rgba(30, 64, 175, 0.18);
-  box-shadow:
-    inset 0 0 60px rgba(59, 130, 246, 0.12),
-    0 18px 40px rgba(0, 0, 0, 0.18);
-}
-
-.heroTexto {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.heroIcone {
-  color: #93C5FD;
-}
-
-.hero h1 {
-  margin: 0 0 8px;
-  color: white;
-  font-size: 26px;
-  line-height: 1;
-}
-
-.hero p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 14px;
-}
-
-.heroDecoracao {
   position: relative;
-  width: 310px;
-  min-height: 72px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  color: #60A5FA;
-}
-
-.tracoRota {
-  position: absolute;
-  right: 86px;
-  width: 180px;
-  height: 58px;
-  border-top: 3px dashed rgba(96, 165, 250, 0.9);
-  border-radius: 50%;
-  transform: rotate(-8deg);
+  z-index: 1;
+  width: calc(100% - 52px);
+  height: 100vh;
+  margin: 0 auto;
+  padding: 10px 0;
 }
 
 .painelMapa {
-  flex: 1;
-  min-height: 0;
-  padding: 16px;
-  border: 1px solid rgba(147, 197, 253, 0.16);
-  border-radius: 18px;
-  background: rgba(30, 64, 175, 0.16);
-  box-shadow:
-    inset 0 0 60px rgba(59, 130, 246, 0.12),
-    0 20px 44px rgba(0, 0, 0, 0.24);
+  height: calc(100vh - 20px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .rotasArea {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  margin-bottom: 26px;
-  padding: 16px 22px;
-  border: 1px solid rgba(147, 197, 253, 0.15);
-  border-radius: 16px;
-  background: rgba(30, 58, 138, 0.14);
-}
-
-.botaoRota {
-  min-height: 52px;
-  padding: 0 18px;
+  position: relative;
+  flex: 0 0 80px;
+  padding: 10px 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  border: none;
-  border-radius: 8px;
+  gap: 16px;
+  border: 1px solid rgba(120, 170, 255, 0.25);
+  border-radius: 18px;
+  background: rgba(18, 63, 150, 0.55);
+  box-shadow:
+    inset 0 0 38px rgba(147, 197, 253, 0.05),
+    0 16px 36px rgba(0, 20, 80, 0.2);
+  backdrop-filter: blur(12px);
+}
+
+.rotasGrupo {
+  width: min(1060px, calc(100% - 128px));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.rotasArea h2 {
+  margin: 0 6px 0 2px;
   color: white;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.botaoRota {
+  flex: 1;
+  min-width: 148px;
+  max-width: 180px;
+  height: 46px;
+  padding: 0 22px;
+  border: 1px solid color-mix(in srgb, var(--cor-rota, #60a5fa) 42%, rgba(191, 219, 254, 0.28));
+  border-radius: 10px;
+  color: white;
+  background: linear-gradient(135deg, #285fbd, #174696) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(219, 234, 254, 0.12),
+    0 12px 24px rgba(0, 20, 80, 0.22);
+  font-size: 14px;
+  font-weight: 900;
   cursor: pointer;
-  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.24);
-  transition: transform 0.2s, filter 0.2s, outline 0.2s;
+  transition:
+    background 0.22s,
+    box-shadow 0.22s,
+    filter 0.22s,
+    outline 0.22s,
+    transform 0.22s;
 }
 
 .botaoRota:hover {
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--cor-rota, #3b82f6) 30%, #2f7cff),
+      color-mix(in srgb, var(--cor-rota, #1d4ed8) 22%, #0b3f9e)
+    ) !important;
+  box-shadow:
+    0 0 18px color-mix(in srgb, var(--cor-rota, #60a5fa) 38%, transparent),
+    0 14px 28px rgba(0, 20, 80, 0.25);
+  filter: brightness(1.04);
   transform: translateY(-2px);
-  filter: brightness(1.05);
-}
-
-.bolinhaRota {
-  width: 17px;
-  height: 17px;
-  border: 3px solid rgba(255, 255, 255, 0.65);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.18);
 }
 
 .rotaAtiva {
-  outline: 3px solid rgba(255, 255, 255, 0.8);
-  outline-offset: 3px;
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--cor-rota, #3b82f6) 38%, #2f7cff),
+      color-mix(in srgb, var(--cor-rota, #1d4ed8) 28%, #0b3f9e)
+    ) !important;
+  outline: 2px solid rgba(255, 255, 255, 0.78);
+  outline-offset: 4px;
+  box-shadow:
+    0 0 22px color-mix(in srgb, var(--cor-rota, #60a5fa) 44%, transparent),
+    0 16px 32px rgba(0, 20, 80, 0.28);
 }
 
-.painelDados {
-  margin-bottom: 18px;
-  padding: 16px 18px;
-  border: 1px solid rgba(147, 197, 253, 0.16);
-  border-radius: 14px;
-  background: rgba(30, 58, 138, 0.2);
-  color: white;
-}
-
-.painelDados h3 {
-  margin: 0 0 12px;
-  font-size: 18px;
-}
-
-.painelDados p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.86);
-  font-size: 15px;
-}
-
-.listaDados {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.listaDados span {
-  display: inline-block;
-  padding: 8px 12px;
-  border-radius: 8px;
-  background: rgba(59, 130, 246, 0.28);
-  color: white;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.itemHorario {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.itemHorario strong {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 15px;
-}
-
-.itemHorario div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.itemHorario small {
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 13px;
+.areaMapaDados {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+  gap: 12px;
+  align-items: stretch;
 }
 
 .mapaWrapper {
   position: relative;
-  width: 100%;
-  height: clamp(430px, calc(100vh - 370px), 610px);
+  min-height: 0;
+  height: 100%;
   overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.88);
-  border-radius: 14px;
-  background: #E5E7EB;
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(147, 197, 253, 0.55);
+  border-radius: 20px;
+  background: #dbeafe;
+  box-shadow:
+    0 0 20px rgba(96, 165, 250, 0.18),
+    0 18px 45px rgba(0, 20, 80, 0.35);
 }
 
 .mapa {
@@ -258,109 +186,217 @@
   border: none;
 }
 
-.cardCidade {
-  position: absolute;
-  left: 24px;
-  bottom: 24px;
-  z-index: 500;
-  width: 280px;
-  min-height: 96px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 20px;
-  border-left: 5px solid #3B82F6;
-  border-radius: 12px;
-  background: rgba(30, 58, 138, 0.94);
-  color: white;
-  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35);
+.painelDados {
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  padding: 14px;
+  overflow-y: auto;
+  border: 1px solid rgba(120, 170, 255, 0.25);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(13, 43, 105, 0.95), rgba(8, 28, 74, 0.95));
+  box-shadow:
+    inset 0 0 28px rgba(120, 170, 255, 0.08),
+    0 18px 42px rgba(0, 20, 80, 0.3);
+  backdrop-filter: blur(12px);
 }
 
-.cardCidadeIcone {
-  min-width: 50px;
-  height: 50px;
+.painelDadosTopo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-bottom: 16px;
+}
+
+.botaoPainel {
+  min-height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 7px;
+  border: 1px solid rgba(120, 170, 255, 0.23);
   border-radius: 10px;
-  background: linear-gradient(135deg, #3B82F6, #1E40AF);
+  color: white;
+  background: rgba(28, 65, 138, 0.48);
+  font-size: 11px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 
-.cardCidade strong {
-  display: block;
-  margin-bottom: 8px;
+.botaoPainel:hover,
+.botaoPainelAtivo {
+  background: linear-gradient(135deg, #2f7cff, #0b56d8);
+  box-shadow: 0 0 19px rgba(47, 124, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.painelDados h3 {
+  margin: 0 0 4px;
+  color: white;
   font-size: 20px;
 }
 
-.cardCidade p {
+.painelDados p {
   margin: 0;
-  color: rgba(255, 255, 255, 0.86);
+  color: #dbeafe;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.nomeRota {
+  display: block;
+  margin-bottom: 14px;
+  color: #bfdbfe;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+.listaDados {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.itemPonto {
+  min-height: 54px;
+  padding: 9px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: rgba(56, 98, 177, 0.38);
+}
+
+.itemPonto > span {
+  min-width: 27px;
+  height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2f7cff, #0b56d8);
+  color: white;
+  font-size: 12px;
+  font-weight: 900;
+  box-shadow: 0 0 12px rgba(37, 99, 235, 0.38);
+}
+
+.itemPonto strong,
+.itemHorario strong {
+  display: block;
+  color: white;
   font-size: 13px;
-  line-height: 1.35;
+  line-height: 1.25;
 }
 
-@media (max-width: 1100px) {
-  .rotasArea {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .heroDecoracao {
-    display: none;
-  }
+.itemPonto small {
+  display: block;
+  margin-top: 4px;
+  color: #bfdbfe;
+  font-size: 12px;
 }
 
-@media (max-width: 800px) {
-  .container {
-    flex-direction: column;
-  }
+.itemHorario {
+  min-height: 50px;
+  padding: 9px 10px;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 9px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: rgba(56, 98, 177, 0.38);
+}
 
-  .sidebar {
-    width: 100%;
-    min-height: auto;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 14px;
-  }
+.itemHorario span {
+  padding: 7px 8px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #2f7cff, #0b56d8);
+  color: white;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 900;
+}
 
-  .menuButton {
-    width: 32%;
-    height: 54px;
-    flex-direction: row;
-    padding: 0 18px;
-  }
-
+@media (max-width: 1160px) {
   .conteudo {
-    padding: 14px;
+    width: calc(100% - 28px);
+    padding-top: 10px;
   }
 
-  .hero {
-    padding: 22px;
+  .rotasArea {
+    flex-wrap: wrap;
   }
 
-  .hero h1 {
-    font-size: 26px;
+  .rotasGrupo {
+    width: 100%;
+    flex-wrap: wrap;
+    padding-left: 112px;
   }
 
+  .areaMapaDados {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .container {
+    overflow-y: auto;
+    height: auto;
+  }
+
+  .conteudo,
   .painelMapa {
-    padding: 12px;
+    height: auto;
+  }
+
+  .rotasArea {
+    padding: 16px;
+  }
+
+  .rotasArea h2,
+  .homeButton,
+  .botaoRota {
+    width: 100%;
+  }
+
+  .homeButton {
+    position: static;
+    transform: none;
+  }
+
+  .rotasGrupo {
+    width: 100%;
+    padding-left: 0;
+  }
+
+  .areaMapaDados {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .mapaWrapper {
+    height: 430px;
+    border-radius: 20px;
+  }
+
+  .painelDados {
+    height: auto;
+    max-height: 430px;
+    border-radius: 18px;
   }
 }
 
 @media (max-width: 560px) {
-  .rotasArea {
+  .conteudo {
+    width: min(100% - 24px, 1500px);
+  }
+
+  .painelDadosTopo {
     grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 12px;
-  }
-
-  .mapaWrapper {
-    height: 420px;
-  }
-
-  .cardCidade {
-    left: 14px;
-    right: 14px;
-    bottom: 14px;
-    width: auto;
   }
 }

@@ -1,48 +1,82 @@
-import { Link } from "react-router";
+import { Link } from 'react-router-dom';
+import {
+  ArrowRight,
+  Bus,
+  ShieldCheck,
+  User,
+  Users,
+} from 'lucide-react';
 
 import styles from './index.module.css';
-import verhorario from '../../assets/horarios.png';
 import verrotas from '../../assets/rotas.png';
 
 export default function Home() {
-    return (
-        <div className={styles.container}>
+  return (
+    <div className={styles.container}>
       <header className={styles.header}>
-        <h1>TRANSPORTE PÚBLICO</h1>
+        <Link to="/" className={styles.logo}>
+          <span className={styles.logoIcone}>
+            <Bus size={40} />
+          </span>
+
+          <strong>Busly</strong>
+        </Link>
 
         <nav className={styles.menu}>
-          <Link to='/loginmotorista'>
-          <button className={styles.botao}>Motorista</button>
+          <Link to="/loginmotorista" className={styles.menuBotao}>
+            <User size={26} />
+            Motorista
           </Link>
-          <Link to='/loginadm'>
-          <button className={styles.botao}>Administrador</button>
+
+          <Link to="/loginadm" className={styles.menuBotao}>
+            <ShieldCheck size={27} />
+            Administrador
           </Link>
         </nav>
       </header>
 
-      <section className={styles.cards}>
+      <main className={styles.hero}>
+        <section className={styles.chamada}>
+          <h1>
+            Seu caminho,
+            <span> nossa missao.</span>
+          </h1>
 
-        <Link to='/rotas'>
-        <div className={styles.card}>
-          <img src={verrotas} alt='Rotas' />
-          <h3>Rotas de Ônibus</h3>
-          <p>Planeje sua rota e veja o melhor trajeto.</p>
-          <button className={styles.blue}>Ver Rotas</button>
-        </div>
-        </Link>
+          <div className={styles.linhaTitulo}></div>
 
-        <Link to='/horarios'>
-        <div className={styles.card}>
-          <img src={verhorario} alt='Horarios' />
-          <h3>Horários de Ônibus</h3>
-          <p>Consulte os horários de saída e chegada.</p>
-          <button className={styles.orange}>Ver Horários</button>
-        </div>
-        </Link>
+          <p>
+            Planeje suas rotas e acompanhe os horarios de forma simples,
+            rapida e intuitiva.
+          </p>
 
-      </section>
+          <div className={styles.infoBox}>
+            <span>
+              <Users size={33} />
+            </span>
 
-      <footer className={styles.footer} />
+            <div>
+              <strong>Para todos, todos os dias.</strong>
+              <small>Motoristas, gestores e passageiros.</small>
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.cardRotas}>
+          <img src={verrotas} alt="Mapa com rota de onibus" />
+
+          <p>
+            Planeje sua rota e veja o
+            <strong> melhor trajeto.</strong>
+          </p>
+
+          <Link to="/rotas" className={styles.botaoRotas}>
+            Ver Rotas
+            <ArrowRight size={31} />
+          </Link>
+        </section>
+      </main>
+
+
     </div>
-    )
+  );
 }
