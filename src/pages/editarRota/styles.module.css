@@ -1,196 +1,261 @@
-﻿.conteudo {
-  display: flex;
-  gap: 20px;
-  padding: 20px;
-  flex-wrap: wrap;
-}
-
-.imagemFundo {
+.container {
   position: relative;
   width: 100%;
   min-height: 100vh;
   background-image: url("/src/assets/fundo.png");
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
-  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.72);
+}
+
+.header,
+.card {
+  position: relative;
+  z-index: 1;
 }
 
 .header {
-  width: 100%;
-  background: linear-gradient(135deg, #1E40AF, #374151);
-  padding: 20px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.titulinho {
-  margin: 0;
-  color: #ffffff;
-  font-family: "Roboto";
-  font-size: 28px;
-}
-
-.button {
-  background: linear-gradient(135deg, #3B82F6, #1E40AF);
-  color: #E0F2FE;
-  border: none;
-  padding: 10px 28px;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  font-family: "Roboto";
-}
-
-.ladoesquerdo {
-  flex: 1 1 280px;
-  display: flex;
-  justify-content: center;
-  font-family: "Roboto";
-}
-
-.barraLateral {
-  width: 100%;
-  max-width: 320px;
-  background: rgba(255,255,255,0.12);
-  padding: 20px;
-  border-radius: 24px;
-  border: 1px solid rgba(255,255,255,0.15);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
-  backdrop-filter: blur(14px);
+  padding: 22px 38px;
+  background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
   color: white;
 }
 
-.barraLateral h3 {
-  margin-top: 0;
+.titulo {
+  margin: 0;
+  font-size: 27px;
+}
+
+.botaoVoltar {
+  padding: 12px 23px;
+  border: none;
+  border-radius: 9px;
+  background: #2563eb;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.card {
+  width: min(1500px, calc(100% - 44px));
+  margin: 22px auto;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(12px);
+  color: white;
+}
+
+.topo {
   margin-bottom: 20px;
 }
 
-input,
-.select {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.18);
-  font-family: "Roboto";
-  font-size: 14px;
-  background: rgba(255,255,255,0.15);
+.subtitulo {
+  margin: 0 0 7px;
   color: white;
+  font-size: 27px;
 }
 
-input::placeholder {
-  color: rgba(255, 255, 255, 0.65);
+.descricao {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 15px;
 }
 
-.select option {
-  color: #111827;
-}
-
-.lista {
-  list-style: none;
-  padding: 0;
-  margin: 10px 0;
-}
-
-.item {
+.botoesRotas {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255,255,255,0.1);
-  padding: 12px 15px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.12);
-  color: white;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 19px;
 }
 
-.delete {
-  background: #ef4444;
-  color: white;
+.botaoRota {
+  min-width: 124px;
+  padding: 12px 22px;
   border: none;
-  padding: 5px 10px;
-  border-radius: 6px;
+  border-radius: 9px;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
   cursor: pointer;
 }
 
-.ladoDireito {
-  flex: 3 1 500px;
-  margin-right: 5%;
-  font-family: "Roboto";
+.ativo {
+  outline: 3px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
 }
 
-.conteudoDireito {
-  margin-top: 20px;
-  background: rgba(255,255,255,0.12);
-  padding: 20px;
-  border-radius: 24px;
+.conteudoEdicao {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 338px;
+  gap: 16px;
+}
+
+.areaMapa {
+  height: calc(100vh - 270px);
+  min-height: 510px;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+}
+
+.painelEdicao {
+  min-height: 0;
+  padding: 16px;
+  overflow-y: auto;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.formLinha {
+  padding-bottom: 16px;
+  margin-bottom: 17px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.formLinha label,
+.formEdicao label {
+  display: block;
+  margin-bottom: 5px;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.linhaAcao {
+  display: flex;
+  gap: 8px;
+}
+
+.linhaAcao input,
+.formEdicao input {
   width: 100%;
-  border: 1px solid rgba(255,255,255,0.15);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
-  backdrop-filter: blur(14px);
+  margin: 0;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.14);
   color: white;
+  font-size: 13px;
 }
 
-.mapa {
+.linhaAcao button {
+  width: 42px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+.painelEdicao h3 {
+  margin: 0 0 14px;
+  font-size: 19px;
+}
+
+.listaPontos {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 18px;
+}
+
+.listaPontos p {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+}
+
+.itemPonto {
   width: 100%;
-  height: 40vh;
-  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.itemAtivo {
+  background: #2563eb;
+}
+
+.formEdicao {
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.formEdicao input {
+  margin-bottom: 12px;
 }
 
 .salvar {
-  background: #1E40AF;
-  color: white;
+  width: 100%;
+  padding: 12px;
   border: none;
-  padding: 10px 18px;
-  border-radius: 10px;
-  margin-top: 10px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
   cursor: pointer;
-  font-family: "Roboto";
 }
 
-.rodape {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
+.mensagem {
+  margin: 16px 0 0;
+  padding: 11px;
+  border-radius: 8px;
+  background: rgba(37, 99, 235, 0.35);
+  color: #dbeafe;
+  font-size: 13px;
 }
 
-@media (max-width: 768px) {
-  .conteudo {
-    flex-direction: column;
+@media (max-width: 1000px) {
+  .conteudoEdicao {
+    grid-template-columns: 1fr;
   }
 
-  .ladoesquerdo,
-  .ladoDireito {
-    width: 100%;
+  .areaMapa {
+    height: 500px;
   }
+}
 
+@media (max-width: 650px) {
   .header {
-    padding: 20px;
+    padding: 18px;
     flex-direction: column;
-    gap: 15px;
+    gap: 14px;
     text-align: center;
   }
 
-  .titulinho {
-    font-size: 22px;
+  .titulo {
+    font-size: 20px;
   }
-}
 
-/* overlay escuro por cima da imagem e atrás do conteúdo,
-porque legibilidade ainda importa nesse planeta */
-.imagemFundo::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.5); /* pode ajustar: 0.35 mais claro / 0.60 mais escuro */
-  z-index: 0;
-}
+  .card {
+    width: calc(100% - 24px);
+    padding: 14px;
+  }
 
-/* garante que todo conteúdo fique acima do overlay */
-.imagemFundo > * {
-  position: relative;
-  z-index: 1;
+  .areaMapa {
+    min-height: 390px;
+    height: 390px;
+  }
 }

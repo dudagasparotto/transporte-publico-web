@@ -280,7 +280,7 @@
   border-radius: 50%;
   background: linear-gradient(135deg, #2f7cff, #0b56d8);
   color: white;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 900;
   box-shadow: 0 0 12px rgba(37, 99, 235, 0.38);
 }
@@ -289,7 +289,7 @@
 .itemHorario strong {
   display: block;
   color: white;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.25;
 }
 
@@ -301,18 +301,24 @@
 }
 
 .itemHorario {
-  min-height: 50px;
-  padding: 9px 10px;
-  display: grid;
-  grid-template-columns: 56px minmax(0, 1fr);
-  gap: 9px;
-  align-items: center;
+  padding: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   background: rgba(56, 98, 177, 0.38);
 }
 
-.itemHorario span {
+.itemHorario strong {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.horariosPonto {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.horariosPonto span {
   padding: 7px 8px;
   border-radius: 7px;
   background: linear-gradient(135deg, #2f7cff, #0b56d8);

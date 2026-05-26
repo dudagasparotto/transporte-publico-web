@@ -23,6 +23,13 @@ export const mapasDasLinhas = {
   },
 };
 
+const nomesOriginaisDasLinhas = {
+  1: 'ROXA',
+  2: 'AZUL',
+  3: 'LARANJA',
+  4: 'AMARELA',
+};
+
 function horaCurta(hora) {
   return hora ? String(hora).slice(0, 5) : '';
 }
@@ -53,7 +60,9 @@ export async function listarRotasComPontos() {
 
   return linhas.map((linha) => {
     const nomeLinha = linha.nome_linhas;
-    const dadosMapa = mapasDasLinhas[nomeLinha] || {};
+    const nomeMapa =
+      mapasDasLinhas[nomeLinha] ? nomeLinha : nomesOriginaisDasLinhas[linha.id_linha];
+    const dadosMapa = mapasDasLinhas[nomeMapa] || {};
     const rotasDaLinha = rotas.filter((rota) => rota.id_linha === linha.id_linha);
 
     const pontosDaLinha = pontos
@@ -67,6 +76,8 @@ export async function listarRotasComPontos() {
       .map((ponto) => ({
         id_ponto: ponto.id_pontos,
         nome_ponto: ponto.nome_pontos,
+        latitude: ponto.latitude_pontos,
+        longitude: ponto.longitude_pontos,
         localizacao: localizacaoPonto(ponto),
         horarios: horarios
           .filter((horario) => horario.id_ponto === ponto.id_pontos)
@@ -81,6 +92,7 @@ export async function listarRotasComPontos() {
       id_rota: rotasDaLinha[0]?.id_rota,
       nome_linha: nomeLinha,
       nome_linhas: nomeLinha,
+      nome_mapa: nomeMapa || nomeLinha,
       mapa: dadosMapa.mapa || '',
       editar: dadosMapa.editar || '',
       cor: dadosMapa.cor || '#6B7280',

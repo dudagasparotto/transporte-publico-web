@@ -1,158 +1,266 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { MapPin, Save } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import styles from "../editarPontos/index.module.css";
+import styles from "./styles.module.css";
+import api from "../../services/apis";
+import { listarRotasComPontos } from "../../services/transporte";
 import LeafletRouteMap from "../../components/LeafletRouteMap";
 
 export default function EditarRota() {
-
   const navigate = useNavigate();
+  const [rotas, setRotas] = useState([]);
+  const [rotaSelecionada, setRotaSelecionada] = useState(null);
+  const [nomeLinha, setNomeLinha] = useState("");
+  const [pontoSelecionado, setPontoSelecionado] = useState(null);
+  const [nomePonto, setNomePonto] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const [mensagem, setMensagem] = useState("");
 
-  const rotas = [
+  useEffect(() => {
+    async function iniciarEdicao() {
+      try {
+        const dados = await listarRotasComPontos();
+        setRotas(dados);
+        setRotaSelecionada(dados[0] || null);
+        setNomeLinha(dados[0]?.nome_linha || "");
+      } catch (error) {
+        console.error("Erro ao carregar rotas:", error);
+      }
+    }
 
-    {
-      nome: "ROXA",
-      cor: "#7C3AED",
+    iniciarEdicao();
+  }, []);
 
-      mapa:
-        "https://www.google.com/maps/d/embed?mid=1EifQjeD8Cx_JHRKUjpf0wx2JezX3bxw&ehbc=2E312F",
+  async function recarregarRota(idLinha, idPonto) {
+    const dados = await listarRotasComPontos();
+    const rotaAtual =
+      dados.find((rota) => rota.id_linha === idLinha) || dados[0] || null;
 
-      editar:
-        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1EifQjeD8Cx_JHRKUjpf0wx2JezX3bxw&ll=-21.92382017330368%2C-50.50826300000001&z=14",
-    },
+    setRotas(dados);
+    setRotaSelecionada(rotaAtual);
+    setNomeLinha(rotaAtual?.nome_linha || "");
 
-    {
-      nome: "AZUL",
-      cor: "#2563EB",
+    const pontoAtual = rotaAtual?.pontos.find(
+      (ponto) => ponto.id_ponto === idPonto
+    );
 
-      mapa:
-        "https://www.google.com/maps/d/embed?mid=1PZnUg7Xd-2Y_LuZgKu0I8XBxSUJqOGg&ehbc=2E312F",
+    if (pontoAtual) {
+      selecionarPonto(pontoAtual);
+    }
+  }
 
-      editar:
-        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1PZnUg7Xd-2Y_LuZgKu0I8XBxSUJqOGg&ll=-21.933259358327934%2C-50.50249973895575&z=15",
-    },
+  function selecionarRota(rota) {
+    setRotaSelecionada(rota);
+    setNomeLinha(rota.nome_linha);
+    setPontoSelecionado(null);
+    setNomePonto("");
+    setLatitude("");
+    setLongitude("");
+    setMensagem("");
+  }
 
-    {
-      nome: "LARANJA",
-      cor: "#EA580C",
+  function selecionarPonto(ponto) {
+    setPontoSelecionado(ponto);
+    setNomePonto(ponto.nome_ponto);
+    setLatitude(String(ponto.latitude));
+    setLongitude(String(ponto.longitude));
+    setMensagem("Arraste o marcador ou clique no mapa para mudar a posicao.");
+  }
 
-      mapa:
-        "https://www.google.com/maps/d/embed?mid=1bUGpvBgmP-nTU3OPTjyh48C8-2XWEt4&ehbc=2E312F",
+  function alterarPontoNoMapa(ponto, local) {
+    const latitudeNova = local.latitude.toFixed(8);
+    const longitudeNova = local.longitude.toFixed(8);
+    const pontoAtualizado = {
+      ...ponto,
+      latitude: latitudeNova,
+      longitude: longitudeNova,
+      localizacao: `${latitudeNova}, ${longitudeNova}`,
+    };
 
-      editar:
-        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1bUGpvBgmP-nTU3OPTjyh48C8-2XWEt4&ll=-21.931932733565503%2C-50.504239999999996&z=15",
-    },
+    setPontoSelecionado(pontoAtualizado);
+    setNomePonto(pontoAtualizado.nome_ponto);
+    setLatitude(latitudeNova);
+    setLongitude(longitudeNova);
+    setRotaSelecionada((rotaAtual) => ({
+      ...rotaAtual,
+      pontos: rotaAtual.pontos.map((item) =>
+        item.id_ponto === pontoAtualizado.id_ponto ? pontoAtualizado : item
+      ),
+    }));
+    setMensagem("Posicao alterada. Clique em salvar ponto.");
+  }
 
-    {
-      nome: "AMARELA",
-      cor: "#EAB308",
+  function selecionarLocal(local) {
+    if (pontoSelecionado) {
+      alterarPontoNoMapa(pontoSelecionado, local);
+    }
+  }
 
-      mapa:
-        "https://www.google.com/maps/d/embed?mid=1oHTQrYTHxzncd8IdKuHOWY9z0damzVE&ehbc=2E312F",
+  async function salvarLinha() {
+    if (!rotaSelecionada || !nomeLinha.trim()) {
+      alert("Informe o nome da linha.");
+      return;
+    }
 
-      editar:
-        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1oHTQrYTHxzncd8IdKuHOWY9z0damzVE&ll=-21.938244634367194%2C-50.50728750000001&z=15",
-    },
+    try {
+      const { data } = await api.patch(`/linhas/${rotaSelecionada.id_linha}`, {
+        nome_da_linha: nomeLinha.trim(),
+      });
 
-  ];
+      if (!data.sucesso) {
+        alert(data.mensagem || "Erro ao atualizar linha.");
+        return;
+      }
 
-  const [rotaSelecionada, setRotaSelecionada] =
-    useState(rotas[0]);
+      await recarregarRota(rotaSelecionada.id_linha, pontoSelecionado?.id_ponto);
+      setMensagem("Nome da linha salvo com sucesso.");
+    } catch (error) {
+      console.error("Erro ao atualizar linha:", error);
+      alert(error.response?.data?.mensagem || "Erro ao atualizar linha.");
+    }
+  }
+
+  async function salvarPonto() {
+    if (!pontoSelecionado || !nomePonto || !latitude || !longitude) {
+      alert("Escolha um ponto no mapa ou na lista.");
+      return;
+    }
+
+    try {
+      const { data } = await api.patch(`/pontos/${pontoSelecionado.id_ponto}`, {
+        nome_dos_pontos: nomePonto,
+        latitude_dos_pontos: Number(latitude),
+        longitude_dos_pontos: Number(longitude),
+        id_rota: rotaSelecionada.id_rota,
+      });
+
+      if (!data.sucesso) {
+        alert(data.mensagem || "Erro ao atualizar ponto.");
+        return;
+      }
+
+      await recarregarRota(rotaSelecionada.id_linha, pontoSelecionado.id_ponto);
+      setMensagem("Ponto salvo. O trajeto foi atualizado no mapa.");
+    } catch (error) {
+      console.error("Erro ao atualizar ponto:", error);
+      alert(error.response?.data?.mensagem || "Erro ao atualizar ponto.");
+    }
+  }
 
   return (
-
     <div className={styles.container}>
-
       <div className={styles.overlay}></div>
 
       <header className={styles.header}>
+        <h1 className={styles.titulo}>PAINEL ADMINISTRATIVO - EDITAR ROTAS</h1>
 
-        <h1 className={styles.titulo}>
-          PAINEL ADMINISTRATIVO - EDITAR ROTAS
-        </h1>
-
-        <button
-          className={styles.botaoVoltar}
-          onClick={() => navigate("/adm")}
-        >
+        <button className={styles.botaoVoltar} onClick={() => navigate("/adm")}>
           VOLTAR
         </button>
-
       </header>
 
       <main className={styles.card}>
-
         <div className={styles.topo}>
-
           <div>
-
-            <h2 className={styles.subtitulo}>
-              Editar Rotas
-            </h2>
-
+            <h2 className={styles.subtitulo}>Rotas e linhas</h2>
             <p className={styles.descricao}>
-              Selecione uma rota para visualizar
-              o desenho dela no mapa.
+              Selecione uma linha e ajuste os pontos diretamente no mapa.
             </p>
-
           </div>
-
         </div>
 
         <div className={styles.botoesRotas}>
-
           {rotas.map((rota) => (
-
             <button
-              key={rota.nome}
+              key={rota.id_linha}
               className={`${styles.botaoRota} ${
-                rotaSelecionada.nome === rota.nome
-                  ? styles.ativo
-                  : ""
+                rotaSelecionada?.id_linha === rota.id_linha ? styles.ativo : ""
               }`}
-              style={{
-                background:
-                  rotaSelecionada.nome === rota.nome
-                    ? rota.cor
-                    : "#6B7280",
-              }}
-              onClick={() =>
-                setRotaSelecionada(rota)
-              }
+              style={{ background: rota.cor }}
+              onClick={() => selecionarRota(rota)}
             >
-              {rota.nome}
+              {rota.nome_linha}
             </button>
-
           ))}
-
         </div>
 
-        <div className={styles.areaMapa}>
+        <div className={styles.conteudoEdicao}>
+          <div className={styles.areaMapa}>
+            <LeafletRouteMap
+              rotaNome={rotaSelecionada?.nome_mapa}
+              pontos={rotaSelecionada?.pontos || []}
+              corTrajeto={rotaSelecionada?.cor}
+              mostrarTrajetoPontos
+              onSelecionarPonto={selecionarPonto}
+              onMoverPonto={alterarPontoNoMapa}
+              onSelecionarLocal={pontoSelecionado ? selecionarLocal : null}
+            />
+          </div>
 
-          <LeafletRouteMap
-            rotaNome={rotaSelecionada.nome}
-            className={styles.iframe}
-          />
+          <aside className={styles.painelEdicao}>
+            <div className={styles.formLinha}>
+              <label htmlFor="nomeLinha">Nome da linha</label>
+              <div className={styles.linhaAcao}>
+                <input
+                  id="nomeLinha"
+                  value={nomeLinha}
+                  onChange={(event) => setNomeLinha(event.target.value)}
+                />
+                <button onClick={salvarLinha} title="Salvar linha">
+                  <Save size={18} />
+                </button>
+              </div>
+            </div>
 
+            <h3>Pontos do trajeto</h3>
+            <div className={styles.listaPontos}>
+              {rotaSelecionada?.pontos.length ? (
+                rotaSelecionada.pontos.map((ponto) => (
+                  <button
+                    key={ponto.id_ponto}
+                    className={`${styles.itemPonto} ${
+                      pontoSelecionado?.id_ponto === ponto.id_ponto
+                        ? styles.itemAtivo
+                        : ""
+                    }`}
+                    onClick={() => selecionarPonto(ponto)}
+                  >
+                    <MapPin size={17} />
+                    {ponto.nome_ponto}
+                  </button>
+                ))
+              ) : (
+                <p>Nenhum ponto cadastrado nesta rota.</p>
+              )}
+            </div>
+
+            {pontoSelecionado && (
+              <div className={styles.formEdicao}>
+                <label htmlFor="nomePonto">Ponto selecionado</label>
+                <input
+                  id="nomePonto"
+                  value={nomePonto}
+                  onChange={(event) => setNomePonto(event.target.value)}
+                />
+
+                <label>Latitude</label>
+                <input value={latitude} readOnly />
+
+                <label>Longitude</label>
+                <input value={longitude} readOnly />
+
+                <button className={styles.salvar} onClick={salvarPonto}>
+                  SALVAR PONTO
+                </button>
+              </div>
+            )}
+
+            {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
+          </aside>
         </div>
-
-        <div className={styles.rodape}>
-
-          <a
-            href={rotaSelecionada.editar}
-            target="_blank"
-            rel="noreferrer"
-            className={styles.botaoEditar}
-          >
-            EDITAR MAPA DA ROTA
-          </a>
-
-        </div>
-
       </main>
-
     </div>
-
   );
-
 }

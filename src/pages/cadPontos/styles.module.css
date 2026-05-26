@@ -1,31 +1,18 @@
-/* RESET */
-body {
-  margin: 0;
-}
-
-/* PAGE */
-.page {
-  width: 100%;
-}
-
-/* CONTAINER */
 .container {
   width: 100%;
+  min-height: 100vh;
+  position: relative;
   background-image: url("/src/assets/fundo.png");
   background-size: cover;
   background-position: center;
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .container::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(15, 23, 42, 0.72);
-  backdrop-filter: blur(3px);
-  z-index: 0;
+  background: rgba(15, 23, 42, 0.7);
 }
 
 .container > * {
@@ -33,127 +20,178 @@ body {
   z-index: 1;
 }
 
-/* HEADER */
 .header {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  background: linear-gradient(135deg, #1e40af, #374151);
-  padding: 20px 40px;
+  min-height: 82px;
+  padding: 18px 34px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-family: "Roboto";
+  justify-content: space-between;
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  color: white;
 }
 
 .header h1 {
   margin: 0;
-  font-size: 28px;
+  font-size: 27px;
+}
+
+.botaoVoltar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 18px;
+  background: #1e3a8a;
   color: white;
-}
-
-/* CARD CENTRALIZADO */
-.card {
-  width: 100%;
-  max-width: 600px;
-  margin: auto;
-  background: rgba(255,255,255,0.12);
-  padding: 40px;
-  border-radius: 28px;
-  border: 1px solid rgba(255,255,255,0.15);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
-  backdrop-filter: blur(14px);
-  color: white;
-  font-family: "roboto";
-  margin-top: 8%;
-}
-
-.card h2 {
-  margin-bottom: 20px;
-  color: white;
-}
-
-/* FORM */
-.content {
-  display: block;
-}
-
-.form {
-  width: 100%;
-}
-
-/* FORM GROUP */
-.formGroup {
-  margin-bottom: 20px;
-}
-
-/* INPUTS E SELECT */
-label {
-  display: block;
-  font-size: 13px;
-  margin-bottom: 5px;
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 500;
-}
-
-input,
-select {
-  width: 100%;
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.18);
+  border: none;
+  border-radius: 8px;
   font-size: 14px;
-  font-family: "roboto";
-  box-sizing: border-box;
-  background-color: rgba(255,255,255,0.15);
+  font-weight: bold;
+}
+
+.layout {
+  width: min(1400px, calc(100% - 42px));
+  margin: 26px auto;
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: 20px;
+}
+
+.card,
+.mapCard {
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(12px);
+}
+
+.card h2,
+.mapHeader h2 {
+  margin: 0 0 22px;
+  font-size: 22px;
   color: white;
 }
 
-input::placeholder {
-  color: rgba(255, 255, 255, 0.65);
+.formGroup {
+  margin-bottom: 18px;
 }
 
-select option {
+.formGroup label {
+  display: block;
+  margin-bottom: 6px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.formGroup input,
+.formGroup select {
+  width: 100%;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.16);
+  color: white;
+  font-size: 14px;
+}
+
+.formGroup input::placeholder {
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.formGroup select option {
   color: #111827;
 }
 
-input:focus,
-select:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+.localSelecionado {
+  min-height: 68px;
+  margin: 24px 0;
+  padding: 13px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  border-radius: 10px;
+  background: rgba(30, 64, 175, 0.46);
+  color: white;
 }
 
-.select {
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 20px;
-  padding-right: 40px;
+.localSelecionado strong {
+  display: block;
+  font-size: 14px;
 }
 
-/* BOTÕES */
+.localSelecionado span {
+  display: block;
+  margin-top: 4px;
+  color: #bfdbfe;
+  font-size: 12px;
+}
+
 .btn {
   width: 100%;
-  padding: 12px;
+  padding: 13px;
+  border: none;
+  border-radius: 9px;
   background: linear-gradient(135deg, #1e40af, #3b82f6);
   color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
   font-size: 15px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  margin-top: 10px;
+  font-weight: bold;
 }
 
-.btn:hover {
-  background: linear-gradient(135deg, #1e3a8a, #2563eb);
-  box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+.mapCard {
+  display: flex;
+  flex-direction: column;
 }
 
-.btn:active {
-  transform: scale(0.98);
+.mapHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.mapHeader h2 {
+  margin: 0;
+}
+
+.mapHeader span {
+  padding: 8px 13px;
+  border-radius: 8px;
+  background: rgba(30, 64, 175, 0.55);
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.mapa {
+  height: calc(100vh - 190px);
+  min-height: 500px;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .mapa {
+    height: 480px;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 580px) {
+  .header {
+    padding: 16px;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .layout {
+    width: calc(100% - 24px);
+    margin: 14px auto;
+  }
 }

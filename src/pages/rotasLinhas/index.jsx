@@ -32,23 +32,10 @@ function menorHorarioDoPonto(ponto) {
   );
 }
 
-function textoMenorHorario(ponto) {
-  const horariosOrdenados = [...ponto.horarios].sort(
+function ordenarHorarios(horarios) {
+  return [...horarios].sort(
     (a, b) => horaParaMinutos(a.hora) - horaParaMinutos(b.hora)
   );
-
-  return horariosOrdenados[0]?.hora || 'Sem horario cadastrado';
-}
-
-function listarHorariosDaRota(pontos) {
-  return pontos
-    .flatMap((ponto) =>
-      ponto.horarios.map((horario) => ({
-        ...horario,
-        nome_ponto: ponto.nome_ponto,
-      }))
-    )
-    .sort((a, b) => horaParaMinutos(a.hora) - horaParaMinutos(b.hora));
 }
 
 export default function RotasLinhas() {
@@ -74,6 +61,12 @@ export default function RotasLinhas() {
 
     carregarDados();
   }, []);
+
+  const pontosComHorarios = rotaSelecionada
+    ? ordenarPontosPorHorario(rotaSelecionada.pontos).filter(
+        (ponto) => ponto.horarios.length > 0
+      )
+    : [];
 
   return (
     <div className={styles.container}>
@@ -111,7 +104,8 @@ export default function RotasLinhas() {
           <div className={styles.areaMapaDados}>
             <div className={styles.mapaWrapper}>
               <LeafletRouteMap
-                rotaNome={rotaSelecionada ? rotaSelecionada.nome_linha : null}
+                rotaNome={rotaSelecionada ? rotaSelecionada.nome_mapa : null}
+                pontos={rotaSelecionada ? rotaSelecionada.pontos : []}
                 className={styles.mapa}
               />
             </div>
@@ -160,7 +154,6 @@ export default function RotasLinhas() {
 
                             <div>
                               <strong>{ponto.nome_ponto}</strong>
-                              <small>{textoMenorHorario(ponto)}</small>
                             </div>
                           </div>
                         )
@@ -178,15 +171,24 @@ export default function RotasLinhas() {
                   </strong>
 
                   <div className={styles.listaDados}>
-                    {listarHorariosDaRota(rotaSelecionada.pontos).length > 0 ? (
-                      listarHorariosDaRota(rotaSelecionada.pontos).map(
-                        (horario) => (
+                    {pontosComHorarios.length > 0 ? (
+                      pontosComHorarios.map(
+                        (ponto) => (
                           <div
-                            key={horario.id_horario}
+                            key={ponto.id_ponto}
                             className={styles.itemHorario}
                           >
-                            <span>{horario.hora}</span>
-                            <strong>{horario.nome_ponto}</strong>
+                            <strong>{ponto.nome_ponto}</strong>
+
+                            <div className={styles.horariosPonto}>
+                              {ordenarHorarios(ponto.horarios).map(
+                                (horario) => (
+                                  <span key={horario.id_horario}>
+                                    {horario.hora}
+                                  </span>
+                                )
+                              )}
+                            </div>
                           </div>
                         )
                       )

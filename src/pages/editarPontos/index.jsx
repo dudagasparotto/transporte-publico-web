@@ -1,76 +1,130 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { MapPin, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./index.module.css";
+import api from "../../services/apis";
+import { listarRotasComPontos } from "../../services/transporte";
 import LeafletRouteMap from "../../components/LeafletRouteMap";
 
 export default function EditarPontos() {
-
   const navigate = useNavigate();
+  const [rotas, setRotas] = useState([]);
+  const [rotaSelecionada, setRotaSelecionada] = useState(null);
+  const [pontoSelecionado, setPontoSelecionado] = useState(null);
+  const [nome, setNome] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
 
-  const rotas = [
+  useEffect(() => {
+    async function iniciarEdicao() {
+      try {
+        const dados = await listarRotasComPontos();
+        setRotas(dados);
+        setRotaSelecionada(dados[0] || null);
+      } catch (error) {
+        console.error("Erro ao carregar pontos:", error);
+      }
+    }
 
-    {
-      id_rota: 1,
-      nome: "ROXA",
-      cor: "#7C3AED",
+    iniciarEdicao();
+  }, []);
 
-      mapa:
-        "https://www.google.com/maps/d/embed?mid=1EifQjeD8Cx_JHRKUjpf0wx2JezX3bxw&ehbc=2E312F",
+  async function carregarRotas(idRota, idPonto) {
+    try {
+      const dados = await listarRotasComPontos();
+      setRotas(dados);
 
-      editar:
-        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1EifQjeD8Cx_JHRKUjpf0wx2JezX3bxw&ll=-21.92382017330368%2C-50.50826300000001&z=14",
-    },
+      const rotaAtual =
+        dados.find((rota) => rota.id_rota === idRota) || dados[0] || null;
 
-    {
-      id_rota: 2,
-      nome: "AZUL",
-      cor: "#2563EB",
+      setRotaSelecionada(rotaAtual);
 
-      mapa:
-        "https://www.google.com/maps/d/embed?mid=1PZnUg7Xd-2Y_LuZgKu0I8XBxSUJqOGg&ehbc=2E312F",
+      if (rotaAtual && idPonto) {
+        const pontoAtual = rotaAtual.pontos.find(
+          (ponto) => ponto.id_ponto === idPonto
+        );
 
-      editar:
-        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1PZnUg7Xd-2Y_LuZgKu0I8XBxSUJqOGg&ll=-21.933259358327934%2C-50.50249973895575&z=15",
-    },
+        if (pontoAtual) {
+          setPontoSelecionado(pontoAtual);
+          setNome(pontoAtual.nome_ponto);
+          setLatitude(String(pontoAtual.latitude));
+          setLongitude(String(pontoAtual.longitude));
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao carregar pontos:", error);
+    }
+  }
 
-    {
-      id_rota: 3,
-      nome: "LARANJA",
-      cor: "#EA580C",
+  function selecionarRota(rota) {
+    setRotaSelecionada(rota);
+    setPontoSelecionado(null);
+    setNome("");
+    setLatitude("");
+    setLongitude("");
+  }
 
-      mapa:
-        "https://www.google.com/maps/d/embed?mid=1bUGpvBgmP-nTU3OPTjyh48C8-2XWEt4&ehbc=2E312F",
+  function selecionarPonto(ponto) {
+    setPontoSelecionado(ponto);
+    setNome(ponto.nome_ponto);
+    setLatitude(String(ponto.latitude));
+    setLongitude(String(ponto.longitude));
+  }
 
-      editar:
-        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1bUGpvBgmP-nTU3OPTjyh48C8-2XWEt4&ll=-21.931932733565503%2C-50.504239999999996&z=15",
-    },
+  function alterarLocal(local) {
+    const latitudeNova = local.latitude.toFixed(8);
+    const longitudeNova = local.longitude.toFixed(8);
+    const pontoAtualizado = {
+      ...pontoSelecionado,
+      latitude: latitudeNova,
+      longitude: longitudeNova,
+      localizacao: `${latitudeNova}, ${longitudeNova}`,
+    };
 
-    {
-      id_rota: 4,
-      nome: "AMARELA",
-      cor: "#EAB308",
+    setLatitude(latitudeNova);
+    setLongitude(longitudeNova);
+    setPontoSelecionado(pontoAtualizado);
+    setRotaSelecionada({
+      ...rotaSelecionada,
+      pontos: rotaSelecionada.pontos.map((ponto) =>
+        ponto.id_ponto === pontoAtualizado.id_ponto ? pontoAtualizado : ponto
+      ),
+    });
+  }
 
-      mapa:
-        "https://www.google.com/maps/d/embed?mid=1oHTQrYTHxzncd8IdKuHOWY9z0damzVE&ehbc=2E312F",
+  async function salvarPonto() {
+    if (!pontoSelecionado || !nome || !latitude || !longitude) {
+      alert("Selecione um ponto para editar.");
+      return;
+    }
 
-      editar:
-        "https://www.google.com/maps/d/edit?hl=pt-BR&mid=1oHTQrYTHxzncd8IdKuHOWY9z0damzVE&ll=-21.938244634367194%2C-50.50728750000001&z=15",
-    },
+    try {
+      const { data } = await api.patch(`/pontos/${pontoSelecionado.id_ponto}`, {
+        nome_dos_pontos: nome,
+        latitude_dos_pontos: Number(latitude),
+        longitude_dos_pontos: Number(longitude),
+        id_rota: rotaSelecionada.id_rota,
+      });
 
-  ];
+      if (!data.sucesso) {
+        alert(data.mensagem || "Erro ao atualizar ponto.");
+        return;
+      }
 
-  const [rotaSelecionada, setRotaSelecionada] =
-    useState(rotas[0]);
+      await carregarRotas(rotaSelecionada.id_rota, pontoSelecionado.id_ponto);
+      alert("Ponto atualizado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao atualizar ponto:", error);
+      alert(error.response?.data?.mensagem || "Erro ao atualizar ponto.");
+    }
+  }
 
   return (
-
     <div className={styles.container}>
-
       <div className={styles.overlay}></div>
 
       <header className={styles.header}>
-
         <h1 className={styles.titulo}>
           PAINEL ADMINISTRATIVO - EDITAR PONTOS
         </h1>
@@ -81,96 +135,112 @@ export default function EditarPontos() {
         >
           VOLTAR
         </button>
-
       </header>
 
       <main className={styles.card}>
-
         <div className={styles.topo}>
-
           <div>
-
             <h2 className={styles.subtitulo}>
-              Editar Rotas e Pontos
+              Pontos das rotas
             </h2>
 
             <p className={styles.descricao}>
-              Selecione uma rota para visualizar
-              os pontos desenhados no mapa.
+              Selecione uma rota e escolha o ponto no mapa ou na lista.
             </p>
-
           </div>
-
-        </div>
-
-        <div className={styles.botoesRotas}>
-
-          {rotas.map((rota) => (
-
-            <button
-              key={rota.nome}
-              className={`${styles.botaoRota} ${
-                rotaSelecionada.nome === rota.nome
-                  ? styles.ativo
-                  : ""
-              }`}
-              style={{
-                background:
-                  rotaSelecionada.nome === rota.nome
-                    ? rota.cor
-                    : "#6B7280",
-              }}
-              onClick={() =>
-                setRotaSelecionada(rota)
-              }
-            >
-              {rota.nome}
-            </button>
-
-          ))}
-
-        </div>
-
-        <div className={styles.areaMapa}>
-
-          <LeafletRouteMap
-            rotaNome={rotaSelecionada.nome}
-            className={styles.iframe}
-          />
-
-        </div>
-
-        <div className={styles.rodape}>
 
           <button
             className={styles.botaoCadPontos}
             onClick={() =>
               navigate("/cadpontos", {
                 state: {
-                  id_rota: rotaSelecionada.id_rota,
-                  nome_rota: rotaSelecionada.nome,
+                  id_rota: rotaSelecionada?.id_rota,
                 },
               })
             }
           >
+            <Plus size={18} />
             CADASTRAR PONTO
           </button>
-
-          <a
-            href={rotaSelecionada.editar}
-            target="_blank"
-            rel="noreferrer"
-            className={styles.botaoEditar}
-          >
-            EDITAR MAPA DA ROTA
-          </a>
-
         </div>
 
+        <div className={styles.botoesRotas}>
+          {rotas.map((rota) => (
+            <button
+              key={rota.id_rota}
+              className={`${styles.botaoRota} ${
+                rotaSelecionada?.id_rota === rota.id_rota
+                  ? styles.ativo
+                  : ""
+              }`}
+              style={{ background: rota.cor }}
+              onClick={() => selecionarRota(rota)}
+            >
+              {rota.nome_linha}
+            </button>
+          ))}
+        </div>
+
+        <div className={styles.conteudoEdicao}>
+          <div className={styles.areaMapa}>
+            <LeafletRouteMap
+              rotaNome={rotaSelecionada?.nome_mapa}
+              pontos={rotaSelecionada?.pontos || []}
+              onSelecionarPonto={selecionarPonto}
+              onSelecionarLocal={pontoSelecionado ? alterarLocal : null}
+              className={styles.iframe}
+            />
+          </div>
+
+          <aside className={styles.painelEdicao}>
+            <h3>Pontos cadastrados</h3>
+
+            <div className={styles.listaPontos}>
+              {rotaSelecionada?.pontos.length > 0 ? (
+                rotaSelecionada.pontos.map((ponto) => (
+                  <button
+                    key={ponto.id_ponto}
+                    className={`${styles.itemPonto} ${
+                      pontoSelecionado?.id_ponto === ponto.id_ponto
+                        ? styles.itemAtivo
+                        : ""
+                    }`}
+                    onClick={() => selecionarPonto(ponto)}
+                  >
+                    <MapPin size={17} />
+                    {ponto.nome_ponto}
+                  </button>
+                ))
+              ) : (
+                <p>Nenhum ponto cadastrado nesta rota.</p>
+              )}
+            </div>
+
+            {pontoSelecionado && (
+              <div className={styles.formEdicao}>
+                <label>Nome do ponto</label>
+                <input
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                />
+
+                <label>Latitude</label>
+                <input value={latitude} readOnly />
+
+                <label>Longitude</label>
+                <input value={longitude} readOnly />
+
+                <button
+                  className={styles.salvar}
+                  onClick={salvarPonto}
+                >
+                  SALVAR ALTERACOES
+                </button>
+              </div>
+            )}
+          </aside>
+        </div>
       </main>
-
     </div>
-
   );
-
 }
