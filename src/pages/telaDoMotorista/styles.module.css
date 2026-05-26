@@ -72,6 +72,7 @@
     align-items: center;
     gap: 18px;
     flex: 1;
+    min-width: 0;
 }
 
 .avatarFoto,
@@ -101,6 +102,7 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+    min-width: 0;
 }
 
 .boasVindas {
@@ -113,6 +115,7 @@
 .nomeMotorista {
     margin: 0;
     font-size: 32px;
+    overflow-wrap: anywhere;
 }
 
 .idTag {
@@ -183,6 +186,7 @@
     display: flex;
     gap: 12px;
     padding: 0 24px;
+    overflow-x: auto;
 }
 
 .aba {
@@ -284,11 +288,13 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    min-width: 0;
 }
 
 .rotaNome {
     margin: 0;
     font-size: 22px;
+    overflow-wrap: anywhere;
 }
 
 .rotaPercurso {
@@ -450,7 +456,7 @@
     }
 
     .aba {
-        flex: 1;
+        flex: 1 0 auto;
         text-align: center;
         padding: 12px;
     }
@@ -461,5 +467,44 @@
 
     .mediaNumero {
         font-size: 52px;
+    }
+}
+
+@media (max-width: 420px) {
+    .header {
+        padding: 14px;
+    }
+
+    .headerInner {
+        padding: 18px;
+        border-radius: 18px;
+    }
+
+    .avatarArea {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .headerStats {
+        flex-direction: column;
+    }
+
+    .statItem {
+        width: 100%;
+    }
+
+    .statDivisor {
+        width: 100%;
+        height: 1px;
+    }
+
+    .secao {
+        border-radius: 18px;
+    }
+
+    .rotaNumero {
+        min-width: 56px;
+        width: 56px;
+        height: 56px;
     }
 }

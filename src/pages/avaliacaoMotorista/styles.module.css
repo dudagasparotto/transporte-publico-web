@@ -73,6 +73,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
 }
 
 .topoCard h3 {
@@ -131,4 +132,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 24px 16px;
+  }
+
+  .titulo {
+    font-size: 26px;
+  }
+
+  .semAvaliacao {
+    font-size: 22px;
+  }
+
+  .topoCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

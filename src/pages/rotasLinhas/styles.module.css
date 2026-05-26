@@ -104,6 +104,7 @@
   font-size: 20px;
   font-weight: 900;
   white-space: nowrap;
+  text-align: center;
 }
 
 .botaoRota {
@@ -121,6 +122,7 @@
     0 12px 24px rgba(0, 20, 80, 0.22);
   font-size: 14px;
   font-weight: 900;
+  text-align: center;
   cursor: pointer;
   transition:
     background 0.22s,
@@ -404,5 +406,34 @@
 
   .painelDadosTopo {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .conteudo {
+    width: calc(100% - 16px);
+  }
+
+  .rotasArea {
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+  .rotasArea h2 {
+    white-space: normal;
+  }
+
+  .botaoRota {
+    min-width: 0;
+    max-width: none;
+    padding: 0 14px;
+  }
+
+  .mapaWrapper {
+    height: 360px;
+  }
+
+  .painelDados {
+    max-height: none;
   }
 }

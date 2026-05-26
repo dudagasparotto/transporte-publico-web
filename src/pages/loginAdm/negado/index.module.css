@@ -5,7 +5,7 @@
 
 /* FUNDO */
 .negadoContainer {
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   background-image: url("/src/assets/fundo.png");
   background-size: cover;
@@ -14,6 +14,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 24px;
 }
 
 /* ESCURECER FUNDO */
@@ -29,7 +30,7 @@
   position: relative;
   background: linear-gradient(135deg, #1E40AF, #3B82F6);
   padding: 60px;
-  width: 520px;
+  width: min(520px, 100%);
   border-radius: 16px;
   text-align: center;
   box-shadow: 0 20px 60px rgba(0,0,0,0.3);
@@ -72,4 +73,18 @@
 .negadoBox button:hover {
   transform: scale(1.05);
   opacity: 0.9;
+}
+
+@media (max-width: 560px) {
+  .negadoBox {
+    padding: 36px 22px;
+  }
+
+  .negadoBox h1 {
+    font-size: 26px;
+  }
+
+  .negadoBox button {
+    width: 100%;
+  }
 }

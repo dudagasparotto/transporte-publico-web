@@ -17,7 +17,7 @@ body {
   background-position: center; 
   min-height: 100vh;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 /* HEADER */
@@ -42,7 +42,7 @@ body {
 
 /* CARD CENTRALIZADO */
 .card {
-  width: 100%;
+  width: calc(100% - 40px);
   max-width: 600px;
   margin: auto;
   background: rgba(255,255,255,0.12);
@@ -183,12 +183,34 @@ porque legibilidade ainda importa nesse planeta */
 
 /* RESPONSIVO */
 @media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px;
+    text-align: center;
+  }
+
   .card {
-    margin: 20px;
+    margin: 20px auto;
     padding: 20px;
   }
 
   .form-row {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 420px) {
+  .card {
+    width: calc(100% - 24px);
+    padding: 16px;
+  }
+
+  .header h1 {
+    font-size: 22px;
+  }
+
+  .home-btn {
+    width: 100%;
   }
 }

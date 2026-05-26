@@ -32,6 +32,7 @@ body {
   justify-content: space-between;
   margin-right: 20px; 
   align-items: center;
+  gap: 16px;
 }
 
 .container {
@@ -69,12 +70,14 @@ body {
   border-radius: 18px;
   margin-bottom: 1%;
   border: 1px solid rgba(255,255,255,0.12);
+  min-width: 0;
 }
 
 .topo {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
 }
 
 .nome {
@@ -200,13 +203,13 @@ body {
   }
 
   .linha {
-    padding: 1.5%;
+    padding: 14px;
     border-radius: 10px;
   }
 
   .card {
-    padding: 1.5%;
-    margin-bottom: 1.5%;
+    padding: 12px;
+    margin-bottom: 12px;
   }
 
   .nome {
@@ -232,6 +235,7 @@ body {
 
   .topo {
     flex-direction: column;
+    align-items: stretch;
     gap: 8px;
   }
 }
