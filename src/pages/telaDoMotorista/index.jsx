@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+
 import styles from './styles.module.css';
-import api from '../../services/apis';
+import api, { getArquivoUrl } from '../../services/apis';
+import { listarRotasComPontos } from '../../services/transporte';
 
 export default function TelaDoMotorista() {
     const navigate = useNavigate();
@@ -12,21 +14,29 @@ export default function TelaDoMotorista() {
     const [avaliacoes, setAvaliacoes] = useState([]);
     const [abaAtiva, setAbaAtiva] = useState('rotas');
     const [carregando, setCarregando] = useState(true);
+    const [mediaApi, setMediaApi] = useState(0);
 
     useEffect(() => {
         async function carregarDados() {
             try {
-                const [resMotorista, resRotas, resAvaliacoes] = await Promise.all([
+                const [
+                    motoristaResp,
+                    rotasData,
+                    avaliacoesResp,
+                    mediaResp
+                ] = await Promise.all([
                     api.get(`/motoristas/${id}`),
-                    api.get(`/rotas/motorista/${id}`),
-                    api.get(`/avaliacoes/motorista/${id}`)
+                    listarRotasComPontos(),
+                    api.get(`/avaliacao/${id}`),
+                    api.get(`/mediaAvaliacao/${id}`)
                 ]);
 
-                setMotorista(resMotorista.data.dados);
-                setRotas(resRotas.data.dados || []);
-                setAvaliacoes(resAvaliacoes.data.dados || []);
+                setMotorista(motoristaResp.data.dados);
+                setRotas(rotasData || []);
+                setAvaliacoes(avaliacoesResp.data.dados || []);
+                setMediaApi(mediaResp.data.media || 0);
             } catch (error) {
-                console.error('Erro ao carregar dados:', error);
+                console.error('Erro ao carregar tela do motorista:', error);
             } finally {
                 setCarregando(false);
             }
@@ -35,31 +45,41 @@ export default function TelaDoMotorista() {
         carregarDados();
     }, [id]);
 
+    function getIniciais(nome) {
+        if (!nome) return '?';
+
+        return nome
+            .split(' ')
+            .slice(0, 2)
+            .map((parte) => parte[0].toUpperCase())
+            .join('');
+    }
+
+    function mediaAvaliacoes() {
+        if (mediaApi) return Number(mediaApi).toFixed(1);
+        if (avaliacoes.length === 0) return '-';
+
+        const soma = avaliacoes.reduce(
+            (total, avaliacao) => total + Number(avaliacao.nota_avaliacao || 0),
+            0
+        );
+
+        return (soma / avaliacoes.length).toFixed(1);
+    }
+
     function renderEstrelas(nota) {
-        const total = 5;
-        return Array.from({ length: total }, (_, i) => (
+        return Array.from({ length: 5 }, (_, index) => (
             <span
-                key={i}
-                className={i < Math.round(nota) ? styles.estrelaCheia : styles.estrelaVazia}
+                key={index}
+                className={
+                    index < Math.round(Number(nota || 0))
+                        ? styles.estrelaCheia
+                        : styles.estrelaVazia
+                }
             >
                 ★
             </span>
         ));
-    }
-
-    function mediaAvaliacoes() {
-        if (avaliacoes.length === 0) return '—';
-        const soma = avaliacoes.reduce((acc, a) => acc + Number(a.nota), 0);
-        return (soma / avaliacoes.length).toFixed(1);
-    }
-
-    function getIniciais(nome) {
-        if (!nome) return '?';
-        return nome
-            .split(' ')
-            .slice(0, 2)
-            .map(p => p[0].toUpperCase())
-            .join('');
     }
 
     if (carregando) {
@@ -73,14 +93,12 @@ export default function TelaDoMotorista() {
 
     return (
         <div className={styles.container}>
-
-            {/* Header */}
             <header className={styles.header}>
                 <div className={styles.headerInner}>
                     <div className={styles.avatarArea}>
-                        {motorista?.foto ? (
+                        {motorista?.foto_motorista ? (
                             <img
-                                src={`${import.meta.env.VITE_API_URL}/fotos/motoristas/${motorista.foto}`}
+                                src={getArquivoUrl(motorista.foto_motorista)}
                                 alt={motorista.nome_motorista}
                                 className={styles.avatarFoto}
                             />
@@ -89,8 +107,11 @@ export default function TelaDoMotorista() {
                                 {getIniciais(motorista?.nome_motorista)}
                             </div>
                         )}
+
                         <div className={styles.headerInfo}>
-                            <span className={styles.boasVindas}>Bem-vindo de volta</span>
+                            <span className={styles.boasVindas}>
+                                Bem-vindo de volta
+                            </span>
                             <h1 className={styles.nomeMotorista}>
                                 {motorista?.nome_motorista ?? 'Motorista'}
                             </h1>
@@ -106,81 +127,82 @@ export default function TelaDoMotorista() {
                         <div className={styles.statDivisor}></div>
                         <div className={styles.statItem}>
                             <span className={styles.statValor}>{mediaAvaliacoes()}</span>
-                            <span className={styles.statLabel}>Média</span>
+                            <span className={styles.statLabel}>Media</span>
                         </div>
                         <div className={styles.statDivisor}></div>
                         <div className={styles.statItem}>
                             <span className={styles.statValor}>{avaliacoes.length}</span>
-                            <span className={styles.statLabel}>Avaliações</span>
+                            <span className={styles.statLabel}>Avaliacoes</span>
                         </div>
                     </div>
 
-                    <button
-                        className={styles.botaoSair}
-                        onClick={() => navigate('/')}
-                    >
+                    <button className={styles.botaoSair} onClick={() => navigate('/')}>
                         Sair
                     </button>
                 </div>
             </header>
 
-            {/* Abas */}
             <nav className={styles.abas}>
                 <button
-                    className={`${styles.aba} ${abaAtiva === 'rotas' ? styles.abaAtiva : ''}`}
+                    className={`${styles.aba} ${
+                        abaAtiva === 'rotas' ? styles.abaAtiva : ''
+                    }`}
                     onClick={() => setAbaAtiva('rotas')}
                 >
-                    🗺️ Minhas Rotas
+                    Minhas Rotas
                 </button>
+
                 <button
-                    className={`${styles.aba} ${abaAtiva === 'avaliacoes' ? styles.abaAtiva : ''}`}
+                    className={`${styles.aba} ${
+                        abaAtiva === 'avaliacoes' ? styles.abaAtiva : ''
+                    }`}
                     onClick={() => setAbaAtiva('avaliacoes')}
                 >
-                    ⭐ Avaliações
+                    Avaliacoes
                 </button>
             </nav>
 
-            {/* Conteúdo */}
             <main className={styles.conteudo}>
-
-                {/* Aba Rotas */}
                 {abaAtiva === 'rotas' && (
                     <section className={styles.secao}>
                         {rotas.length === 0 ? (
                             <div className={styles.vazio}>
-                                <span className={styles.vazioCone}>🚌</span>
-                                <p>Nenhuma rota atribuída no momento.</p>
+                                <span className={styles.vazioCone}>Rotas</span>
+                                <p>Nenhuma rota cadastrada no momento.</p>
                             </div>
                         ) : (
                             <div className={styles.listaRotas}>
                                 {rotas.map((rota) => (
-                                    <div key={rota.id_rota ?? rota.id} className={styles.cardRota}>
+                                    <div
+                                        key={rota.id_linha ?? rota.id_rota}
+                                        className={styles.cardRota}
+                                    >
                                         <div className={styles.rotaNumero}>
-                                            {rota.numero_rota ?? rota.linha ?? '—'}
+                                            {rota.nome_linha?.slice(0, 2) || '--'}
                                         </div>
+
                                         <div className={styles.rotaInfo}>
                                             <h3 className={styles.rotaNome}>
-                                                {rota.nome_rota ?? rota.nome ?? 'Rota sem nome'}
+                                                Rota {rota.nome_linha || 'sem nome'}
                                             </h3>
+
                                             <div className={styles.rotaPercurso}>
                                                 <span className={styles.parada}>
-                                                    📍 {rota.origem ?? rota.ponto_inicial ?? 'Origem'}
+                                                    {rota.saida || 'Origem nao cadastrada'}
                                                 </span>
                                                 <span className={styles.setaPercurso}>→</span>
                                                 <span className={styles.parada}>
-                                                    🏁 {rota.destino ?? rota.ponto_final ?? 'Destino'}
+                                                    {rota.destino || 'Destino nao cadastrado'}
                                                 </span>
                                             </div>
-                                            {rota.horario && (
-                                                <span className={styles.horario}>
-                                                    🕐 {rota.horario}
-                                                </span>
-                                            )}
-                                            {rota.status && (
-                                                <span className={`${styles.badge} ${styles[`badge_${rota.status?.toLowerCase()}`] ?? styles.badge_ativo}`}>
-                                                    {rota.status}
-                                                </span>
-                                            )}
+
+                                            <span className={styles.horario}>
+                                                {rota.pontos?.length || 0} pontos cadastrados
+                                            </span>
+
+                                            <span className={`${styles.badge} ${styles.badge_ativo}`}>
+                                                Ativa
+                                            </span>
                                         </div>
                                     </div>
                                 ))}
@@ -189,19 +211,20 @@ export default function TelaDoMotorista() {
                     </section>
                 )}
 
-                {/* Aba Avaliações */}
                 {abaAtiva === 'avaliacoes' && (
                     <section className={styles.secao}>
-
                         {avaliacoes.length > 0 && (
                             <div className={styles.resumoAvaliacoes}>
                                 <div className={styles.mediaGrande}>
-                                    <span className={styles.mediaNumero}>{mediaAvaliacoes()}</span>
+                                    <span className={styles.mediaNumero}>
+                                        {mediaAvaliacoes()}
+                                    </span>
                                     <div className={styles.mediaEstrelas}>
-                                        {renderEstrelas(parseFloat(mediaAvaliacoes()))}
+                                        {renderEstrelas(mediaAvaliacoes())}
                                     </div>
                                     <span className={styles.mediaSub}>
-                                        Baseado em {avaliacoes.length} avaliação{avaliacoes.length !== 1 ? 'ões' : ''}
+                                        Baseado em {avaliacoes.length} avaliacao
+                                        {avaliacoes.length !== 1 ? 'es' : ''}
                                     </span>
                                 </div>
                             </div>
@@ -209,38 +232,40 @@ export default function TelaDoMotorista() {
 
                         {avaliacoes.length === 0 ? (
                             <div className={styles.vazio}>
-                                <span className={styles.vazioCone}>⭐</span>
-                                <p>Nenhuma avaliação recebida ainda.</p>
+                                <span className={styles.vazioCone}>Notas</span>
+                                <p>Nenhuma avaliacao recebida ainda.</p>
                             </div>
                         ) : (
                             <div className={styles.listaAvaliacoes}>
-                                {avaliacoes.map((avaliacao, index) => (
-                                    <div key={avaliacao.id_avaliacao ?? index} className={styles.cardAvaliacao}>
+                                {avaliacoes.map((avaliacao) => (
+                                    <div
+                                        key={avaliacao.id_avaliacao}
+                                        className={styles.cardAvaliacao}
+                                    >
                                         <div className={styles.avaliacaoTopo}>
                                             <div className={styles.avaliacaoEstrelas}>
-                                                {renderEstrelas(avaliacao.nota)}
+                                                {renderEstrelas(avaliacao.nota_avaliacao)}
                                             </div>
                                             <span className={styles.avaliacaoNota}>
-                                                {Number(avaliacao.nota).toFixed(1)}
+                                                {Number(avaliacao.nota_avaliacao).toFixed(1)}
                                             </span>
                                         </div>
-                                        {avaliacao.comentario && (
+
+                                        {avaliacao.comentario_avaliacao && (
                                             <p className={styles.avaliacaoComentario}>
-                                                "{avaliacao.comentario}"
+                                                "{avaliacao.comentario_avaliacao}"
                                             </p>
                                         )}
-                                        <div className={styles.avaliacaoRodape}>
-                                            {avaliacao.nome_passageiro && (
-                                                <span className={styles.avaliacaoPassageiro}>
-                                                    👤 {avaliacao.nome_passageiro}
-                                                </span>
-                                            )}
-                                            {avaliacao.data_avaliacao && (
+
+                                        {avaliacao.data_avaliacao && (
+                                            <div className={styles.avaliacaoRodape}>
                                                 <span className={styles.avaliacaoData}>
-                                                    {new Date(avaliacao.data_avaliacao).toLocaleDateString('pt-BR')}
+                                                    {new Date(
+                                                        avaliacao.data_avaliacao
+                                                    ).toLocaleDateString('pt-BR')}
                                                 </span>
-                                            )}
-                                        </div>
+                                            </div>
+                                        )}
                                     </div>
                                 ))}
                             </div>

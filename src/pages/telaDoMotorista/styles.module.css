@@ -4,7 +4,9 @@
 .container {
     min-height: 100vh;
     width: 100%;
-    background: linear-gradient(135deg, #abbbdf, #6079ca);
+    background:
+        radial-gradient(circle at 16% -10%, rgba(96, 165, 250, 0.34), transparent 30%),
+        linear-gradient(135deg, #06142e, #0b2f7a, #1264e8);
     display: flex;
     flex-direction: column;
     font-family: Arial, Helvetica, sans-serif;
@@ -21,7 +23,7 @@
     justify-content: center;
     align-items: center;
     gap: 16px;
-    background: linear-gradient(135deg, #111827, #1E40AF);
+    background: linear-gradient(135deg, #06142e, #0b2f7a, #1264e8);
     color: white;
 }
 
@@ -51,7 +53,7 @@
 
 .headerInner {
     width: 100%;
-    background: rgba(255,255,255,0.08);
+    background: rgba(18, 63, 150, 0.55);
     border-radius: 24px;
     padding: 24px;
     display: flex;
@@ -60,8 +62,8 @@
     gap: 24px;
     flex-wrap: wrap;
     backdrop-filter: blur(14px);
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+    border: 1px solid rgba(120, 170, 255, 0.25);
+    box-shadow: 0 18px 42px rgba(0, 20, 80, 0.28);
 }
 
 /* =========================
@@ -85,15 +87,15 @@
 
 .avatarFoto {
     object-fit: cover;
-    border: 3px solid rgba(255,255,255,0.3);
+    border: 3px solid rgba(147, 197, 253, 0.45);
 }
 
 .avatarIniciais {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(255,255,255,0.15);
-    border: 3px solid rgba(255,255,255,0.25);
+    background: linear-gradient(135deg, #2f7cff, #0057d9);
+    border: 3px solid rgba(147, 197, 253, 0.38);
     font-size: 28px;
     font-weight: bold;
 }
@@ -108,7 +110,7 @@
 .boasVindas {
     font-size: 12px;
     text-transform: uppercase;
-    opacity: 0.7;
+    color: #bfdbfe;
     letter-spacing: 1px;
 }
 
@@ -120,7 +122,7 @@
 
 .idTag {
     font-size: 13px;
-    background: rgba(255,255,255,0.12);
+    background: rgba(191, 219, 254, 0.13);
     padding: 5px 12px;
     border-radius: 20px;
     width: fit-content;
@@ -132,7 +134,7 @@
 .headerStats {
     display: flex;
     align-items: center;
-    background: rgba(255,255,255,0.08);
+    background: rgba(8, 28, 74, 0.35);
     border-radius: 18px;
     overflow: hidden;
 }
@@ -151,21 +153,21 @@
 
 .statLabel {
     font-size: 12px;
-    opacity: 0.7;
+    color: #bfdbfe;
     text-transform: uppercase;
 }
 
 .statDivisor {
     width: 1px;
     height: 40px;
-    background: rgba(255,255,255,0.15);
+    background: rgba(147, 197, 253, 0.18);
 }
 
 /* =========================
    BOTÃO
 ========================= */
 .botaoSair {
-    background: linear-gradient(135deg, #1E40AF, #3B82F6);
+    background: linear-gradient(135deg, #2f7cff, #0057d9);
     color: white;
     border: none;
     padding: 12px 24px;
@@ -177,6 +179,7 @@
 
 .botaoSair:hover {
     transform: translateY(-2px);
+    box-shadow: 0 0 18px rgba(47, 124, 255, 0.45);
 }
 
 /* =========================
@@ -193,7 +196,7 @@
     border: none;
     padding: 14px 24px;
     border-radius: 14px 14px 0 0;
-    background: rgba(255,255,255,0.08);
+    background: rgba(18, 63, 150, 0.48);
     color: white;
     font-weight: bold;
     cursor: pointer;
@@ -201,11 +204,11 @@
 }
 
 .aba:hover {
-    background: rgba(255,255,255,0.14);
+    background: rgba(47, 124, 255, 0.34);
 }
 
 .abaAtiva {
-    background: rgba(255,255,255,0.18);
+    background: linear-gradient(135deg, #2f7cff, #0b56d8);
 }
 
 /* =========================
@@ -221,13 +224,14 @@
 .secao {
     width: 100%;
     min-height: 500px;
-    background: rgba(255,255,255,0.08);
+    background:
+        linear-gradient(180deg, rgba(13, 43, 105, 0.78), rgba(8, 28, 74, 0.78));
     border-radius: 0 24px 24px 24px;
     padding: 28px;
     box-sizing: border-box;
     backdrop-filter: blur(14px);
-    border: 1px solid rgba(255,255,255,0.12);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    border: 1px solid rgba(120, 170, 255, 0.22);
+    box-shadow: 0 18px 42px rgba(0, 20, 80, 0.26);
 }
 
 /* =========================
@@ -240,7 +244,7 @@
     justify-content: center;
     align-items: center;
     gap: 12px;
-    color: rgba(255,255,255,0.7);
+    color: #bfdbfe;
 }
 
 .vazioCone {
@@ -257,25 +261,25 @@
 }
 
 .cardRota {
-    background: rgba(255,255,255,0.08);
+    background: rgba(56, 98, 177, 0.28);
     border-radius: 18px;
     padding: 22px;
     display: flex;
     gap: 18px;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(120, 170, 255, 0.16);
     transition: 0.2s;
 }
 
 .cardRota:hover {
     transform: translateY(-3px);
-    background: rgba(255,255,255,0.12);
+    background: rgba(56, 98, 177, 0.4);
 }
 
 .rotaNumero {
     min-width: 70px;
     height: 70px;
     border-radius: 18px;
-    background: linear-gradient(135deg, #1E40AF, #3B82F6);
+    background: linear-gradient(135deg, #2f7cff, #0057d9);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -301,14 +305,14 @@
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    color: rgba(255,255,255,0.8);
+    color: #dbeafe;
 }
 
 .horario {
     width: fit-content;
     padding: 6px 12px;
     border-radius: 20px;
-    background: rgba(255,255,255,0.1);
+    background: rgba(191, 219, 254, 0.12);
     font-size: 13px;
 }
 
@@ -346,10 +350,10 @@
 }
 
 .cardAvaliacao {
-    background: rgba(255,255,255,0.08);
+    background: rgba(56, 98, 177, 0.28);
     border-radius: 18px;
     padding: 20px;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(120, 170, 255, 0.16);
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -367,7 +371,7 @@
 
 .avaliacaoComentario {
     line-height: 1.5;
-    color: rgba(255,255,255,0.8);
+    color: #dbeafe;
 }
 
 .avaliacaoRodape {
@@ -376,7 +380,7 @@
     flex-wrap: wrap;
     gap: 8px;
     font-size: 13px;
-    opacity: 0.7;
+    color: #bfdbfe;
 }
 
 .estrelaCheia {
@@ -384,7 +388,7 @@
 }
 
 .estrelaVazia {
-    color: rgba(255,255,255,0.2);
+    color: rgba(191, 219, 254, 0.28);
 }
 
 /* =========================
@@ -411,7 +415,7 @@
 }
 
 .mediaSub {
-    opacity: 0.7;
+    color: #bfdbfe;
 }
 
 /* =========================

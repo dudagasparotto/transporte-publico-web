@@ -241,50 +241,13 @@ export default function InfoMotorista() {
 
           <div className={Styles.infoBox}>
 
-            <h2>
+            <h1>
               {
                 motorista?.nome_motorista
               }
-            </h2>
+            </h1>
 
             <div className={Styles.infoGrid}>
-
-              <div>
-
-                <span>ID</span>
-
-                <strong>
-                  {
-                    motorista?.id_motorista
-                  }
-                </strong>
-
-              </div>
-
-              <div>
-
-                <span>CPF</span>
-
-                <strong>
-                  {
-                    motorista?.cpf_motorista
-                  }
-                </strong>
-
-              </div>
-
-              <div>
-
-                <span>CNH</span>
-
-                <strong>
-                  {
-                    motorista?.cnh_motorista
-                  }
-                </strong>
-
-              </div>
-
             </div>
 
           </div>

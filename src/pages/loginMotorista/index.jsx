@@ -4,6 +4,7 @@ import { useState } from "react";
 import styles from './index.module.css';
 
 import { autenticarUsuario } from "../../services/auth";
+import api from "../../services/apis";
 
 export default function LoginMotora() {
 
@@ -33,7 +34,23 @@ export default function LoginMotora() {
 
       if (usuarioEncontrado) {
         console.log('Usuário autenticado:', usuarioEncontrado);
-      navigate(`/teladomotorista/${usuarioEncontrado.id_usuario}`)
+
+        const { data } = await api.get('/motoristas');
+        const motoristas = data.dados || [];
+        const motoristaEncontrado = motoristas.find((motorista) => {
+          const mesmoId = motorista.id_motorista === usuarioEncontrado.id_usuario;
+          const mesmoNome =
+            String(motorista.nome_motorista).toLowerCase() ===
+            String(usuarioEncontrado.nome_usuario).toLowerCase();
+
+          return mesmoId || mesmoNome;
+        });
+
+        navigate(
+          `/teladomotorista/${
+            motoristaEncontrado?.id_motorista || usuarioEncontrado.id_usuario
+          }`
+        )
       } else {
 
         alert('Login inválido');
