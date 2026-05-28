@@ -1,5 +1,5 @@
 //DUDA
-import {BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 //import Home from './pages/home';
 
@@ -35,6 +35,7 @@ function App() {
       <Route path="/adm/editarrota" element={<EditarRota />} />
       <Route path="/adm" element={<HomeAdm />} />
       <Route path="/cadpontos" element={<CadastroPontos />} />
+      <Route path="/adm/cadpontos" element={<CadastroPontos />} />
       <Route path="/rotas" element={<RotasLinhas />} />
       <Route path="/horarios" element={<Horarios />} />
       <Route path="/loginadm" element={<LoginAdm />} />
