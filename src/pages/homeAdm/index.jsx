@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Bus, Clock, Home, Map, MapPin, UserRoundPlus } from "lucide-react";
+import { Bus, Clock, Home, ListChecks, Map, MapPin, UserRoundPlus } from "lucide-react";
 import styles from "./index.module.css";
 
 import pontos from "../../assets/pontos.png";
@@ -84,6 +84,13 @@ export default function HomeAdm() {
               <button>
                 <UserRoundPlus size={18} />
                 Cadastrar
+              </button>
+            </Link>
+
+            <Link to="/adm/motoristas">
+              <button>
+                <ListChecks size={18} />
+                Ver motoristas
               </button>
             </Link>
           </div>

@@ -1,17 +1,88 @@
 import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "./styles.module.css";
-import api from "../../services/apis";
+import api, { getArquivoUrl } from "../../services/apis";
 
 export default function Motorista() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const editando = Boolean(id);
 
   const [cpf, setCpf] = useState("");
   const [cnh, setCnh] = useState("");
   const [nome, setNome] = useState("");
+  const [login, setLogin] = useState("");
+  const [senha, setSenha] = useState("");
   const [foto, setFoto] = useState(null);
+  const [fotoAtual, setFotoAtual] = useState("");
+  const [carregandoMotorista, setCarregandoMotorista] = useState(editando);
+  const [salvando, setSalvando] = useState(false);
 
   useEffect(() => {
-    document.title = "Cadastro de Motorista";
-  }, []);
+    document.title = editando ? "Editar Motorista" : "Cadastro de Motorista";
+  }, [editando]);
+
+  useEffect(() => {
+    async function carregarMotorista() {
+      if (!editando) return;
+
+      try {
+        setCarregandoMotorista(true);
+
+        const { data } = await api.get("/motoristas");
+
+        if (data.sucesso === false) {
+          alert(data.mensagem || "Motorista nao encontrado.");
+          navigate("/adm/motoristas");
+          return;
+        }
+
+        const motoristas = data.dados || [];
+        const motorista = motoristas.find(
+          (item) => Number(item.id_motorista) === Number(id)
+        );
+
+        if (!motorista) {
+          alert("Motorista nao encontrado.");
+          navigate("/adm/motoristas");
+          return;
+        }
+
+        setCpf(motorista.cpf_motorista || "");
+        setCnh(motorista.cnh_motorista || "");
+        setNome(motorista.nome_motorista || "");
+        setFotoAtual(motorista.foto_motorista || "");
+
+        try {
+          const usuariosResp = await api.get("/usuarios");
+          const usuarios = usuariosResp.data.dados || [];
+          const usuarioMotorista = usuarios.find((usuario) => {
+            const mesmoId = usuario.id_usuario === Number(id);
+            const mesmoNome =
+              String(usuario.nome_usuario).toLowerCase() ===
+              String(motorista.nome_motorista || "").toLowerCase();
+
+            return usuario.id_tipo_usuario === 2 && (mesmoId || mesmoNome);
+          });
+
+          if (usuarioMotorista) {
+            setLogin(usuarioMotorista.nome_usuario || "");
+            setSenha(usuarioMotorista.senha_usuario || "");
+          }
+        } catch (error) {
+          console.error("Erro ao carregar login do motorista:", error);
+        }
+      } catch (error) {
+        console.error("Erro ao carregar motorista:", error);
+        alert("Erro ao carregar motorista.");
+        navigate("/adm/motoristas");
+      } finally {
+        setCarregandoMotorista(false);
+      }
+    }
+
+    carregarMotorista();
+  }, [editando, id, navigate]);
 
   function handleFoto(e) {
 
@@ -23,12 +94,15 @@ export default function Motorista() {
 
   }
 
-  async function salvar() {
+  async function salvar(event) {
+    event.preventDefault();
 
-    if (!cpf || !cnh || !nome) {
+    if (!cpf || !cnh || !nome || !login || !senha) {
 
       alert(
-        "Preencha todos os campos para cadastrar o motorista."
+        editando
+          ? "Preencha todos os campos para editar o motorista."
+          : "Preencha todos os campos para cadastrar o motorista."
       );
 
       return;
@@ -36,8 +110,14 @@ export default function Motorista() {
     }
 
     try {
+      setSalvando(true);
+      const idUsuarioMotorista = editando ? id : await criarLoginMotorista();
 
       const formData = new FormData();
+
+      if (idUsuarioMotorista) {
+        formData.append("id_motorista", idUsuarioMotorista);
+      }
 
       formData.append("cpf_motorista", cpf);
       formData.append("cnh_motorista", cnh);
@@ -45,22 +125,38 @@ export default function Motorista() {
 
       if (foto) {
         formData.append("foto", foto);
-        formData.append("foto_motorista", foto);
       }
 
-      const { data } = await api.post("/motoristas", formData);
+      const { data } = editando
+        ? await api.put(`/motoristas/${id}`, formData)
+        : await api.post("/motoristas", formData);
 
       if (!data.sucesso) {
-        alert(data.mensagem || "Erro ao cadastrar motorista.");
+        alert(data.mensagem || "Erro ao salvar motorista.");
         return;
       }
 
-      setCpf("");
-      setCnh("");
-      setNome("");
-      setFoto(null);
+      if (editando) {
+        await atualizarLoginMotoristaSePossivel();
+      }
 
-      alert("Motorista cadastrado com sucesso!");
+      if (!editando) {
+        setCpf("");
+        setCnh("");
+        setNome("");
+        setLogin("");
+        setSenha("");
+        setFoto(null);
+        setFotoAtual("");
+      }
+
+      alert(
+        editando
+          ? "Motorista atualizado com sucesso!"
+          : "Motorista cadastrado com sucesso!"
+      );
+
+      navigate("/adm/motoristas");
 
     } catch (error) {
 
@@ -69,10 +165,126 @@ export default function Motorista() {
         error
       );
 
-      alert("Erro ao cadastrar motorista.");
+      alert(error.message || "Erro ao salvar motorista.");
 
+    } finally {
+      setSalvando(false);
     }
 
+  }
+
+  function obterIdUsuario(data) {
+    return (
+      data?.dados?.id_usuario ||
+      data?.dados?.insertId ||
+      data?.id_usuario ||
+      data?.insertId ||
+      data?.dados?.id ||
+      data?.id
+    );
+  }
+
+  async function buscarUsuarioCriado() {
+    const { data } = await api.get("/usuarios");
+    const usuarios = data.dados || [];
+
+    return usuarios
+      .filter((usuario) => {
+        return (
+          usuario.id_tipo_usuario === 2 &&
+          usuario.nome_usuario === login &&
+          usuario.senha_usuario === senha
+        );
+      })
+      .sort((a, b) => b.id_usuario - a.id_usuario)[0];
+  }
+
+  async function criarLoginMotorista() {
+    const dadosLogin = {
+      id_tipo_usuario: 2,
+      nome_usuario: login,
+      senha_usuario: senha,
+    };
+
+    try {
+      const { data } = await api.post("/usuarios", dadosLogin);
+
+      if (data.sucesso === false) {
+        throw new Error(data.mensagem || "Nao foi possivel criar o login.");
+      }
+
+      const idUsuario = obterIdUsuario(data);
+
+      if (idUsuario) return idUsuario;
+
+      const usuarioCriado = await buscarUsuarioCriado();
+      if (usuarioCriado?.id_usuario) return usuarioCriado.id_usuario;
+
+      throw new Error("A API nao retornou o id do usuario criado.");
+    } catch (error) {
+      console.error("Erro ao salvar login do motorista:", error);
+
+      const mensagemApi =
+        error.response?.data?.dados ||
+        error.response?.data?.mensagem ||
+        error.message;
+
+      throw new Error(
+        `Nao foi possivel criar o login do motorista. Erro da API: ${mensagemApi}`
+      );
+    }
+  }
+
+  async function atualizarLoginMotoristaSePossivel() {
+    const dadosLogin = {
+      id_tipo_usuario: 2,
+      nome_usuario: login,
+      senha_usuario: senha,
+    };
+
+    try {
+      const { data } = await api.get("/usuarios");
+      const usuarios = data.dados || [];
+      const usuarioMotorista = usuarios.find((usuario) => {
+        const mesmoId = usuario.id_usuario === Number(id);
+        const mesmoNome =
+          String(usuario.nome_usuario).toLowerCase() ===
+          String(nome).toLowerCase();
+
+        return usuario.id_tipo_usuario === 2 && (mesmoId || mesmoNome);
+      });
+
+      if (!usuarioMotorista) return;
+
+      await api.put(`/usuarios/${usuarioMotorista.id_usuario}`, dadosLogin);
+    } catch (error) {
+      console.error("Erro ao atualizar login do motorista:", error);
+      alert(
+        "Motorista salvo, mas nao foi possivel atualizar o login porque a API de usuarios nao aceitou a alteracao."
+      );
+    }
+  }
+
+  if (carregandoMotorista) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.container}>
+          <header className={styles.header}>
+            <h1>EDITAR MOTORISTA</h1>
+
+            <div className={styles.headerActions}>
+              <Link to="/adm/motoristas" className={styles["home-btn"]}>
+                VOLTAR
+              </Link>
+            </div>
+          </header>
+
+          <div className={styles.card}>
+            <p className={styles.loadingText}>Carregando dados do motorista...</p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -83,24 +295,27 @@ export default function Motorista() {
 
         <header className={styles.header}>
 
-          <h1>CADASTRO DE MOTORISTAS</h1>
+          <h1>{editando ? "EDITAR MOTORISTA" : "CADASTRO DE MOTORISTAS"}</h1>
 
-          <button
-            className={styles["home-btn"]}
-            onClick={() => window.location.href = "/adm"}
-          >
-            VOLTAR
-          </button>
+          <div className={styles.headerActions}>
+            <Link to="/adm/motoristas" className={styles["home-btn"]}>
+              VER MOTORISTAS
+            </Link>
+
+            <Link to="/adm" className={styles["home-btn"]}>
+              VOLTAR
+            </Link>
+          </div>
 
         </header>
 
         <div className={styles.card}>
 
-          <h2>Novo Motorista</h2>
+          <h2>{editando ? "Dados do Motorista" : "Novo Motorista"}</h2>
 
           <div className={styles.content}>
 
-            <div className={styles.form}>
+            <form className={styles.form} onSubmit={salvar}>
 
               <div className={styles["form-row"]}>
 
@@ -147,6 +362,13 @@ export default function Motorista() {
                       alt="preview"
                     />
 
+                  ) : fotoAtual ? (
+
+                    <img
+                      src={getArquivoUrl(fotoAtual)}
+                      alt={nome || "Motorista"}
+                    />
+
                   ) : (
 
                     <span>Selecionar Foto</span>
@@ -176,14 +398,46 @@ export default function Motorista() {
 
               </div>
 
+              <div className={styles.loginSection}>
+                <h3>Acesso do Motorista</h3>
+
+                <div className={styles["form-row"]}>
+                  <div className={styles["form-group"]}>
+                    <label>Login</label>
+
+                    <input
+                      value={login}
+                      onChange={(e) => setLogin(e.target.value)}
+                      placeholder="Usuario para acessar o site"
+                    />
+                  </div>
+
+                  <div className={styles["form-group"]}>
+                    <label>Senha</label>
+
+                    <input
+                      type="password"
+                      value={senha}
+                      onChange={(e) => setSenha(e.target.value)}
+                      placeholder="Senha do motorista"
+                    />
+                  </div>
+                </div>
+              </div>
+
               <button
+                type="submit"
                 className={styles.btn}
-                onClick={salvar}
+                disabled={salvando}
               >
-                Cadastrar Motorista
+                {salvando
+                  ? "Salvando..."
+                  : editando
+                    ? "Salvar Alteracoes"
+                    : "Cadastrar Motorista"}
               </button>
 
-            </div>
+            </form>
 
           </div>
 

@@ -5,29 +5,33 @@
 
 /* FUNDO */
 .negadoContainer {
+  width: 100vw;
   min-height: 100vh;
-  width: 100%;
+  min-height: 100dvh;
+  align-self: stretch;
   background-image: url("/src/assets/fundo.png");
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
+  overflow: hidden;
 }
 
 /* ESCURECER FUNDO */
 .overlay {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0, 0, 0, 0.6);
 }
 
 /* CARD CENTRAL */
 .negadoBox {
   position: relative;
+  z-index: 1;
   background: linear-gradient(135deg, #1E40AF, #3B82F6);
   padding: 60px;
   width: min(520px, 100%);
