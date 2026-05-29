@@ -3,6 +3,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "./styles.module.css";
 import api, { getArquivoUrl } from "../../services/apis";
 
+const TIPO_USUARIO_MOTORISTA = 2;
+
 export default function Motorista() {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -57,12 +59,16 @@ export default function Motorista() {
           const usuariosResp = await api.get("/usuarios");
           const usuarios = usuariosResp.data.dados || [];
           const usuarioMotorista = usuarios.find((usuario) => {
-            const mesmoId = usuario.id_usuario === Number(id);
+            const mesmoMotorista = Number(usuario.id_motorista) === Number(id);
+            const mesmoId = Number(usuario.id_usuario) === Number(id);
             const mesmoNome =
               String(usuario.nome_usuario).toLowerCase() ===
               String(motorista.nome_motorista || "").toLowerCase();
 
-            return usuario.id_tipo_usuario === 2 && (mesmoId || mesmoNome);
+            return (
+              Number(usuario.id_tipo_usuario) === TIPO_USUARIO_MOTORISTA &&
+              (mesmoMotorista || mesmoId || mesmoNome)
+            );
           });
 
           if (usuarioMotorista) {
@@ -97,7 +103,13 @@ export default function Motorista() {
   async function salvar(event) {
     event.preventDefault();
 
-    if (!cpf || !cnh || !nome || !login || !senha) {
+    const cpfNumerico = somenteNumeros(cpf);
+    const cnhNumerica = somenteNumeros(cnh);
+    const nomeLimpo = nome.trim();
+    const loginLimpo = login.trim();
+    const senhaLimpa = senha.trim();
+
+    if (!cpfNumerico || !cnhNumerica || !nomeLimpo || !loginLimpo || !senhaLimpa) {
 
       alert(
         editando
@@ -111,17 +123,17 @@ export default function Motorista() {
 
     try {
       setSalvando(true);
-      const idUsuarioMotorista = editando ? id : await criarLoginMotorista();
+      const idMotorista = editando ? Number(id) : await buscarProximoIdMotorista();
 
       const formData = new FormData();
 
-      if (idUsuarioMotorista) {
-        formData.append("id_motorista", idUsuarioMotorista);
+      if (idMotorista) {
+        formData.append("id_motorista", idMotorista);
       }
 
-      formData.append("cpf_motorista", cpf);
-      formData.append("cnh_motorista", cnh);
-      formData.append("nome_motorista", nome);
+      formData.append("cpf_motorista", cpfNumerico);
+      formData.append("cnh_motorista", cnhNumerica);
+      formData.append("nome_motorista", nomeLimpo);
 
       if (foto) {
         formData.append("foto", foto);
@@ -131,13 +143,15 @@ export default function Motorista() {
         ? await api.put(`/motoristas/${id}`, formData)
         : await api.post("/motoristas", formData);
 
-      if (!data.sucesso) {
+      if (data.sucesso === false) {
         alert(data.mensagem || "Erro ao salvar motorista.");
         return;
       }
 
       if (editando) {
-        await atualizarLoginMotoristaSePossivel();
+        await atualizarLoginMotoristaSePossivel(idMotorista, loginLimpo, senhaLimpa);
+      } else {
+        await criarLoginMotorista(idMotorista, loginLimpo, senhaLimpa);
       }
 
       if (!editando) {
@@ -173,37 +187,36 @@ export default function Motorista() {
 
   }
 
-  function obterIdUsuario(data) {
+  function somenteNumeros(valor) {
+    return String(valor || "").replace(/\D/g, "");
+  }
+
+  function obterMensagemErro(error, mensagemPadrao) {
     return (
-      data?.dados?.id_usuario ||
-      data?.dados?.insertId ||
-      data?.id_usuario ||
-      data?.insertId ||
-      data?.dados?.id ||
-      data?.id
+      error.response?.data?.dados ||
+      error.response?.data?.mensagem ||
+      error.message ||
+      mensagemPadrao
     );
   }
 
-  async function buscarUsuarioCriado() {
-    const { data } = await api.get("/usuarios");
-    const usuarios = data.dados || [];
+  async function buscarProximoIdMotorista() {
+    const { data } = await api.get("/motoristas");
+    const motoristas = data.dados || [];
+    const maiorId = motoristas.reduce((maior, motorista) => {
+      const idAtual = Number(motorista.id_motorista || 0);
+      return idAtual > maior ? idAtual : maior;
+    }, 0);
 
-    return usuarios
-      .filter((usuario) => {
-        return (
-          usuario.id_tipo_usuario === 2 &&
-          usuario.nome_usuario === login &&
-          usuario.senha_usuario === senha
-        );
-      })
-      .sort((a, b) => b.id_usuario - a.id_usuario)[0];
+    return maiorId + 1;
   }
 
-  async function criarLoginMotorista() {
+  async function criarLoginMotorista(idMotorista, loginMotorista, senhaMotorista) {
     const dadosLogin = {
-      id_tipo_usuario: 2,
-      nome_usuario: login,
-      senha_usuario: senha,
+      id_tipo_usuario: TIPO_USUARIO_MOTORISTA,
+      id_motorista: idMotorista,
+      nome_usuario: loginMotorista,
+      senha_usuario: senhaMotorista,
     };
 
     try {
@@ -212,46 +225,40 @@ export default function Motorista() {
       if (data.sucesso === false) {
         throw new Error(data.mensagem || "Nao foi possivel criar o login.");
       }
-
-      const idUsuario = obterIdUsuario(data);
-
-      if (idUsuario) return idUsuario;
-
-      const usuarioCriado = await buscarUsuarioCriado();
-      if (usuarioCriado?.id_usuario) return usuarioCriado.id_usuario;
-
-      throw new Error("A API nao retornou o id do usuario criado.");
     } catch (error) {
       console.error("Erro ao salvar login do motorista:", error);
 
-      const mensagemApi =
-        error.response?.data?.dados ||
-        error.response?.data?.mensagem ||
-        error.message;
-
       throw new Error(
-        `Nao foi possivel criar o login do motorista. Erro da API: ${mensagemApi}`
+        `Motorista cadastrado, mas nao foi possivel criar o login. Erro da API: ${obterMensagemErro(
+          error,
+          "erro desconhecido"
+        )}`
       );
     }
   }
 
-  async function atualizarLoginMotoristaSePossivel() {
+  async function atualizarLoginMotoristaSePossivel(idMotorista, loginMotorista, senhaMotorista) {
     const dadosLogin = {
-      id_tipo_usuario: 2,
-      nome_usuario: login,
-      senha_usuario: senha,
+      id_tipo_usuario: TIPO_USUARIO_MOTORISTA,
+      id_motorista: idMotorista,
+      nome_usuario: loginMotorista,
+      senha_usuario: senhaMotorista,
     };
 
     try {
       const { data } = await api.get("/usuarios");
       const usuarios = data.dados || [];
       const usuarioMotorista = usuarios.find((usuario) => {
-        const mesmoId = usuario.id_usuario === Number(id);
+        const mesmoMotorista = Number(usuario.id_motorista) === Number(idMotorista);
+        const mesmoId = Number(usuario.id_usuario) === Number(idMotorista);
         const mesmoNome =
           String(usuario.nome_usuario).toLowerCase() ===
-          String(nome).toLowerCase();
+          String(loginMotorista).toLowerCase();
 
-        return usuario.id_tipo_usuario === 2 && (mesmoId || mesmoNome);
+        return (
+          Number(usuario.id_tipo_usuario) === TIPO_USUARIO_MOTORISTA &&
+          (mesmoMotorista || mesmoId || mesmoNome)
+        );
       });
 
       if (!usuarioMotorista) return;

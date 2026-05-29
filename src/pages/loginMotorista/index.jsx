@@ -29,8 +29,9 @@ export default function LoginMotora() {
         const motoristas = data.dados || [];
         const motoristaEncontrado = motoristas.find((motorista) => {
           const mesmoMotorista =
-            motorista.id_motorista === usuarioEncontrado.id_motorista;
-          const mesmoId = motorista.id_motorista === usuarioEncontrado.id_usuario;
+            Number(motorista.id_motorista) === Number(usuarioEncontrado.id_motorista);
+          const mesmoId =
+            Number(motorista.id_motorista) === Number(usuarioEncontrado.id_usuario);
           const mesmoNome =
             String(motorista.nome_motorista).toLowerCase() ===
             String(usuarioEncontrado.nome_usuario).toLowerCase();
