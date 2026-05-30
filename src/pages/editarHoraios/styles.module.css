@@ -20,6 +20,7 @@
   position: relative;
   z-index: 2;
   width: 100%;
+  min-height: 100px;
   background: linear-gradient(135deg,#1d4ed8,#1e3a8a);
   padding: 24px 42px;
   display: flex;

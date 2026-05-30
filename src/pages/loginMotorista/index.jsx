@@ -6,9 +6,11 @@ import styles from "./index.module.css";
 
 import { autenticarUsuario } from "../../services/auth";
 import api from "../../services/apis";
+import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
 export default function LoginMotora() {
   const navigate = useNavigate();
+  const { alert } = useAppDialog();
 
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
@@ -17,7 +19,7 @@ export default function LoginMotora() {
     event.preventDefault();
 
     if (!usuario || !senha) {
-      alert("Preencha usuario e senha.");
+      await alert("Preencha usuario e senha.");
       return;
     }
 
@@ -47,11 +49,15 @@ export default function LoginMotora() {
           }`
         );
       } else {
-        alert("Login invalido.");
+        await alert({
+          title: "Acesso negado",
+          message: "Login invalido.",
+          variant: "danger",
+        });
       }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
-      alert("Erro ao fazer login.");
+      await alert("Erro ao fazer login.");
     }
   }
 

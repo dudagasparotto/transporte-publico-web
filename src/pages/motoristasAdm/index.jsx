@@ -1,24 +1,21 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Edit, Home, Star, Trash2, UserRoundPlus } from "lucide-react";
 
 import api, { getArquivoUrl } from "../../services/apis";
 import styles from "./styles.module.css";
+import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
 export default function MotoristasAdm() {
   const navigate = useNavigate();
+  const { alert, confirm } = useAppDialog();
 
   const [motoristas, setMotoristas] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [excluindoId, setExcluindoId] = useState(null);
   const [fotosComErro, setFotosComErro] = useState({});
 
-  useEffect(() => {
-    document.title = "Motoristas cadastrados";
-    carregarMotoristas();
-  }, []);
-
-  async function carregarMotoristas() {
+  const carregarMotoristas = useCallback(async function carregarMotoristas() {
     try {
       setCarregando(true);
 
@@ -42,11 +39,16 @@ export default function MotoristasAdm() {
       setMotoristas(motoristasComAvaliacoes);
     } catch (error) {
       console.error("Erro ao carregar motoristas:", error);
-      alert("Erro ao carregar motoristas cadastrados.");
+      await alert("Erro ao carregar motoristas cadastrados.");
     } finally {
       setCarregando(false);
     }
-  }
+  }, [alert]);
+
+  useEffect(() => {
+    document.title = "Motoristas cadastrados";
+    carregarMotoristas();
+  }, [carregarMotoristas]);
 
   function calcularMediaAvaliacoes(avaliacoes) {
     if (!Array.isArray(avaliacoes) || avaliacoes.length === 0) return 0;
@@ -60,9 +62,12 @@ export default function MotoristasAdm() {
   }
 
   async function excluirMotorista(id) {
-    const confirmou = window.confirm(
-      "Tem certeza que deseja excluir este motorista?"
-    );
+    const confirmou = await confirm({
+      title: "Excluir motorista",
+      message: "Tem certeza que deseja excluir este motorista?",
+      confirmLabel: "Excluir",
+      variant: "danger",
+    });
 
     if (!confirmou) return;
 
@@ -72,7 +77,7 @@ export default function MotoristasAdm() {
       const { data } = await api.delete(`/motoristas/${id}`);
 
       if (data.sucesso === false) {
-        alert(data.mensagem || "Erro ao excluir motorista.");
+        await alert(data.mensagem || "Erro ao excluir motorista.");
         return;
       }
 
@@ -80,10 +85,10 @@ export default function MotoristasAdm() {
         listaAtual.filter((motorista) => motorista.id_motorista !== id)
       );
 
-      alert("Motorista excluido com sucesso!");
+      await alert("Motorista excluido com sucesso!");
     } catch (error) {
       console.error("Erro ao excluir motorista:", error);
-      alert("Erro ao excluir motorista.");
+      await alert("Erro ao excluir motorista.");
     } finally {
       setExcluindoId(null);
     }

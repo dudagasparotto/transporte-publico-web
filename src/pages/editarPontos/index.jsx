@@ -6,9 +6,11 @@ import styles from "./index.module.css";
 import api from "../../services/apis";
 import { listarRotasComPontos } from "../../services/transporte";
 import LeafletRouteMap from "../../components/LeafletRouteMap";
+import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
 export default function EditarPontos() {
   const navigate = useNavigate();
+  const { alert } = useAppDialog();
   const [rotas, setRotas] = useState([]);
   const [rotaSelecionada, setRotaSelecionada] = useState(null);
   const [pontoSelecionado, setPontoSelecionado] = useState(null);
@@ -95,7 +97,7 @@ export default function EditarPontos() {
 
   async function salvarPonto() {
     if (!pontoSelecionado || !nome || !latitude || !longitude) {
-      alert("Selecione um ponto para editar.");
+      await alert("Selecione um ponto para editar.");
       return;
     }
 
@@ -108,15 +110,15 @@ export default function EditarPontos() {
       });
 
       if (!data.sucesso) {
-        alert(data.mensagem || "Erro ao atualizar ponto.");
+        await alert(data.mensagem || "Erro ao atualizar ponto.");
         return;
       }
 
       await carregarRotas(rotaSelecionada.id_rota, pontoSelecionado.id_ponto);
-      alert("Ponto atualizado com sucesso!");
+      await alert("Ponto atualizado com sucesso!");
     } catch (error) {
       console.error("Erro ao atualizar ponto:", error);
-      alert(error.response?.data?.mensagem || "Erro ao atualizar ponto.");
+      await alert(error.response?.data?.mensagem || "Erro ao atualizar ponto.");
     }
   }
 
@@ -173,7 +175,12 @@ export default function EditarPontos() {
                   ? styles.ativo
                   : ""
               }`}
-              style={{ background: rota.cor }}
+              style={{
+                background:
+                  rotaSelecionada?.id_rota === rota.id_rota
+                    ? rota.cor
+                    : "#6B7280",
+              }}
               onClick={() => selecionarRota(rota)}
             >
               {rota.nome_linha}

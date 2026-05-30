@@ -6,9 +6,11 @@ import styles from "./styles.module.css";
 import api from "../../services/apis";
 import { listarRotasComPontos } from "../../services/transporte";
 import LeafletRouteMap from "../../components/LeafletRouteMap";
+import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
 export default function EditarRota() {
   const navigate = useNavigate();
+  const { alert } = useAppDialog();
   const [rotas, setRotas] = useState([]);
   const [rotaSelecionada, setRotaSelecionada] = useState(null);
   const [nomeLinha, setNomeLinha] = useState("");
@@ -29,6 +31,7 @@ export default function EditarRota() {
         console.error("Erro ao carregar rotas:", error);
       }
     }
+    
 
     iniciarEdicao();
   }, []);
@@ -100,7 +103,7 @@ export default function EditarRota() {
 
   async function salvarLinha() {
     if (!rotaSelecionada || !nomeLinha.trim()) {
-      alert("Informe o nome da linha.");
+      await alert("Informe o nome da linha.");
       return;
     }
 
@@ -110,7 +113,7 @@ export default function EditarRota() {
       });
 
       if (!data.sucesso) {
-        alert(data.mensagem || "Erro ao atualizar linha.");
+        await alert(data.mensagem || "Erro ao atualizar linha.");
         return;
       }
 
@@ -118,13 +121,13 @@ export default function EditarRota() {
       setMensagem("Nome da linha salvo com sucesso.");
     } catch (error) {
       console.error("Erro ao atualizar linha:", error);
-      alert(error.response?.data?.mensagem || "Erro ao atualizar linha.");
+      await alert(error.response?.data?.mensagem || "Erro ao atualizar linha.");
     }
   }
 
   async function salvarPonto() {
     if (!pontoSelecionado || !nomePonto || !latitude || !longitude) {
-      alert("Escolha um ponto no mapa ou na lista.");
+      await alert("Escolha um ponto no mapa ou na lista.");
       return;
     }
 
@@ -137,7 +140,7 @@ export default function EditarRota() {
       });
 
       if (!data.sucesso) {
-        alert(data.mensagem || "Erro ao atualizar ponto.");
+        await alert(data.mensagem || "Erro ao atualizar ponto.");
         return;
       }
 
@@ -145,7 +148,7 @@ export default function EditarRota() {
       setMensagem("Ponto salvo. O trajeto foi atualizado no mapa.");
     } catch (error) {
       console.error("Erro ao atualizar ponto:", error);
-      alert(error.response?.data?.mensagem || "Erro ao atualizar ponto.");
+      await alert(error.response?.data?.mensagem || "Erro ao atualizar ponto.");
     }
   }
 
@@ -178,7 +181,12 @@ export default function EditarRota() {
               className={`${styles.botaoRota} ${
                 rotaSelecionada?.id_linha === rota.id_linha ? styles.ativo : ""
               }`}
-              style={{ background: rota.cor }}
+              style={{
+                background:
+                  rotaSelecionada?.id_linha === rota.id_linha
+                    ? rota.cor
+                    : "#6B7280",
+              }}
               onClick={() => selecionarRota(rota)}
             >
               {rota.nome_linha}
@@ -209,7 +217,7 @@ export default function EditarRota() {
                   onChange={(event) => setNomeLinha(event.target.value)}
                 />
                 <button onClick={salvarLinha} title="Salvar linha">
-                  <Save size={18} />
+                  <Save size= {18} />
                 </button>
               </div>
             </div>

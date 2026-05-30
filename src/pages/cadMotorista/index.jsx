@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "./styles.module.css";
 import api, { getArquivoUrl } from "../../services/apis";
+import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
 const TIPO_USUARIO_MOTORISTA = 2;
 
 export default function Motorista() {
   const navigate = useNavigate();
+  const { alert } = useAppDialog();
   const { id } = useParams();
   const editando = Boolean(id);
 
@@ -34,7 +36,7 @@ export default function Motorista() {
         const { data } = await api.get("/motoristas");
 
         if (data.sucesso === false) {
-          alert(data.mensagem || "Motorista nao encontrado.");
+          await alert(data.mensagem || "Motorista nao encontrado.");
           navigate("/adm/motoristas");
           return;
         }
@@ -45,7 +47,7 @@ export default function Motorista() {
         );
 
         if (!motorista) {
-          alert("Motorista nao encontrado.");
+          await alert("Motorista nao encontrado.");
           navigate("/adm/motoristas");
           return;
         }
@@ -80,7 +82,7 @@ export default function Motorista() {
         }
       } catch (error) {
         console.error("Erro ao carregar motorista:", error);
-        alert("Erro ao carregar motorista.");
+        await alert("Erro ao carregar motorista.");
         navigate("/adm/motoristas");
       } finally {
         setCarregandoMotorista(false);
@@ -88,7 +90,7 @@ export default function Motorista() {
     }
 
     carregarMotorista();
-  }, [editando, id, navigate]);
+  }, [editando, id, navigate, alert]);
 
   function handleFoto(e) {
 
@@ -111,7 +113,7 @@ export default function Motorista() {
 
     if (!cpfNumerico || !cnhNumerica || !nomeLimpo || !loginLimpo || !senhaLimpa) {
 
-      alert(
+      await alert(
         editando
           ? "Preencha todos os campos para editar o motorista."
           : "Preencha todos os campos para cadastrar o motorista."
@@ -144,7 +146,7 @@ export default function Motorista() {
         : await api.post("/motoristas", formData);
 
       if (data.sucesso === false) {
-        alert(data.mensagem || "Erro ao salvar motorista.");
+        await alert(data.mensagem || "Erro ao salvar motorista.");
         return;
       }
 
@@ -164,7 +166,7 @@ export default function Motorista() {
         setFotoAtual("");
       }
 
-      alert(
+      await alert(
         editando
           ? "Motorista atualizado com sucesso!"
           : "Motorista cadastrado com sucesso!"
@@ -179,7 +181,7 @@ export default function Motorista() {
         error
       );
 
-      alert(error.message || "Erro ao salvar motorista.");
+      await alert(error.message || "Erro ao salvar motorista.");
 
     } finally {
       setSalvando(false);
@@ -266,7 +268,7 @@ export default function Motorista() {
       await api.put(`/usuarios/${usuarioMotorista.id_usuario}`, dadosLogin);
     } catch (error) {
       console.error("Erro ao atualizar login do motorista:", error);
-      alert(
+      await alert(
         "Motorista salvo, mas nao foi possivel atualizar o login porque a API de usuarios nao aceitou a alteracao."
       );
     }

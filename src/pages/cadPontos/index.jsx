@@ -5,10 +5,12 @@ import styles from "./styles.module.css";
 import api from "../../services/apis";
 import { listarRotasComPontos } from "../../services/transporte";
 import LeafletRouteMap from "../../components/LeafletRouteMap";
+import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
 export default function CadastroPontos() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { alert } = useAppDialog();
   const rotaInicial = location.state?.id_rota || "";
 
   const [nomePonto, setNomePonto] = useState("");
@@ -54,7 +56,7 @@ export default function CadastroPontos() {
 
   async function salvar() {
     if (!nomePonto || !latitude || !longitude || !idRota) {
-      alert("Informe o nome, a rota e marque o ponto no mapa.");
+      await alert("Informe o nome, a rota e marque o ponto no mapa.");
       return;
     }
 
@@ -67,7 +69,7 @@ export default function CadastroPontos() {
       });
 
       if (!data.sucesso) {
-        alert(data.mensagem || "Erro ao cadastrar ponto.");
+        await alert(data.mensagem || "Erro ao cadastrar ponto.");
         return;
       }
 
@@ -76,10 +78,10 @@ export default function CadastroPontos() {
       setLongitude("");
       await carregarRotas();
 
-      alert("Ponto cadastrado com sucesso!");
+      await alert("Ponto cadastrado com sucesso!");
     } catch (error) {
       console.error("Erro ao cadastrar ponto:", error);
-      alert(error.response?.data?.mensagem || "Erro ao cadastrar ponto.");
+      await alert(error.response?.data?.mensagem || "Erro ao cadastrar ponto.");
     }
   }
 

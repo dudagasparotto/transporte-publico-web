@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import api from "../../services/apis";
 import { listarRotasComPontos } from "../../services/transporte";
 import styles from "./styles.module.css";
+import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
 export default function EditarHorarios() {
 
   const navigate = useNavigate();
+  const { alert, confirm } = useAppDialog();
 
   const [rotas, setRotas] = useState([]);
   const [rotaSelecionada, setRotaSelecionada] = useState(null);
@@ -111,14 +113,21 @@ export default function EditarHorarios() {
   }
 
   async function excluirHorario(pontoId, horario, indexHorario) {
-    if (!confirm("Deseja excluir este horario?")) return;
+    const confirmou = await confirm({
+      title: "Excluir horario",
+      message: "Deseja excluir este horario?",
+      confirmLabel: "Excluir",
+      variant: "danger",
+    });
+
+    if (!confirmou) return;
 
     if (horario.id_horario) {
       try {
         await api.delete(`/horarios/${horario.id_horario}`);
       } catch (error) {
         console.error("Erro ao excluir horario:", error);
-        alert(
+        await alert(
           error.response?.data?.mensagem ||
           "Erro ao excluir horario."
         );
@@ -161,10 +170,10 @@ export default function EditarHorarios() {
       }
 
       setRotas(copiarRotas());
-      alert("Horarios salvos com sucesso!");
+      await alert("Horarios salvos com sucesso!");
     } catch (error) {
       console.error("Erro ao salvar horarios:", error);
-      alert(
+      await alert(
         error.response?.data?.mensagem ||
         "Nao foi possivel salvar os horarios."
       );
