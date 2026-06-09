@@ -1,16 +1,21 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import styles from './index.module.css';
+import { Home, ShieldCheck } from "lucide-react";
+import styles from "./index.module.css";
 import { autenticarUsuario } from "../../services/auth";
+import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
 export default function LoginAdm() {
   const navigate = useNavigate();
+  const { alert } = useAppDialog();
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
 
-  async function fazerLogin() {
+  async function fazerLogin(event) {
+    event.preventDefault();
+
     if (!usuario || !senha) {
-      alert("Preencha usuário e senha.");
+      await alert("Preencha usuario e senha.");
       return;
     }
 
@@ -20,41 +25,53 @@ export default function LoginAdm() {
       if (usuarioEncontrado) {
         navigate("/adm");
       } else {
-        alert("Login inválido.");
+        await alert({
+          title: "Acesso negado",
+          message: "Login invalido.",
+          variant: "danger",
+        });
       }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
-      alert("Erro ao fazer login.");
+      await alert("Erro ao fazer login.");
     }
   }
 
   return (
     <div className={styles.loginContainer}>
-      
       <div className={styles.overlay} />
 
       <div className={styles.topBar}>
         <Link to="/">
-          <button className={styles.homeBtn}>Home</button>
+          <button className={styles.homeBtn}>
+            <Home size={18} />
+            Home
+          </button>
         </Link>
       </div>
 
-      <div className={styles.loginBox}>
-        <h1>Entrar</h1>
+      <form className={styles.loginBox} onSubmit={fazerLogin}>
+        <div className={styles.loginIcon}>
+          <ShieldCheck size={40} />
+        </div>
+
+        <h1>Login Administrador</h1>
 
         <div className={styles.inputGroup}>
-          <label>Nome de usuário</label>
+          <label htmlFor="usuario">Nome de usuario</label>
           <input
+            id="usuario"
             type="text"
-            placeholder="Digite seu usuário"
+            placeholder="Digite seu usuario"
             value={usuario}
             onChange={(e) => setUsuario(e.target.value)}
           />
         </div>
 
         <div className={styles.inputGroup}>
-          <label>Senha</label>
+          <label htmlFor="senha">Senha</label>
           <input
+            id="senha"
             type="password"
             placeholder="Digite sua senha"
             value={senha}
@@ -62,13 +79,10 @@ export default function LoginAdm() {
           />
         </div>
 
-        <button
-          className={styles.loginBtn}
-          onClick={fazerLogin}
-        >
+        <button className={styles.loginBtn} type="submit">
           Entrar
         </button>
-      </div>
+      </form>
     </div>
   );
 }

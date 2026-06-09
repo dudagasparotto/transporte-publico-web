@@ -1,0 +1,291 @@
+.page {
+  width: 100%;
+  min-height: 100vh;
+  align-self: stretch;
+  background-image: linear-gradient(rgba(8, 15, 32, 0.68), rgba(8, 15, 32, 0.68)), url("/src/assets/fundo.png");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  font-family: "Roboto", Arial, sans-serif;
+}
+
+.header {
+  width: 100%;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 34px;
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.28);
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2.4rem;
+}
+
+.nav {
+  display: flex;
+  gap: 12px;
+}
+
+.navButton,
+.acoes button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 800;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.navButton {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 10px;
+  background: #1e3a8a;
+  color: white;
+}
+
+.navButton:hover,
+.acoes button:hover {
+  transform: translateY(-2px);
+}
+
+.main {
+  width: min(1280px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 34px 0;
+}
+
+.container {
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.13);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(14px);
+}
+
+.topo {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.topo span {
+  color: #bfdbfe;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.topo h2 {
+  margin: 6px 0 0;
+  font-size: 2.6rem;
+}
+
+.topo strong {
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.14);
+  white-space: nowrap;
+}
+
+.mensagem {
+  margin: 0;
+  padding: 28px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.lista {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+.cardMotorista {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.1fr) minmax(170px, 0.6fr) minmax(260px, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.46);
+}
+
+.perfil {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.foto,
+.avatar {
+  width: 86px;
+  height: 86px;
+  flex: 0 0 86px;
+  border-radius: 50%;
+}
+
+.foto {
+  object-fit: cover;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1d4ed8;
+  color: white;
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.dados {
+  min-width: 0;
+}
+
+.dados h3 {
+  margin: 0 0 8px;
+  overflow-wrap: anywhere;
+  font-size: 2rem;
+}
+
+.dados p,
+.avaliacao p,
+.semAvaliacao {
+  margin: 4px 0;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.avaliacoesResumo {
+  display: grid;
+  gap: 8px;
+}
+
+.media {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.media strong {
+  font-size: 2.1rem;
+}
+
+.media span {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.estrelas,
+.avaliacaoTopo span {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.estrelaCheia {
+  color: #facc15;
+}
+
+.estrelaVazia {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.avaliacoes {
+  display: grid;
+  gap: 10px;
+}
+
+.avaliacao {
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.avaliacaoTopo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.acoes {
+  display: grid;
+  gap: 10px;
+}
+
+.acoes button {
+  min-width: 112px;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 8px;
+  color: white;
+}
+
+.editar {
+  background: #2563eb;
+}
+
+.excluir {
+  background: #dc2626;
+}
+
+.excluir:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+@media (max-width: 1040px) {
+  .cardMotorista {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .acoes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .header,
+  .topo {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .nav {
+    flex-direction: column;
+  }
+
+  .navButton {
+    width: 100%;
+  }
+
+  .main {
+    width: min(100% - 20px, 1180px);
+  }
+
+  .container {
+    padding: 16px;
+  }
+
+  .cardMotorista {
+    grid-template-columns: 1fr;
+  }
+
+  .perfil {
+    align-items: flex-start;
+  }
+}

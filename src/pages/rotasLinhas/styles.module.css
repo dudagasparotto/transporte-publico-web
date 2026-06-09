@@ -7,7 +7,7 @@
     radial-gradient(circle at 14% -10%, rgba(47, 124, 255, 0.26), transparent 32%),
     linear-gradient(135deg, #06142e 0%, #0b2f7a 54%, #1264e8 100%);
   color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif; 
 }
 
 .container::before {
@@ -16,7 +16,7 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 24%),
+    linear-gradient(180deg, rgba(206, 0, 0, 0.06), transparent 24%),
     radial-gradient(circle at 38% -30%, rgba(96, 165, 250, 0.14), transparent 34%);
 }
 
@@ -95,7 +95,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 15px;
 }
 
 .rotasArea h2 {
@@ -111,53 +111,27 @@
   flex: 1;
   min-width: 148px;
   max-width: 180px;
-  height: 46px;
-  padding: 0 22px;
-  border: 1px solid color-mix(in srgb, var(--cor-rota, #60a5fa) 42%, rgba(191, 219, 254, 0.28));
-  border-radius: 10px;
+  padding: 16px 34px;
+  border: none;
+  border-radius: 16px;
   color: white;
-  background: linear-gradient(135deg, #285fbd, #174696) !important;
-  box-shadow:
-    inset 0 1px 0 rgba(219, 234, 254, 0.12),
-    0 12px 24px rgba(0, 20, 80, 0.22);
-  font-size: 14px;
-  font-weight: 900;
+  background: #6B7280;
+  font-size: 13px;
+  font-weight: 800;
   text-align: center;
   cursor: pointer;
-  transition:
-    background 0.22s,
-    box-shadow 0.22s,
-    filter 0.22s,
-    outline 0.22s,
-    transform 0.22s;
+  transition: 0.25s;
 }
 
 .botaoRota:hover {
-  background:
-    linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--cor-rota, #3b82f6) 30%, #2f7cff),
-      color-mix(in srgb, var(--cor-rota, #1d4ed8) 22%, #0b3f9e)
-    ) !important;
-  box-shadow:
-    0 0 18px color-mix(in srgb, var(--cor-rota, #60a5fa) 38%, transparent),
-    0 14px 28px rgba(0, 20, 80, 0.25);
-  filter: brightness(1.04);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
 .rotaAtiva {
-  background:
-    linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--cor-rota, #3b82f6) 38%, #2f7cff),
-      color-mix(in srgb, var(--cor-rota, #1d4ed8) 28%, #0b3f9e)
-    ) !important;
-  outline: 2px solid rgba(255, 255, 255, 0.78);
-  outline-offset: 4px;
+  background: var(--cor-rota, #6B7280);
   box-shadow:
-    0 0 22px color-mix(in srgb, var(--cor-rota, #60a5fa) 44%, transparent),
-    0 16px 32px rgba(0, 20, 80, 0.28);
+    0 0 0 3px rgba(255, 255, 255, 0.15),
+    0 10px 24px rgba(0, 0, 0, 0.35);
 }
 
 .areaMapaDados {
@@ -206,7 +180,7 @@
 
 .painelDadosTopo {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 9px;
   margin-bottom: 16px;
 }
@@ -328,6 +302,77 @@
   text-align: center;
   font-size: 13px;
   font-weight: 900;
+}
+
+.cardMotorista {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  background: rgba(56, 98, 177, 0.38);
+}
+
+.avatarMotorista {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2f7cff, #0b56d8);
+  color: white;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.avatarMotorista img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dadosMotorista {
+  min-width: 0;
+}
+
+.dadosMotorista strong {
+  display: block;
+  color: white;
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+
+.dadosMotorista span {
+  display: block;
+  margin-top: 5px;
+  color: #dbeafe;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.botaoAvaliacao {
+  grid-column: 1 / -1;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2f7cff, #0b56d8);
+  color: white;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.botaoAvaliacao:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 19px rgba(47, 124, 255, 0.5);
 }
 
 @media (max-width: 1160px) {

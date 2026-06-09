@@ -38,6 +38,48 @@ function localizacaoPonto(ponto) {
   return `${ponto.latitude_pontos}, ${ponto.longitude_pontos}`;
 }
 
+function mesmoId(idA, idB) {
+  return Number(idA) === Number(idB);
+}
+
+export async function carregarPrimeiroEndpointDisponivel(endpoints) {
+  for (const endpoint of endpoints) {
+    try {
+      const { data } = await api.get(endpoint);
+      return data.dados || [];
+    } catch (error) {
+      if (error.response?.status !== 404) {
+        console.error(`Erro ao carregar ${endpoint}:`, error);
+      }
+    }
+  }
+
+  return [];
+}
+
+export async function listarVinculosRotaMotorista() {
+  return carregarPrimeiroEndpointDisponivel([
+    '/rota_onibus',
+    '/rota-onibus',
+    '/rotaOnibus',
+    '/rotas-onibus',
+  ]);
+}
+
+function encontrarMotoristaDaRota(rotasDaLinha, vinculosRotaMotorista, motoristas) {
+  const vinculo = vinculosRotaMotorista.find((item) =>
+    rotasDaLinha.some((rota) => Number(rota.id_rota) === Number(item.id_rota))
+  );
+
+  if (!vinculo) return null;
+
+  return (
+    motoristas.find(
+      (motorista) => Number(motorista.id_motorista) === Number(vinculo.id_motorista)
+    ) || null
+  );
+}
+
 export async function listarRotasComPontos() {
   const [linhasResp, rotasResp, pontosResp] = await Promise.all([
     api.get('/linhas'),
@@ -53,6 +95,11 @@ export async function listarRotasComPontos() {
     console.error('Erro ao carregar horários do backend:', error);
   }
 
+  const [motoristas, vinculosRotaMotorista] = await Promise.all([
+    carregarPrimeiroEndpointDisponivel(['/motoristas', '/motorista']),
+    listarVinculosRotaMotorista(),
+  ]);
+
   const linhas = linhasResp.data.dados || [];
   const rotas = rotasResp.data.dados || [];
   const pontos = pontosResp.data.dados || [];
@@ -63,14 +110,19 @@ export async function listarRotasComPontos() {
     const nomeMapa =
       mapasDasLinhas[nomeLinha] ? nomeLinha : nomesOriginaisDasLinhas[linha.id_linha];
     const dadosMapa = mapasDasLinhas[nomeMapa] || {};
-    const rotasDaLinha = rotas.filter((rota) => rota.id_linha === linha.id_linha);
+    const rotasDaLinha = rotas.filter((rota) => mesmoId(rota.id_linha, linha.id_linha));
+    const motorista = encontrarMotoristaDaRota(
+      rotasDaLinha,
+      vinculosRotaMotorista,
+      motoristas
+    );
 
     const pontosDaLinha = pontos
       .filter((ponto) =>
         rotasDaLinha.some((rota) =>
           ponto.id_rota
-            ? ponto.id_rota === rota.id_rota
-            : ponto.id_pontos === rota.id_ponto
+            ? mesmoId(ponto.id_rota, rota.id_rota)
+            : mesmoId(ponto.id_pontos, rota.id_ponto)
         )
       )
       .map((ponto) => ({
@@ -80,7 +132,7 @@ export async function listarRotasComPontos() {
         longitude: ponto.longitude_pontos,
         localizacao: localizacaoPonto(ponto),
         horarios: horarios
-          .filter((horario) => horario.id_ponto === ponto.id_pontos)
+          .filter((horario) => mesmoId(horario.id_ponto, ponto.id_pontos))
           .map((horario) => ({
             id_horario: horario.id_horario,
             hora: horaCurta(horario.passagem_horarios),
@@ -100,6 +152,7 @@ export async function listarRotasComPontos() {
       destino: pontosDaLinha[pontosDaLinha.length - 1]?.nome_ponto || '',
       paradas: pontosDaLinha.map((ponto) => ponto.nome_ponto),
       pontos: pontosDaLinha,
+      motorista,
     };
   });
 }

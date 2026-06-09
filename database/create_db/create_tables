@@ -52,7 +52,7 @@ CREATE TABLE pontos (
     nome_pontos VARCHAR(100) NOT NULL,
     latitude_pontos DECIMAL(11,8) NOT NULL,
     longitude_pontos DECIMAL(11,8) NOT NULL,
-    id_rota MEDIUMINT NOT NULL
+    id_rota MEDIUMINT
 );
 
 CREATE TABLE rotas (

@@ -3,7 +3,29 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import styles from './styles.module.css';
 import api, { getArquivoUrl } from '../../services/apis';
-import { listarRotasComPontos } from '../../services/transporte';
+import {
+    listarRotasComPontos,
+    listarVinculosRotaMotorista,
+} from '../../services/transporte';
+
+function mesmoId(idA, idB) {
+    return Number(idA) === Number(idB);
+}
+
+function dadosDaResposta(resposta) {
+    return resposta?.data?.dados ?? resposta?.data ?? null;
+}
+
+function listaDaResposta(resposta) {
+    const dados = dadosDaResposta(resposta);
+
+    if (Array.isArray(dados)) return dados;
+    if (Array.isArray(dados?.dados)) return dados.dados;
+    if (Array.isArray(dados?.avaliacoes)) return dados.avaliacoes;
+    if (Array.isArray(dados?.avaliacao)) return dados.avaliacao;
+
+    return [];
+}
 
 export default function TelaDoMotorista() {
     const navigate = useNavigate();
@@ -15,28 +37,47 @@ export default function TelaDoMotorista() {
     const [abaAtiva, setAbaAtiva] = useState('rotas');
     const [carregando, setCarregando] = useState(true);
     const [mediaApi, setMediaApi] = useState(0);
+    const [erro, setErro] = useState('');
 
     useEffect(() => {
         async function carregarDados() {
+            const idMotorista = Number(id);
+
+            if (!Number.isFinite(idMotorista)) {
+                setErro('Motorista nao encontrado.');
+                setCarregando(false);
+                return;
+            }
+
             try {
                 const [
-                    motoristaResp,
-                    rotasData,
-                    avaliacoesResp,
-                    mediaResp
+                    motoristaEncontrado,
+                    todasRotas,
+                    vinculos,
+                    avaliacoesData,
+                    mediaData
                 ] = await Promise.all([
-                    api.get(`/motoristas/${id}`),
+                    carregarMotorista(idMotorista),
                     listarRotasComPontos(),
-                    api.get(`/avaliacao/${id}`),
-                    api.get(`/mediaAvaliacao/${id}`)
+                    listarVinculosRotaMotorista(),
+                    carregarAvaliacoes(idMotorista),
+                    carregarMedia(idMotorista)
                 ]);
 
-                setMotorista(motoristaResp.data.dados);
-                setRotas(rotasData || []);
-                setAvaliacoes(avaliacoesResp.data.dados || []);
-                setMediaApi(mediaResp.data.media || 0);
+                const rotasDoMotorista = filtrarRotasDoMotorista(
+                    todasRotas || [],
+                    vinculos || [],
+                    idMotorista
+                );
+
+                setMotorista(motoristaEncontrado);
+                setRotas(rotasDoMotorista);
+                setAvaliacoes(avaliacoesData);
+                setMediaApi(mediaData);
+                setErro('');
             } catch (error) {
                 console.error('Erro ao carregar tela do motorista:', error);
+                setErro('Nao foi possivel carregar seus dados.');
             } finally {
                 setCarregando(false);
             }
@@ -44,6 +85,97 @@ export default function TelaDoMotorista() {
 
         carregarDados();
     }, [id]);
+
+    async function carregarMotorista(idMotorista) {
+        try {
+            const resposta = await api.get(`/motoristas/${idMotorista}`);
+            const dados = dadosDaResposta(resposta);
+
+            if (dados && !Array.isArray(dados)) {
+                return dados;
+            }
+        } catch (error) {
+            if (error.response?.status !== 404) {
+                console.error('Erro ao carregar motorista pelo id:', error);
+            }
+        }
+
+        const { data } = await api.get('/motoristas');
+        const motoristas = data.dados || [];
+
+        return (
+            motoristas.find((item) => mesmoId(item.id_motorista, idMotorista)) ||
+            null
+        );
+    }
+
+    async function carregarAvaliacoes(idMotorista) {
+        const endpoints = [
+            `/avaliacao/${idMotorista}`,
+            `/avaliacoes/${idMotorista}`,
+            `/avaliacao?id_motorista=${idMotorista}`,
+            `/avaliacoes?id_motorista=${idMotorista}`,
+        ];
+
+        for (const endpoint of endpoints) {
+            try {
+                const resposta = await api.get(endpoint);
+                const avaliacoesEncontradas = listaDaResposta(resposta)
+                    .filter((avaliacao) =>
+                        !avaliacao.id_motorista ||
+                        mesmoId(avaliacao.id_motorista, idMotorista)
+                    );
+
+                if (avaliacoesEncontradas.length > 0) {
+                    return avaliacoesEncontradas;
+                }
+            } catch (error) {
+                if (error.response?.status !== 404) {
+                    console.error(`Erro ao carregar avaliacoes em ${endpoint}:`, error);
+                }
+            }
+        }
+
+        try {
+            const resposta = await api.get('/avaliacao');
+            return listaDaResposta(resposta).filter((avaliacao) =>
+                mesmoId(avaliacao.id_motorista, idMotorista)
+            );
+        } catch (error) {
+            console.error('Erro ao carregar lista de avaliacoes:', error);
+            return [];
+        }
+    }
+
+    async function carregarMedia(idMotorista) {
+        try {
+            const { data } = await api.get(`/mediaAvaliacao/${idMotorista}`);
+            return data.media || data.dados?.media || 0;
+        } catch (error) {
+            if (error.response?.status !== 404) {
+                console.error('Erro ao carregar media:', error);
+            }
+
+            return 0;
+        }
+    }
+
+    function filtrarRotasDoMotorista(todasRotas, vinculos, idMotorista) {
+        const idsRotasDoMotorista = vinculos
+            .filter((vinculo) => mesmoId(vinculo.id_motorista, idMotorista))
+            .map((vinculo) => Number(vinculo.id_rota));
+
+        return todasRotas.filter((rota) => {
+            const motoristaDaRota = rota.motorista;
+            const rotaVinculada = idsRotasDoMotorista.some((idRota) =>
+                mesmoId(idRota, rota.id_rota)
+            );
+            const motoristaVinculado =
+                motoristaDaRota && mesmoId(motoristaDaRota.id_motorista, idMotorista);
+
+            return rotaVinculada || motoristaVinculado;
+        });
+    }
 
     function getIniciais(nome) {
         if (!nome) return '?';
@@ -67,6 +199,14 @@ export default function TelaDoMotorista() {
         return (soma / avaliacoes.length).toFixed(1);
     }
 
+    function horariosDaRota(rota) {
+        return (rota.pontos || [])
+            .flatMap((ponto) => ponto.horarios || [])
+            .map((horario) => horario.hora)
+            .filter(Boolean)
+            .sort();
+    }
+
     function renderEstrelas(nota) {
         return Array.from({ length: 5 }, (_, index) => (
             <span
@@ -87,6 +227,17 @@ export default function TelaDoMotorista() {
             <div className={styles.loadingContainer}>
                 <div className={styles.spinner}></div>
                 <p>Carregando...</p>
+            </div>
+        );
+    }
+
+    if (erro) {
+        return (
+            <div className={styles.loadingContainer}>
+                <p>{erro}</p>
+                <button className={styles.botaoSair} onClick={() => navigate('/')}>
+                    Voltar
+                </button>
             </div>
         );
     }
@@ -172,7 +323,10 @@ export default function TelaDoMotorista() {
                             </div>
                         ) : (
                             <div className={styles.listaRotas}>
-                                {rotas.map((rota) => (
+                                {rotas.map((rota) => {
+                                    const horarios = horariosDaRota(rota);
+
+                                    return (
                                     <div
                                         key={rota.id_linha ?? rota.id_rota}
                                         className={styles.cardRota}
@@ -200,12 +354,19 @@ export default function TelaDoMotorista() {
                                                 {rota.pontos?.length || 0} pontos cadastrados
                                             </span>
 
+                                            {horarios.length > 0 && (
+                                                <span className={styles.horario}>
+                                                    Proximo horario: {horarios[0]}
+                                                </span>
+                                            )}
+
                                             <span className={`${styles.badge} ${styles.badge_ativo}`}>
                                                 Ativa
                                             </span>
                                         </div>
                                     </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         )}
                     </section>

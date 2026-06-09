@@ -1,4 +1,4 @@
-.container {
+﻿.container {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -22,6 +22,7 @@
 }
 
 .header {
+  min-height: 100px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -76,25 +77,30 @@
 .botoesRotas {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 15px;
   flex-wrap: wrap;
-  margin-bottom: 19px;
+  margin-bottom: 35px;
 }
 
 .botaoRota {
-  min-width: 124px;
-  padding: 12px 22px;
   border: none;
-  border-radius: 9px;
+  padding: 16px 34px;
+  border-radius: 16px;
   color: white;
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 13px;
+  font-weight: 800;
   cursor: pointer;
+  transition: 0.25s;
+}
+
+.botaoRota:hover {
+  transform: translateY(-3px);
 }
 
 .ativo {
-  outline: 3px solid rgba(255, 255, 255, 0.8);
-  outline-offset: 2px;
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.15),
+    0 10px 24px rgba(0, 0, 0, 0.35);
 }
 
 .conteudoEdicao {
@@ -153,13 +159,13 @@
 }
 
 .linhaAcao button {
-  width: 42px;
-  flex-shrink: 0;
+
   border: none;
   border-radius: 8px;
   background: #2563eb;
   color: white;
   cursor: pointer;
+  
 }
 
 .painelEdicao h3 {

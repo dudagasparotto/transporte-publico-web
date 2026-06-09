@@ -4,9 +4,12 @@ import {
   Clock,
   Home,
   MapPin,
+  Star,
+  UserRound,
 } from 'lucide-react';
 
 import styles from './styles.module.css';
+import { getArquivoUrl } from '../../services/apis';
 import { listarRotasComPontos } from '../../services/transporte';
 import LeafletRouteMap from '../../components/LeafletRouteMap';
 
@@ -131,6 +134,16 @@ export default function RotasLinhas() {
                   <Clock size={22} />
                   HORARIOS
                 </button>
+
+                <button
+                  className={`${styles.botaoPainel} ${
+                    abaSelecionada === 'motorista' ? styles.botaoPainelAtivo : ''
+                  }`}
+                  onClick={() => setAbaSelecionada('motorista')}
+                >
+                  <UserRound size={22} />
+                  MOTORISTA
+                </button>
               </div>
 
               {!rotaSelecionada ? (
@@ -197,8 +210,52 @@ export default function RotasLinhas() {
                     )}
                   </div>
                 </>
+              ) : abaSelecionada === 'motorista' ? (
+                <>
+                  <h3>Motorista</h3>
+                  <strong className={styles.nomeRota}>
+                    Rota {rotaSelecionada.nome_linha}
+                  </strong>
+
+                  {rotaSelecionada.motorista ? (
+                    <div className={styles.cardMotorista}>
+                      <div className={styles.avatarMotorista}>
+                        {rotaSelecionada.motorista.foto_motorista ? (
+                          <img
+                            src={getArquivoUrl(rotaSelecionada.motorista.foto_motorista)}
+                            alt={rotaSelecionada.motorista.nome_motorista}
+                          />
+                        ) : (
+                          <span>
+                            {String(rotaSelecionada.motorista.nome_motorista || 'M')
+                              .trim()
+                              .charAt(0)
+                              .toUpperCase()}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className={styles.dadosMotorista}>
+                        <strong>{rotaSelecionada.motorista.nome_motorista}</strong>
+                        <span>Responsavel por dirigir esta rota.</span>
+                      </div>
+
+                      <button
+                        className={styles.botaoAvaliacao}
+                        onClick={() =>
+                          navigate(`/infoMotorista/${rotaSelecionada.motorista.id_motorista}`)
+                        }
+                      >
+                        <Star size={20} />
+                        Avaliar motorista
+                      </button>
+                    </div>
+                  ) : (
+                    <p>Nenhum motorista vinculado a esta rota.</p>
+                  )}
+                </>
               ) : (
-                <p>Clique em pontos ou horarios para ver os dados da rota.</p>
+                <p>Clique em pontos, horarios ou motorista para ver os dados da rota.</p>
               )}
             </aside>
           </div>

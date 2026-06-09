@@ -1,5 +1,5 @@
 //DUDA
-import {BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 //import Home from './pages/home';
 
@@ -19,6 +19,7 @@ import Negado from './pages/loginAdm/negado';
 import EditarHorarios from './pages/editarHoraios';
 import LoginMotora from './pages/loginMotorista';
 import TelaDoMotorista from './pages/telaDoMotorista';
+import MotoristasAdm from './pages/motoristasAdm';
 
 
 function App() {
@@ -31,10 +32,13 @@ function App() {
       <Route path="/infoMotorista/:id" element={<InfoMotorista />} />
       <Route path="/avaliacaoMotorista" element={<AvaliacaoMotorista />} />
       <Route path="/adm/cadmotora" element={<CadastroMotorista />} />
+      <Route path="/adm/motoristas" element={<MotoristasAdm />} />
+      <Route path="/adm/motoristas/:id/editar" element={<CadastroMotorista />} />
       <Route path="/adm/editarpontos" element={<EditarPontos />} />
       <Route path="/adm/editarrota" element={<EditarRota />} />
       <Route path="/adm" element={<HomeAdm />} />
       <Route path="/cadpontos" element={<CadastroPontos />} />
+      <Route path="/adm/cadpontos" element={<CadastroPontos />} />
       <Route path="/rotas" element={<RotasLinhas />} />
       <Route path="/horarios" element={<Horarios />} />
       <Route path="/loginadm" element={<LoginAdm />} />
