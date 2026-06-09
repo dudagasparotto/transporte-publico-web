@@ -109,6 +109,7 @@ export default function EditarRota() {
 
     try {
       const { data } = await api.patch(`/linhas/${rotaSelecionada.id_linha}`, {
+        nome_linhas: nomeLinha.trim(),
         nome_da_linha: nomeLinha.trim(),
       });
 
@@ -133,8 +134,11 @@ export default function EditarRota() {
 
     try {
       const { data } = await api.patch(`/pontos/${pontoSelecionado.id_ponto}`, {
+        nome_pontos: nomePonto,
         nome_dos_pontos: nomePonto,
+        latitude_pontos: Number(latitude),
         latitude_dos_pontos: Number(latitude),
+        longitude_pontos: Number(longitude),
         longitude_dos_pontos: Number(longitude),
         id_rota: rotaSelecionada.id_rota,
       });

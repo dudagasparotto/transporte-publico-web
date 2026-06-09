@@ -103,8 +103,11 @@ export default function EditarPontos() {
 
     try {
       const { data } = await api.patch(`/pontos/${pontoSelecionado.id_ponto}`, {
+        nome_pontos: nome,
         nome_dos_pontos: nome,
+        latitude_pontos: Number(latitude),
         latitude_dos_pontos: Number(latitude),
+        longitude_pontos: Number(longitude),
         longitude_dos_pontos: Number(longitude),
         id_rota: rotaSelecionada.id_rota,
       });

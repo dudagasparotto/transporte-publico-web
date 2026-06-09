@@ -19,6 +19,10 @@ export default function CadastroPontos() {
   const [rotas, setRotas] = useState([]);
   const [idRota, setIdRota] = useState(rotaInicial);
 
+  function primeiraRotaValida(listaRotas) {
+    return listaRotas.find((rota) => Number.isFinite(Number(rota.id_rota)));
+  }
+
   useEffect(() => {
     document.title = "Cadastro de Pontos";
 
@@ -27,7 +31,7 @@ export default function CadastroPontos() {
         const dados = await listarRotasComPontos();
         setRotas(dados);
         setIdRota((rotaAtual) =>
-          rotaAtual || (dados.length > 0 ? dados[0].id_rota : "")
+          rotaAtual || primeiraRotaValida(dados)?.id_rota || ""
         );
       } catch (error) {
         console.error("Erro ao carregar rotas:", error);
@@ -42,7 +46,7 @@ export default function CadastroPontos() {
       const dados = await listarRotasComPontos();
       setRotas(dados);
       setIdRota((rotaAtual) =>
-        rotaAtual || (dados.length > 0 ? dados[0].id_rota : "")
+        rotaAtual || primeiraRotaValida(dados)?.id_rota || ""
       );
     } catch (error) {
       console.error("Erro ao carregar rotas:", error);
@@ -55,17 +59,28 @@ export default function CadastroPontos() {
   }
 
   async function salvar() {
-    if (!nomePonto || !latitude || !longitude || !idRota) {
+    const idRotaNumerico = Number(idRota);
+
+    if (
+      !nomePonto.trim() ||
+      !latitude ||
+      !longitude ||
+      !Number.isFinite(idRotaNumerico) ||
+      idRotaNumerico <= 0
+    ) {
       await alert("Informe o nome, a rota e marque o ponto no mapa.");
       return;
     }
 
     try {
       const { data } = await api.post("/pontos", {
-        nome_dos_pontos: nomePonto,
+        nome_pontos: nomePonto.trim(),
+        nome_dos_pontos: nomePonto.trim(),
+        latitude_pontos: Number(latitude),
         latitude_dos_pontos: Number(latitude),
+        longitude_pontos: Number(longitude),
         longitude_dos_pontos: Number(longitude),
-        id_rota: Number(idRota),
+        id_rota: idRotaNumerico,
       });
 
       if (!data.sucesso) {
@@ -114,7 +129,9 @@ export default function CadastroPontos() {
               value={idRota}
               onChange={(e) => setIdRota(e.target.value)}
             >
-              {rotas.map((rota) => (
+              {rotas
+                .filter((rota) => Number.isFinite(Number(rota.id_rota)))
+                .map((rota) => (
                 <option key={rota.id_rota} value={rota.id_rota}>
                   {rota.nome_linha}
                 </option>

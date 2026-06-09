@@ -38,7 +38,11 @@ function localizacaoPonto(ponto) {
   return `${ponto.latitude_pontos}, ${ponto.longitude_pontos}`;
 }
 
-async function carregarPrimeiroEndpointDisponivel(endpoints) {
+function mesmoId(idA, idB) {
+  return Number(idA) === Number(idB);
+}
+
+export async function carregarPrimeiroEndpointDisponivel(endpoints) {
   for (const endpoint of endpoints) {
     try {
       const { data } = await api.get(endpoint);
@@ -51,6 +55,15 @@ async function carregarPrimeiroEndpointDisponivel(endpoints) {
   }
 
   return [];
+}
+
+export async function listarVinculosRotaMotorista() {
+  return carregarPrimeiroEndpointDisponivel([
+    '/rota_onibus',
+    '/rota-onibus',
+    '/rotaOnibus',
+    '/rotas-onibus',
+  ]);
 }
 
 function encontrarMotoristaDaRota(rotasDaLinha, vinculosRotaMotorista, motoristas) {
@@ -84,12 +97,7 @@ export async function listarRotasComPontos() {
 
   const [motoristas, vinculosRotaMotorista] = await Promise.all([
     carregarPrimeiroEndpointDisponivel(['/motoristas', '/motorista']),
-    carregarPrimeiroEndpointDisponivel([
-      '/rota_onibus',
-      '/rota-onibus',
-      '/rotaOnibus',
-      '/rotas-onibus',
-    ]),
+    listarVinculosRotaMotorista(),
   ]);
 
   const linhas = linhasResp.data.dados || [];
@@ -102,7 +110,7 @@ export async function listarRotasComPontos() {
     const nomeMapa =
       mapasDasLinhas[nomeLinha] ? nomeLinha : nomesOriginaisDasLinhas[linha.id_linha];
     const dadosMapa = mapasDasLinhas[nomeMapa] || {};
-    const rotasDaLinha = rotas.filter((rota) => rota.id_linha === linha.id_linha);
+    const rotasDaLinha = rotas.filter((rota) => mesmoId(rota.id_linha, linha.id_linha));
     const motorista = encontrarMotoristaDaRota(
       rotasDaLinha,
       vinculosRotaMotorista,
@@ -113,8 +121,8 @@ export async function listarRotasComPontos() {
       .filter((ponto) =>
         rotasDaLinha.some((rota) =>
           ponto.id_rota
-            ? ponto.id_rota === rota.id_rota
-            : ponto.id_pontos === rota.id_ponto
+            ? mesmoId(ponto.id_rota, rota.id_rota)
+            : mesmoId(ponto.id_pontos, rota.id_ponto)
         )
       )
       .map((ponto) => ({
@@ -124,7 +132,7 @@ export async function listarRotasComPontos() {
         longitude: ponto.longitude_pontos,
         localizacao: localizacaoPonto(ponto),
         horarios: horarios
-          .filter((horario) => horario.id_ponto === ponto.id_pontos)
+          .filter((horario) => mesmoId(horario.id_ponto, ponto.id_pontos))
           .map((horario) => ({
             id_horario: horario.id_horario,
             hora: horaCurta(horario.passagem_horarios),
