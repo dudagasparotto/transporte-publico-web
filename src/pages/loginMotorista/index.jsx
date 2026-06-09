@@ -4,7 +4,7 @@ import { Home, UserRound } from "lucide-react";
 
 import styles from "./index.module.css";
 
-import { autenticarUsuario } from "../../services/auth";
+import { autenticarUsuario, criarSessao } from "../../services/auth";
 import api from "../../services/apis";
 import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
@@ -40,14 +40,16 @@ export default function LoginMotora() {
 
           return mesmoMotorista || mesmoId || mesmoNome;
         });
+        const idMotorista =
+          motoristaEncontrado?.id_motorista ||
+          usuarioEncontrado.id_motorista ||
+          usuarioEncontrado.id_usuario;
 
-        navigate(
-          `/teladomotorista/${
-            motoristaEncontrado?.id_motorista ||
-            usuarioEncontrado.id_motorista ||
-            usuarioEncontrado.id_usuario
-          }`
-        );
+        criarSessao({
+          ...usuarioEncontrado,
+          id_motorista: idMotorista,
+        });
+        navigate(`/teladomotorista/${idMotorista}`);
       } else {
         await alert({
           title: "Acesso negado",

@@ -62,17 +62,17 @@ export async function listarVinculosRotaMotorista() {
   return data.dados || [];
 }
 
-function encontrarMotoristaDaRota(rotasDaLinha, vinculosRotaMotorista, motoristas) {
-  const vinculo = vinculosRotaMotorista.find((item) =>
-    rotasDaLinha.some((rota) => Number(rota.id_rota) === Number(item.id_rota))
+function encontrarMotoristasDaRota(rotasDaLinha, vinculosRotaMotorista, motoristas) {
+  const idsMotoristas = new Set(
+    vinculosRotaMotorista
+      .filter((item) =>
+        rotasDaLinha.some((rota) => mesmoId(rota.id_rota, item.id_rota))
+      )
+      .map((item) => Number(item.id_motorista))
   );
 
-  if (!vinculo) return null;
-
-  return (
-    motoristas.find(
-      (motorista) => Number(motorista.id_motorista) === Number(vinculo.id_motorista)
-    ) || null
+  return motoristas.filter((motorista) =>
+    idsMotoristas.has(Number(motorista.id_motorista))
   );
 }
 
@@ -107,11 +107,12 @@ export async function listarRotasComPontos() {
       mapasDasLinhas[nomeLinha] ? nomeLinha : nomesOriginaisDasLinhas[linha.id_linha];
     const dadosMapa = mapasDasLinhas[nomeMapa] || {};
     const rotasDaLinha = rotas.filter((rota) => mesmoId(rota.id_linha, linha.id_linha));
-    const motorista = encontrarMotoristaDaRota(
+    const motoristasDaRota = encontrarMotoristasDaRota(
       rotasDaLinha,
       vinculosRotaMotorista,
       motoristas
     );
+    const motorista = motoristasDaRota[0] || null;
 
     const pontosDaLinha = pontos
       .filter((ponto) =>
@@ -149,6 +150,7 @@ export async function listarRotasComPontos() {
       paradas: pontosDaLinha.map((ponto) => ponto.nome_ponto),
       pontos: pontosDaLinha,
       motorista,
+      motoristas: motoristasDaRota,
     };
   });
 }

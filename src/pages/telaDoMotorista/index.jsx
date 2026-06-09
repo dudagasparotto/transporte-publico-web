@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import styles from './styles.module.css';
 import api, { getArquivoUrl } from '../../services/apis';
+import { encerrarSessao } from '../../services/auth';
 import {
     listarRotasComPontos,
     listarVinculosRotaMotorista,
@@ -38,6 +39,11 @@ export default function TelaDoMotorista() {
     const [carregando, setCarregando] = useState(true);
     const [mediaApi, setMediaApi] = useState(0);
     const [erro, setErro] = useState('');
+
+    function fazerLogout() {
+        encerrarSessao();
+        navigate('/loginmotorista', { replace: true });
+    }
 
     useEffect(() => {
         async function carregarDados() {
@@ -259,7 +265,7 @@ export default function TelaDoMotorista() {
                         </div>
                     </div>
 
-                    <button className={styles.botaoSair} onClick={() => navigate('/')}>
+                    <button className={styles.botaoSair} onClick={fazerLogout}>
                         Sair
                     </button>
                 </div>

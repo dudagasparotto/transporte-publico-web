@@ -215,7 +215,7 @@ export default function MotoristasAdm() {
 
                   <div className={styles.avaliacoes}>
                     {motorista.avaliacoes.length > 0 ? (
-                      motorista.avaliacoes.slice(0, 3).map((avaliacao) => (
+                      motorista.avaliacoes.map((avaliacao) => (
                         <div
                           key={avaliacao.id_avaliacao}
                           className={styles.avaliacao}

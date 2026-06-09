@@ -54,6 +54,34 @@
   gap: 20px;
 }
 
+.listaAvaliacoesComScroll {
+  max-height: min(450px, 60vh);
+  overflow-y: auto;
+  padding-right: 8px;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #3b82f6 rgba(255, 255, 255, 0.1);
+  -webkit-overflow-scrolling: touch;
+}
+
+.listaAvaliacoesComScroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.listaAvaliacoesComScroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.listaAvaliacoesComScroll::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 10px;
+}
+
+.listaAvaliacoesComScroll::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+}
+
 .card {
   background: rgba(255,255,255,0.12);
   border-radius: 24px;

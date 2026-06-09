@@ -217,38 +217,45 @@ export default function RotasLinhas() {
                     Rota {rotaSelecionada.nome_linha}
                   </strong>
 
-                  {rotaSelecionada.motorista ? (
-                    <div className={styles.cardMotorista}>
-                      <div className={styles.avatarMotorista}>
-                        {rotaSelecionada.motorista.foto_motorista ? (
-                          <img
-                            src={getArquivoUrl(rotaSelecionada.motorista.foto_motorista)}
-                            alt={rotaSelecionada.motorista.nome_motorista}
-                          />
-                        ) : (
-                          <span>
-                            {String(rotaSelecionada.motorista.nome_motorista || 'M')
-                              .trim()
-                              .charAt(0)
-                              .toUpperCase()}
-                          </span>
-                        )}
-                      </div>
+                  {rotaSelecionada.motoristas?.length > 0 ? (
+                    <div className={styles.listaMotoristas}>
+                      {rotaSelecionada.motoristas.map((motorista) => (
+                        <div
+                          key={motorista.id_motorista}
+                          className={styles.cardMotorista}
+                        >
+                          <div className={styles.avatarMotorista}>
+                            {motorista.foto_motorista ? (
+                              <img
+                                src={getArquivoUrl(motorista.foto_motorista)}
+                                alt={motorista.nome_motorista}
+                              />
+                            ) : (
+                              <span>
+                                {String(motorista.nome_motorista || 'M')
+                                  .trim()
+                                  .charAt(0)
+                                  .toUpperCase()}
+                              </span>
+                            )}
+                          </div>
 
-                      <div className={styles.dadosMotorista}>
-                        <strong>{rotaSelecionada.motorista.nome_motorista}</strong>
-                        <span>Responsavel por dirigir esta rota.</span>
-                      </div>
+                          <div className={styles.dadosMotorista}>
+                            <strong>{motorista.nome_motorista}</strong>
+                            <span>Responsavel por dirigir esta rota.</span>
+                          </div>
 
-                      <button
-                        className={styles.botaoAvaliacao}
-                        onClick={() =>
-                          navigate(`/infoMotorista/${rotaSelecionada.motorista.id_motorista}`)
-                        }
-                      >
-                        <Star size={20} />
-                        Avaliar motorista
-                      </button>
+                          <button
+                            className={styles.botaoAvaliacao}
+                            onClick={() =>
+                              navigate(`/infoMotorista/${motorista.id_motorista}`)
+                            }
+                          >
+                            <Star size={20} />
+                            Avaliar motorista
+                          </button>
+                        </div>
+                      ))}
                     </div>
                   ) : (
                     <p>Nenhum motorista vinculado a esta rota.</p>

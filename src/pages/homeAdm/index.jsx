@@ -1,12 +1,20 @@
-import { Link } from "react-router-dom";
-import { Bus, Clock, Home, ListChecks, Map, MapPin, UserRoundPlus } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Bus, Clock, ListChecks, LogOut, Map, MapPin, UserRoundPlus } from "lucide-react";
 import styles from "./index.module.css";
+import { encerrarSessao } from "../../services/auth";
 
 import pontos from "../../assets/pontos.png";
 import rotas from "../../assets/rotas.png";
 import horarios from "../../assets/horarios.png";
 
 export default function HomeAdm() {
+  const navigate = useNavigate();
+
+  function fazerLogout() {
+    encerrarSessao();
+    navigate("/loginadm", { replace: true });
+  }
+
   return (
     <div className={styles.adminContainer}>
       <header className={styles.adminHeader}>
@@ -16,12 +24,10 @@ export default function HomeAdm() {
         </h1>
 
         <nav>
-          <Link to="/">
-            <button className={styles.botao}>
-              <Home size={18} />
-              Home
-            </button>
-          </Link>
+          <button className={styles.botao} onClick={fazerLogout}>
+            <LogOut size={18} />
+            Sair
+          </button>
         </nav>
       </header>
 

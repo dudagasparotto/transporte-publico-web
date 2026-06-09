@@ -62,7 +62,11 @@ export default function AvaliacaoMotorista() {
         Veja os comentários enviados
       </p>
 
-      <div className={Styles.listaAvaliacoes}>
+      <div
+        className={`${Styles.listaAvaliacoes} ${
+          avaliacoes.length > 0 ? Styles.listaAvaliacoesComScroll : ''
+        }`}
+      >
 
         {carregando ? (
 

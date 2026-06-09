@@ -304,6 +304,36 @@
   font-weight: 900;
 }
 
+.listaMotoristas {
+  display: grid;
+  gap: 12px;
+  max-height: calc(100% - 72px);
+  overflow-y: auto;
+  padding-right: 6px;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #3b82f6 rgba(255, 255, 255, 0.08);
+  -webkit-overflow-scrolling: touch;
+}
+
+.listaMotoristas::-webkit-scrollbar {
+  width: 7px;
+}
+
+.listaMotoristas::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+.listaMotoristas::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 10px;
+}
+
+.listaMotoristas::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+}
+
 .cardMotorista {
   padding: 16px;
   display: grid;
