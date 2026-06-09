@@ -58,12 +58,8 @@ export async function carregarPrimeiroEndpointDisponivel(endpoints) {
 }
 
 export async function listarVinculosRotaMotorista() {
-  return carregarPrimeiroEndpointDisponivel([
-    '/rota_onibus',
-    '/rota-onibus',
-    '/rotaOnibus',
-    '/rotas-onibus',
-  ]);
+  const { data } = await api.get('/motoristas-rotas');
+  return data.dados || [];
 }
 
 function encontrarMotoristaDaRota(rotasDaLinha, vinculosRotaMotorista, motoristas) {

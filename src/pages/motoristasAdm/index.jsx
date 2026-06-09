@@ -190,6 +190,14 @@ export default function MotoristasAdm() {
                       <h3>{motorista.nome_motorista}</h3>
                       <p>CPF: {motorista.cpf_motorista || "Nao informado"}</p>
                       <p>CNH: {motorista.cnh_motorista || "Nao informada"}</p>
+                      <p>
+                        Rotas:{" "}
+                        {motorista.rotas?.length
+                          ? motorista.rotas
+                              .map((rota) => rota.nome_rota)
+                              .join(", ")
+                          : "Nenhuma rota atribuida"}
+                      </p>
                     </div>
                   </div>
 

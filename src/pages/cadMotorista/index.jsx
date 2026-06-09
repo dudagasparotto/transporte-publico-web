@@ -19,7 +19,10 @@ export default function Motorista() {
   const [senha, setSenha] = useState("");
   const [foto, setFoto] = useState(null);
   const [fotoAtual, setFotoAtual] = useState("");
+  const [rotas, setRotas] = useState([]);
+  const [idsRotasSelecionadas, setIdsRotasSelecionadas] = useState([]);
   const [carregandoMotorista, setCarregandoMotorista] = useState(editando);
+  const [carregandoRotas, setCarregandoRotas] = useState(true);
   const [salvando, setSalvando] = useState(false);
 
   useEffect(() => {
@@ -92,6 +95,34 @@ export default function Motorista() {
     carregarMotorista();
   }, [editando, id, navigate, alert]);
 
+  useEffect(() => {
+    async function carregarRotas() {
+      try {
+        setCarregandoRotas(true);
+
+        const rotasResp = await api.get("/rotas");
+        setRotas(rotasResp.data.dados || []);
+
+        if (editando) {
+          const rotasMotoristaResp = await api.get(`/motoristas/${id}/rotas`);
+          const rotasDoMotorista =
+            rotasMotoristaResp.data.dados?.rotas || [];
+
+          setIdsRotasSelecionadas(
+            rotasDoMotorista.map((rota) => Number(rota.id_rota))
+          );
+        }
+      } catch (error) {
+        console.error("Erro ao carregar rotas do motorista:", error);
+        await alert("Nao foi possivel carregar as rotas disponiveis.");
+      } finally {
+        setCarregandoRotas(false);
+      }
+    }
+
+    carregarRotas();
+  }, [editando, id, alert]);
+
   function handleFoto(e) {
 
     const file = e.target.files[0];
@@ -100,6 +131,16 @@ export default function Motorista() {
       setFoto(file);
     }
 
+  }
+
+  function alternarRota(idRota) {
+    const idNumerico = Number(idRota);
+
+    setIdsRotasSelecionadas((idsAtuais) =>
+      idsAtuais.includes(idNumerico)
+        ? idsAtuais.filter((idAtual) => idAtual !== idNumerico)
+        : [...idsAtuais, idNumerico]
+    );
   }
 
   async function salvar(event) {
@@ -123,6 +164,11 @@ export default function Motorista() {
 
     }
 
+    if (idsRotasSelecionadas.length === 0) {
+      await alert("Selecione pelo menos uma rota para o motorista.");
+      return;
+    }
+
     try {
       setSalvando(true);
       const idMotorista = editando ? Number(id) : await buscarProximoIdMotorista();
@@ -139,10 +185,12 @@ export default function Motorista() {
 
       if (foto) {
         formData.append("foto", foto);
+      } else if (fotoAtual) {
+        formData.append("foto_motorista", fotoAtual);
       }
 
       const { data } = editando
-        ? await api.put(`/motoristas/${id}`, formData)
+        ? await api.patch(`/motoristas/${id}`, formData)
         : await api.post("/motoristas", formData);
 
       if (data.sucesso === false) {
@@ -150,10 +198,24 @@ export default function Motorista() {
         return;
       }
 
+      const idMotoristaSalvo = Number(
+        data.dados?.id_motorista ?? data.dados?.id ?? idMotorista
+      );
+
+      if (!Number.isInteger(idMotoristaSalvo) || idMotoristaSalvo <= 0) {
+        throw new Error("A API nao retornou o ID do motorista salvo.");
+      }
+
+      await salvarRotasMotorista(idMotoristaSalvo);
+
       if (editando) {
-        await atualizarLoginMotoristaSePossivel(idMotorista, loginLimpo, senhaLimpa);
+        await atualizarLoginMotoristaSePossivel(
+          idMotoristaSalvo,
+          loginLimpo,
+          senhaLimpa
+        );
       } else {
-        await criarLoginMotorista(idMotorista, loginLimpo, senhaLimpa);
+        await criarLoginMotorista(idMotoristaSalvo, loginLimpo, senhaLimpa);
       }
 
       if (!editando) {
@@ -164,6 +226,7 @@ export default function Motorista() {
         setSenha("");
         setFoto(null);
         setFotoAtual("");
+        setIdsRotasSelecionadas([]);
       }
 
       await alert(
@@ -181,7 +244,7 @@ export default function Motorista() {
         error
       );
 
-      await alert(error.message || "Erro ao salvar motorista.");
+      await alert(obterMensagemErro(error, "Erro ao salvar motorista."));
 
     } finally {
       setSalvando(false);
@@ -239,6 +302,16 @@ export default function Motorista() {
     }
   }
 
+  async function salvarRotasMotorista(idMotorista) {
+    const { data } = await api.put(`/motoristas/${idMotorista}/rotas`, {
+      ids_rotas: idsRotasSelecionadas,
+    });
+
+    if (data.sucesso === false) {
+      throw new Error(data.mensagem || "Nao foi possivel salvar as rotas.");
+    }
+  }
+
   async function atualizarLoginMotoristaSePossivel(idMotorista, loginMotorista, senhaMotorista) {
     const dadosLogin = {
       id_tipo_usuario: TIPO_USUARIO_MOTORISTA,
@@ -250,22 +323,18 @@ export default function Motorista() {
     try {
       const { data } = await api.get("/usuarios");
       const usuarios = data.dados || [];
-      const usuarioMotorista = usuarios.find((usuario) => {
-        const mesmoMotorista = Number(usuario.id_motorista) === Number(idMotorista);
-        const mesmoId = Number(usuario.id_usuario) === Number(idMotorista);
-        const mesmoNome =
-          String(usuario.nome_usuario).toLowerCase() ===
-          String(loginMotorista).toLowerCase();
-
-        return (
+      const usuarioMotorista = usuarios.find(
+        (usuario) =>
           Number(usuario.id_tipo_usuario) === TIPO_USUARIO_MOTORISTA &&
-          (mesmoMotorista || mesmoId || mesmoNome)
-        );
-      });
+          Number(usuario.id_motorista) === Number(idMotorista)
+      );
 
-      if (!usuarioMotorista) return;
+      if (!usuarioMotorista) {
+        await criarLoginMotorista(idMotorista, loginMotorista, senhaMotorista);
+        return;
+      }
 
-      await api.put(`/usuarios/${usuarioMotorista.id_usuario}`, dadosLogin);
+      await api.patch(`/usuarios/${usuarioMotorista.id_usuario}`, dadosLogin);
     } catch (error) {
       console.error("Erro ao atualizar login do motorista:", error);
       await alert(
@@ -274,7 +343,7 @@ export default function Motorista() {
     }
   }
 
-  if (carregandoMotorista) {
+  if (carregandoMotorista || carregandoRotas) {
     return (
       <div className={styles.page}>
         <div className={styles.container}>
@@ -289,7 +358,9 @@ export default function Motorista() {
           </header>
 
           <div className={styles.card}>
-            <p className={styles.loadingText}>Carregando dados do motorista...</p>
+            <p className={styles.loadingText}>
+              Carregando dados e rotas do motorista...
+            </p>
           </div>
         </div>
       </div>
@@ -405,6 +476,49 @@ export default function Motorista() {
                   placeholder="Nome do motorista"
                 />
 
+              </div>
+
+              <div className={styles.rotasSection}>
+                <div className={styles.rotasHeader}>
+                  <div>
+                    <h3>Rotas do Motorista</h3>
+                    <p>Selecione uma ou mais linhas que ele vai realizar.</p>
+                  </div>
+
+                  <strong>
+                    {idsRotasSelecionadas.length} selecionada
+                    {idsRotasSelecionadas.length === 1 ? "" : "s"}
+                  </strong>
+                </div>
+
+                <div
+                  className={styles.rotasGrid}
+                  role="group"
+                  aria-label="Rotas do motorista"
+                >
+                  {rotas.map((rota) => {
+                    const selecionada = idsRotasSelecionadas.includes(
+                      Number(rota.id_rota)
+                    );
+
+                    return (
+                      <button
+                        key={rota.id_rota}
+                        type="button"
+                        className={`${styles.rotaOption} ${
+                          selecionada ? styles.rotaOptionAtiva : ""
+                        }`}
+                        aria-pressed={selecionada}
+                        onClick={() => alternarRota(rota.id_rota)}
+                      >
+                        <span>{rota.nome_linhas || `Rota ${rota.id_rota}`}</span>
+                        <small>
+                          {selecionada ? "Selecionada" : "Selecionar"}
+                        </small>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               <div className={styles.loginSection}>

@@ -110,39 +110,11 @@ export default function TelaDoMotorista() {
     }
 
     async function carregarAvaliacoes(idMotorista) {
-        const endpoints = [
-            `/avaliacao/${idMotorista}`,
-            `/avaliacoes/${idMotorista}`,
-            `/avaliacao?id_motorista=${idMotorista}`,
-            `/avaliacoes?id_motorista=${idMotorista}`,
-        ];
-
-        for (const endpoint of endpoints) {
-            try {
-                const resposta = await api.get(endpoint);
-                const avaliacoesEncontradas = listaDaResposta(resposta)
-                    .filter((avaliacao) =>
-                        !avaliacao.id_motorista ||
-                        mesmoId(avaliacao.id_motorista, idMotorista)
-                    );
-
-                if (avaliacoesEncontradas.length > 0) {
-                    return avaliacoesEncontradas;
-                }
-            } catch (error) {
-                if (error.response?.status !== 404) {
-                    console.error(`Erro ao carregar avaliacoes em ${endpoint}:`, error);
-                }
-            }
-        }
-
         try {
-            const resposta = await api.get('/avaliacao');
-            return listaDaResposta(resposta).filter((avaliacao) =>
-                mesmoId(avaliacao.id_motorista, idMotorista)
-            );
+            const resposta = await api.get(`/avaliacao/${idMotorista}`);
+            return listaDaResposta(resposta);
         } catch (error) {
-            console.error('Erro ao carregar lista de avaliacoes:', error);
+            console.error('Erro ao carregar avaliacoes do motorista:', error);
             return [];
         }
     }

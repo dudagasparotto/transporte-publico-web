@@ -7,8 +7,10 @@ CREATE TABLE tipo_usuarios (
 CREATE TABLE usuarios (
     id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     id_tipo_usuario TINYINT NOT NULL,
+    id_motorista INT NULL,
     nome_usuario VARCHAR(80) NOT NULL,
     senha_usuario VARCHAR(128) NOT NULL,
+    UNIQUE (id_motorista),
     FOREIGN KEY (id_tipo_usuario) REFERENCES tipo_usuarios(id_tipo_usuario)
 );
 
@@ -19,6 +21,12 @@ CREATE TABLE motorista (
     cnh_motorista BIGINT NOT NULL,
     foto_motorista VARCHAR(255)
 );
+
+ALTER TABLE usuarios
+ADD CONSTRAINT fk_usuarios_motorista
+FOREIGN KEY (id_motorista) REFERENCES motorista(id_motorista)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
 
 CREATE TABLE onibus (
     id_onibus SMALLINT PRIMARY KEY AUTO_INCREMENT,

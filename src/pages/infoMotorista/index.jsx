@@ -140,13 +140,7 @@ export default function InfoMotorista() {
             nota_avaliacao: nota,
 
             comentario_avaliacao:
-              comentario,
-
-            data_avaliacao:
-              new Date()
-                .toISOString()
-                .slice(0, 19)
-                .replace('T', ' ')
+              comentario
 
         }
       );
@@ -166,6 +160,11 @@ export default function InfoMotorista() {
       }
 
     } catch (error) {
+
+      mostrarMensagem(
+        error.response?.data?.mensagem ||
+        'Nao foi possivel salvar a avaliacao.'
+      );
 
       console.error(
         'Erro ao enviar avaliação:',
