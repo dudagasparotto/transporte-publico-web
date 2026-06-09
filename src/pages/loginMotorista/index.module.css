@@ -29,7 +29,7 @@
 .loginBox {
   position: relative;
   background: linear-gradient(135deg, #1E40AF, #3B82F6);
-  padding: 60px;
+  padding: 42px;
   width: min(480px, 100%);
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(0,0,0,0.3);
@@ -40,7 +40,7 @@
 .loginBox h1 {
   margin-bottom: 40px;
   color: white;
-  font-size: 36px;
+  font-size: 28px;
   font-family: 'Roboto';
 }
 
@@ -81,7 +81,7 @@
   color: white;
   border: none;
   border-radius: 10px;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
   margin-top: 10px;
   transition: 0.2s;

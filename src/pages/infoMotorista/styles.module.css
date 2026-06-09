@@ -45,12 +45,13 @@
 .header h1 {
   color: white;
   margin: 0;
+  font-size: 24px;
 }
 
 .header p {
   margin: 0;
   color: rgba(255, 255, 255, 0.75);
-  font-size: 2.5rem;
+  font-size: 1.5rem;
 }
 
 .backButton {
@@ -113,12 +114,12 @@
 }
 
 .infoGrid span {
-  font-size: 2.6rem;
+  font-size: 1.4rem;
   color: rgba(255, 255, 255, 0.75);
 }
 
 .infoGrid strong {
-  font-size: 2rem;
+  font-size: 1.4rem;
   display: block;
   margin-top: 5px;
   color: white;
@@ -130,7 +131,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  font-size: 2.6rem;
+  font-size: 2rem;
 }
 
 .statCard {
@@ -142,7 +143,7 @@
 }
 
 .statCard strong {
-  font-size: 2.5rem;
+  font-size: 2.1rem;
 }
 
 /* AVALIAÇÃO */
@@ -157,12 +158,12 @@
 .avaliacaoBox h2 {
   margin: 0;
   color: white;
-  font-size: 3rem;
+  font-size: 2.2rem;
 }
 
 .avaliacaoBox p {
   color: rgba(255, 255, 255, 0.75);
-  font-size: 2.5rem;
+  font-size: 1.6rem;
 }
 
 /* ALERTA CUSTOMIZADO */
@@ -209,7 +210,7 @@
 }
 
 .star {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   cursor: pointer;
   color: #d1d5db;
   margin-right: 10px;

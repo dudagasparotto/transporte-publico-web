@@ -1,8 +1,10 @@
 .container {
   width: 100%;
-  height: 100vh;
+  min-height: 100dvh;
+  height: auto;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background:
     radial-gradient(circle at 14% -10%, rgba(47, 124, 255, 0.26), transparent 32%),
     linear-gradient(135deg, #06142e 0%, #0b2f7a 54%, #1264e8 100%);
@@ -61,13 +63,14 @@
   position: relative;
   z-index: 1;
   width: calc(100% - 52px);
-  height: 100vh;
+  min-height: 100dvh;
+  height: auto;
   margin: 0 auto;
   padding: 10px 0;
 }
 
 .painelMapa {
-  height: calc(100vh - 20px);
+  min-height: calc(100dvh - 20px);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -237,7 +240,7 @@
 .painelDados h3 {
   margin: 0 0 4px;
   color: white;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .painelDados p {
@@ -328,6 +331,103 @@
   text-align: center;
   font-size: 13px;
   font-weight: 900;
+}
+
+.motoristasRota {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(147, 197, 253, 0.24);
+}
+
+.motoristasRota h3 {
+  margin-bottom: 12px;
+  font-size: 17px;
+}
+
+.listaMotoristas {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.motoristaItem {
+  min-height: 62px;
+  padding: 9px;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: rgba(56, 98, 177, 0.38);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.motoristaItem:hover {
+  border-color: rgba(147, 197, 253, 0.42);
+  background: rgba(56, 98, 177, 0.58);
+  transform: translateY(-2px);
+}
+
+.motoristaFoto,
+.motoristaAvatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid rgba(191, 219, 254, 0.58);
+}
+
+.motoristaFoto {
+  object-fit: cover;
+}
+
+.motoristaAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #2f7cff, #0b56d8);
+  color: white;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.motoristaInfo {
+  min-width: 0;
+}
+
+.motoristaInfo strong {
+  display: block;
+  overflow-wrap: anywhere;
+  color: white;
+  font-size: 14px;
+}
+
+.motoristaInfo span {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.18);
+  color: #bbf7d0;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.motoristaMedia {
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(191, 219, 254, 0.12);
+  color: #dbeafe;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.erroDados {
+  color: #fecaca !important;
 }
 
 @media (max-width: 1160px) {

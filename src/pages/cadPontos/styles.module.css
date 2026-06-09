@@ -32,7 +32,7 @@
 
 .header h1 {
   margin: 0;
-  font-size: 27px;
+  font-size: 24px;
 }
 
 .botaoVoltar {
@@ -70,7 +70,7 @@
 .card h2,
 .mapHeader h2 {
   margin: 0 0 22px;
-  font-size: 22px;
+  font-size: 20px;
   color: white;
 }
 

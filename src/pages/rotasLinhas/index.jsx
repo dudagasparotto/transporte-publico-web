@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Clock,
   Home,
@@ -7,7 +7,11 @@ import {
 } from 'lucide-react';
 
 import styles from './styles.module.css';
-import { listarRotasComPontos } from '../../services/transporte';
+import { getArquivoUrl } from '../../services/apis';
+import {
+  listarMotoristasDaRota,
+  listarRotasComPontos,
+} from '../../services/transporte';
 import LeafletRouteMap from '../../components/LeafletRouteMap';
 
 function horaParaMinutos(hora) {
@@ -38,12 +42,28 @@ function ordenarHorarios(horarios) {
   );
 }
 
+function getIniciais(nome) {
+  if (!nome) {
+    return '?';
+  }
+
+  return nome
+    .split(' ')
+    .slice(0, 2)
+    .map((parte) => parte[0]?.toUpperCase())
+    .join('');
+}
+
 export default function RotasLinhas() {
   const [rotas, setRotas] = useState([]);
   const [rotaSelecionada, setRotaSelecionada] = useState(null);
   const [abaSelecionada, setAbaSelecionada] = useState('');
+  const [motoristasDaRota, setMotoristasDaRota] = useState([]);
+  const [carregandoMotoristas, setCarregandoMotoristas] = useState(false);
+  const [erroMotoristas, setErroMotoristas] = useState('');
 
   const navigate = useNavigate();
+  const idRotaSelecionada = rotaSelecionada?.id_rota;
 
   useEffect(() => {
     async function carregarDados() {
@@ -61,6 +81,45 @@ export default function RotasLinhas() {
 
     carregarDados();
   }, []);
+
+  useEffect(() => {
+    if (!idRotaSelecionada) {
+      setMotoristasDaRota([]);
+      return undefined;
+    }
+
+    let ativo = true;
+
+    async function carregarMotoristas() {
+      try {
+        setCarregandoMotoristas(true);
+        setErroMotoristas('');
+
+        const motoristas = await listarMotoristasDaRota(idRotaSelecionada);
+
+        if (ativo) {
+          setMotoristasDaRota(motoristas);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar motoristas da rota:', error);
+
+        if (ativo) {
+          setMotoristasDaRota([]);
+          setErroMotoristas('Nao foi possivel carregar os motoristas desta rota.');
+        }
+      } finally {
+        if (ativo) {
+          setCarregandoMotoristas(false);
+        }
+      }
+    }
+
+    carregarMotoristas();
+
+    return () => {
+      ativo = false;
+    };
+  }, [idRotaSelecionada]);
 
   const pontosComHorarios = rotaSelecionada
     ? ordenarPontosPorHorario(rotaSelecionada.pontos).filter(
@@ -199,6 +258,53 @@ export default function RotasLinhas() {
                 </>
               ) : (
                 <p>Clique em pontos ou horarios para ver os dados da rota.</p>
+              )}
+
+              {rotaSelecionada && (
+                <section className={styles.motoristasRota}>
+                  <h3>Motoristas ativos nesta rota</h3>
+
+                  {carregandoMotoristas ? (
+                    <p>Carregando motoristas...</p>
+                  ) : erroMotoristas ? (
+                    <p className={styles.erroDados}>{erroMotoristas}</p>
+                  ) : motoristasDaRota.length > 0 ? (
+                    <div className={styles.listaMotoristas}>
+                      {motoristasDaRota.map((motorista) => (
+                        <Link
+                          key={motorista.id_motorista}
+                          to={`/infoMotorista/${motorista.id_motorista}`}
+                          className={styles.motoristaItem}
+                        >
+                          {motorista.foto ? (
+                            <img
+                              src={getArquivoUrl(motorista.foto)}
+                              alt={motorista.nome}
+                              className={styles.motoristaFoto}
+                            />
+                          ) : (
+                            <div className={styles.motoristaAvatar}>
+                              {getIniciais(motorista.nome)}
+                            </div>
+                          )}
+
+                          <div className={styles.motoristaInfo}>
+                            <strong>{motorista.nome || 'Motorista'}</strong>
+                            <span>{motorista.status || 'Ativo'}</span>
+                          </div>
+
+                          <span className={styles.motoristaMedia}>
+                            {Number(motorista.media_avaliacao || 0) > 0
+                              ? Number(motorista.media_avaliacao).toFixed(1)
+                              : 'Sem nota'}
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
+                    <p>Nenhum motorista ativo vinculado a esta rota.</p>
+                  )}
+                </section>
               )}
             </aside>
           </div>

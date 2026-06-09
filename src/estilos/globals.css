@@ -18,6 +18,9 @@ body {
   margin: 0;
   padding: 0;
   background-color: #fafafa;
+  overflow-x: hidden;
+  font-size: 1.6rem;
+  line-height: 1.5;
   user-select: none;
 }
 
@@ -82,6 +85,7 @@ input, select, textarea {
   margin: 0.8rem 0;
   border: 0.1rem solid #ccc;
   border-radius: 0.4rem;
+  font: inherit;
 }
 
 /* BOTÕES */
@@ -93,6 +97,14 @@ button {
   border-radius: 0.8rem;
   cursor: pointer;
   transition: filter 0.2s;
+  font: inherit;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
 }
 
 button:hover {
@@ -119,12 +131,12 @@ th {
 /* RESPONSIVIDADE */
 @media screen and (max-width: 960px) {
   html {
-    font-size: 50%;
+    font-size: 60%;
   }
 }
 
 @media screen and (max-width: 600px) {
   html {
-    font-size: 37.2%;
+    font-size: 56.25%;
   }
 }

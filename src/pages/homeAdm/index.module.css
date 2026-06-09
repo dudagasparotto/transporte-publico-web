@@ -60,7 +60,8 @@ body {
   border: 1px solid rgba(255,255,255,0.15);
   padding: 20px;
   width: min(260px, 100%);
-  height: 300px;
+  min-height: 270px;
+  height: auto;
 
   display: flex;
   flex-direction: column;
@@ -91,7 +92,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 80px;
+  font-size: 48px;
+}
+
+.adminCard h3 {
+  font-size: 18px;
+}
+
+@media (max-width: 900px) {
+  .adminContent {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* BOTÃO */
