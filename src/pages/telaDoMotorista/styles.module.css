@@ -116,7 +116,7 @@
 
 .nomeMotorista {
     margin: 0;
-    font-size: 26px;
+    font-size: 32px;
     overflow-wrap: anywhere;
 }
 
@@ -147,7 +147,7 @@
 }
 
 .statValor {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
 }
 
@@ -234,16 +234,6 @@
     box-shadow: 0 18px 42px rgba(0, 20, 80, 0.26);
 }
 
-.erro {
-    margin: 0 0 18px;
-    padding: 12px 14px;
-    border-radius: 12px;
-    background: rgba(239, 68, 68, 0.16);
-    color: #fecaca;
-    border: 1px solid rgba(248, 113, 113, 0.28);
-    font-weight: bold;
-}
-
 /* =========================
    VAZIO
 ========================= */
@@ -258,7 +248,7 @@
 }
 
 .vazioCone {
-    font-size: 36px;
+    font-size: 60px;
 }
 
 /* =========================
@@ -307,7 +297,7 @@
 
 .rotaNome {
     margin: 0;
-    font-size: 18px;
+    font-size: 22px;
     overflow-wrap: anywhere;
 }
 
@@ -376,7 +366,7 @@
 }
 
 .avaliacaoEstrelas {
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .avaliacaoComentario {
@@ -416,12 +406,12 @@
 }
 
 .mediaNumero {
-    font-size: 42px;
+    font-size: 70px;
     font-weight: bold;
 }
 
 .mediaEstrelas {
-    font-size: 22px;
+    font-size: 28px;
 }
 
 .mediaSub {
@@ -476,11 +466,11 @@
     }
 
     .nomeMotorista {
-        font-size: 22px;
+        font-size: 24px;
     }
 
     .mediaNumero {
-        font-size: 36px;
+        font-size: 52px;
     }
 }
 

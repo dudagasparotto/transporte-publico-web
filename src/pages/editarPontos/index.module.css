@@ -32,11 +32,11 @@
 
 .titulo {
   margin: 0;
-  font-size: 24px;
+  font-size: 27px;
 }
 
 .botaoVoltar {
-  padding: 12px 23px;
+  padding: 12px 160px;
   border: none;
   border-radius: 9px;
   background: #2563eb;
@@ -68,7 +68,7 @@
 .subtitulo {
   margin: 0 0 7px;
   color: white;
-  font-size: 23px;
+  font-size: 27px;
 }
 
 .descricao {

@@ -100,34 +100,6 @@ export async function listarRotasComPontos() {
       destino: pontosDaLinha[pontosDaLinha.length - 1]?.nome_ponto || '',
       paradas: pontosDaLinha.map((ponto) => ponto.nome_ponto),
       pontos: pontosDaLinha,
-      motoristas: [],
     };
   });
-}
-
-export async function listarMotoristasDaRota(idRota) {
-  if (!idRota) {
-    return [];
-  }
-
-  const { data } = await api.get(`/rotas/${idRota}/motoristas`);
-  return data.dados || [];
-}
-
-export async function buscarDetalhesDaRota(idRota) {
-  if (!idRota) {
-    return null;
-  }
-
-  const { data } = await api.get(`/rotas/${idRota}/detalhes`);
-  return data.dados || null;
-}
-
-export async function listarRotasDoMotorista(idMotorista) {
-  if (!idMotorista) {
-    return [];
-  }
-
-  const { data } = await api.get(`/motoristas/${idMotorista}/rotas`);
-  return data.dados?.rotas || [];
 }
