@@ -139,6 +139,7 @@ export async function listarRotasComPontos() {
     return {
       id_linha: linha.id_linha,
       id_rota: rotasDaLinha[0]?.id_rota,
+      id_ponto_referencia: rotasDaLinha[0]?.id_ponto ?? null,
       nome_linha: nomeLinha,
       nome_linhas: nomeLinha,
       nome_mapa: nomeMapa || nomeLinha,

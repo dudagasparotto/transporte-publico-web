@@ -8,9 +8,13 @@ INSERT INTO tipo_usuarios (id_tipo_usuario, nome_tipo_usuario) VALUES
 
 -- Usuário (ADM)
 INSERT INTO usuarios (id_tipo_usuario, nome_usuario, senha_usuario ) VALUES
-(2, 'Mariana Silva', 'senha_hash_1' ),
-(2, 'Carlos Pereira', 'senha_hash_2'),
-(2, 'Visitante', 'senha_hash_6');
+(1, 'Mariana Silva', 'senha_hash_1' ),
+(1, 'Carlos Pereira', 'senha_hash_2'),
+(1, 'Visitante', 'senha_hash_6');
+
+UPDATE usuarios
+SET id_motorista = NULL
+WHERE id_tipo_usuario = 1;
 
 -- Motoristas (6 registros) - ids definidos explicitamente
 INSERT INTO motorista (id_motorista,nome_motorista, cpf_motorista, cnh_motorista, foto_motorista) VALUES

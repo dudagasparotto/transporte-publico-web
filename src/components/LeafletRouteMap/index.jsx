@@ -46,10 +46,12 @@ function pontoNaRegiaoDeTupa(coordenadas) {
   );
 }
 
-function criarIconePonto(destaque = false) {
+function criarIconePonto(cor = '#2563eb', destaque = false) {
   return L.divIcon({
     className: styles.marcadorPonto,
-    html: `<span class="${styles.pino} ${destaque ? styles.pinoDestaque : ''}"><span class="${styles.miolo}"></span></span>`,
+    html: `<span class="${styles.pino} ${
+      destaque ? styles.pinoDestaque : ''
+    }" style="background:${cor}"><span class="${styles.miolo}"></span></span>`,
     iconSize: [32, 40],
     iconAnchor: [16, 39],
     popupAnchor: [0, -34],
@@ -130,6 +132,10 @@ export default function LeafletRouteMap({
     const bounds = [];
 
     rota.elementos.forEach((elemento) => {
+      if (elemento.tipo === 'ponto') {
+        return;
+      }
+
       adicionarCoordenadas(bounds, elemento.coordenadas);
 
       const opcoes = {
@@ -139,13 +145,6 @@ export default function LeafletRouteMap({
         opacity: 0.9,
         weight: elemento.tipo === 'linha' ? 6 : 3,
       };
-
-      if (elemento.tipo === 'ponto') {
-        L.marker(elemento.coordenadas, { icon: criarIconePonto() })
-          .bindPopup(elemento.nome || rota.nome)
-          .addTo(layer);
-        return;
-      }
 
       if (elemento.tipo === 'poligono') {
         L.polygon(elemento.coordenadas, opcoes)
@@ -221,7 +220,7 @@ export default function LeafletRouteMap({
       }
 
       const marker = L.marker(coordenadas, {
-        icon: criarIconePonto(),
+        icon: criarIconePonto(corTrajeto),
         draggable: Boolean(onMoverPonto),
       })
         .bindPopup(ponto.nome_ponto || ponto.nome_pontos || 'Ponto')
@@ -248,7 +247,9 @@ export default function LeafletRouteMap({
       const longitude = Number(pontoMarcado.longitude);
 
       if (Number.isFinite(latitude) && Number.isFinite(longitude)) {
-        L.marker([latitude, longitude], { icon: criarIconePonto(true) })
+        L.marker([latitude, longitude], {
+          icon: criarIconePonto(corTrajeto, true),
+        })
           .bindPopup(pontoMarcado.nome || 'Novo ponto')
           .addTo(layer)
           .openPopup();

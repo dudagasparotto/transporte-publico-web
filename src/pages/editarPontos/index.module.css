@@ -218,6 +218,31 @@
   font-weight: bold;
 }
 
+.acoesPonto {
+  display: grid;
+  gap: 9px;
+}
+
+.excluir {
+  width: 100%;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 8px;
+  background: #dc2626;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.excluir:hover {
+  background: #b91c1c;
+}
+
 @media (max-width: 1000px) {
   .conteudoEdicao {
     grid-template-columns: 1fr;

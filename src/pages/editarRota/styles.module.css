@@ -60,6 +60,10 @@
 
 .topo {
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
 }
 
 .subtitulo {
@@ -72,6 +76,31 @@
   margin: 0;
   color: rgba(255, 255, 255, 0.78);
   font-size: 15px;
+}
+
+.excluirRota {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 9px;
+  background: #dc2626;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.excluirRota:hover {
+  background: #b91c1c;
+}
+
+.excluirRota:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .botoesRotas {
@@ -246,7 +275,8 @@
 }
 
 @media (max-width: 650px) {
-  .header {
+  .header,
+  .topo {
     padding: 18px;
     flex-direction: column;
     gap: 14px;
@@ -274,6 +304,10 @@
   .linhaAcao button {
     width: 100%;
     min-height: 42px;
+  }
+
+  .excluirRota {
+    width: 100%;
   }
 }
 

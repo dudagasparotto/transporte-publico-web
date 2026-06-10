@@ -17,7 +17,11 @@ import EditarHorarios from './pages/editarHoraios';
 import LoginMotora from './pages/loginMotorista';
 import TelaDoMotorista from './pages/telaDoMotorista';
 import MotoristasAdm from './pages/motoristasAdm';
-import { obterSessao } from './services/auth';
+import {
+  obterSessao,
+  TIPO_USUARIO_ADMIN,
+  TIPO_USUARIO_MOTORISTA,
+} from './services/auth';
 
 function RedirecionarMotoristaAutenticado() {
   const sessao = obterSessao();
@@ -41,7 +45,10 @@ function App() {
 
       <Route
         element={
-          <ProtectedRoute tipoUsuario={1} redirecionarPara="/loginadm" />
+          <ProtectedRoute
+            tipoUsuario={TIPO_USUARIO_ADMIN}
+            redirecionarPara="/loginadm"
+          />
         }
       >
         <Route path="/adm" element={<HomeAdm />} />
@@ -57,7 +64,10 @@ function App() {
       <Route
         path="/teladomotorista"
         element={
-          <ProtectedRoute tipoUsuario={2} redirecionarPara="/loginmotorista">
+          <ProtectedRoute
+            tipoUsuario={TIPO_USUARIO_MOTORISTA}
+            redirecionarPara="/loginmotorista"
+          >
             <RedirecionarMotoristaAutenticado />
           </ProtectedRoute>
         }
@@ -66,7 +76,7 @@ function App() {
         path="/teladomotorista/:id"
         element={
           <ProtectedRoute
-            tipoUsuario={2}
+            tipoUsuario={TIPO_USUARIO_MOTORISTA}
             redirecionarPara="/loginmotorista"
             restringirAoMotorista
           >

@@ -1,0 +1,10 @@
+ALTER TABLE rotas
+DROP FOREIGN KEY rotas_ibfk_1;
+
+ALTER TABLE rotas
+MODIFY id_ponto SMALLINT NULL;
+
+ALTER TABLE rotas
+ADD CONSTRAINT rotas_ibfk_1
+FOREIGN KEY (id_ponto) REFERENCES pontos(id_pontos)
+ON DELETE SET NULL;

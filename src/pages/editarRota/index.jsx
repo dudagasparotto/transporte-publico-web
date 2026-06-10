@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MapPin, Save } from "lucide-react";
+import { MapPin, Save, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./styles.module.css";
@@ -10,7 +10,7 @@ import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
 export default function EditarRota() {
   const navigate = useNavigate();
-  const { alert } = useAppDialog();
+  const { alert, confirm } = useAppDialog();
   const [rotas, setRotas] = useState([]);
   const [rotaSelecionada, setRotaSelecionada] = useState(null);
   const [nomeLinha, setNomeLinha] = useState("");
@@ -156,6 +156,45 @@ export default function EditarRota() {
     }
   }
 
+  async function excluirRota() {
+    if (!rotaSelecionada?.id_rota) {
+      await alert("Selecione uma rota valida para excluir.");
+      return;
+    }
+
+    const confirmou = await confirm({
+      title: "Excluir rota",
+      message: `Deseja excluir a rota "${rotaSelecionada.nome_linha}"?`,
+      confirmLabel: "Excluir",
+      variant: "danger",
+    });
+
+    if (!confirmou) return;
+
+    try {
+      const { data } = await api.delete(`/rotas/${rotaSelecionada.id_rota}`);
+
+      if (data.sucesso === false) {
+        await alert(data.mensagem || "Erro ao excluir rota.");
+        return;
+      }
+
+      const dados = await listarRotasComPontos();
+      setRotas(dados);
+      setRotaSelecionada(dados[0] || null);
+      setNomeLinha(dados[0]?.nome_linha || "");
+      setPontoSelecionado(null);
+      setNomePonto("");
+      setLatitude("");
+      setLongitude("");
+      setMensagem("");
+      await alert("Rota excluida com sucesso!");
+    } catch (error) {
+      console.error("Erro ao excluir rota:", error);
+      await alert(error.response?.data?.mensagem || "Erro ao excluir rota.");
+    }
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.overlay}></div>
@@ -176,6 +215,15 @@ export default function EditarRota() {
               Selecione uma linha e ajuste os pontos diretamente no mapa.
             </p>
           </div>
+
+          <button
+            className={styles.excluirRota}
+            onClick={excluirRota}
+            disabled={!rotaSelecionada?.id_rota}
+          >
+            <Trash2 size={18} />
+            EXCLUIR ROTA
+          </button>
         </div>
 
         <div className={styles.botoesRotas}>

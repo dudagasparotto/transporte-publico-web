@@ -4,7 +4,12 @@ import { Home, UserRound } from "lucide-react";
 
 import styles from "./index.module.css";
 
-import { autenticarUsuario, criarSessao } from "../../services/auth";
+import {
+  autenticarUsuario,
+  criarSessao,
+  encerrarSessao,
+  TIPO_USUARIO_MOTORISTA,
+} from "../../services/auth";
 import api from "../../services/apis";
 import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
@@ -17,6 +22,7 @@ export default function LoginMotora() {
 
   async function fazerLogin(event) {
     event.preventDefault();
+    encerrarSessao();
 
     if (!usuario || !senha) {
       await alert("Preencha usuario e senha.");
@@ -24,30 +30,48 @@ export default function LoginMotora() {
     }
 
     try {
-      const usuarioEncontrado = await autenticarUsuario(usuario, senha, 2);
+      const usuarioEncontrado = await autenticarUsuario(
+        usuario,
+        senha,
+        TIPO_USUARIO_MOTORISTA
+      );
 
       if (usuarioEncontrado) {
+        const idMotoristaDoUsuario = Number(usuarioEncontrado.id_motorista);
+
+        if (
+          !Number.isInteger(idMotoristaDoUsuario) ||
+          idMotoristaDoUsuario <= 0
+        ) {
+          await alert({
+            title: "Acesso negado",
+            message: "Este login nao pertence a um motorista.",
+            variant: "danger",
+          });
+          return;
+        }
+
         const { data } = await api.get("/motoristas");
         const motoristas = data.dados || [];
-        const motoristaEncontrado = motoristas.find((motorista) => {
-          const mesmoMotorista =
-            Number(motorista.id_motorista) === Number(usuarioEncontrado.id_motorista);
-          const mesmoId =
-            Number(motorista.id_motorista) === Number(usuarioEncontrado.id_usuario);
-          const mesmoNome =
-            String(motorista.nome_motorista).toLowerCase() ===
-            String(usuarioEncontrado.nome_usuario).toLowerCase();
+        const motoristaEncontrado = motoristas.find(
+          (motorista) =>
+            Number(motorista.id_motorista) === idMotoristaDoUsuario
+        );
 
-          return mesmoMotorista || mesmoId || mesmoNome;
-        });
-        const idMotorista =
-          motoristaEncontrado?.id_motorista ||
-          usuarioEncontrado.id_motorista ||
-          usuarioEncontrado.id_usuario;
+        if (!motoristaEncontrado) {
+          await alert({
+            title: "Acesso negado",
+            message: "Este usuario nao possui um motorista vinculado.",
+            variant: "danger",
+          });
+          return;
+        }
+
+        const idMotorista = motoristaEncontrado.id_motorista;
 
         criarSessao({
           ...usuarioEncontrado,
-          id_motorista: idMotorista,
+          id_motorista: idMotoristaDoUsuario,
         });
         navigate(`/teladomotorista/${idMotorista}`);
       } else {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MapPin, Plus } from "lucide-react";
+import { MapPin, Plus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./index.module.css";
@@ -10,7 +10,7 @@ import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
 export default function EditarPontos() {
   const navigate = useNavigate();
-  const { alert } = useAppDialog();
+  const { alert, confirm } = useAppDialog();
   const [rotas, setRotas] = useState([]);
   const [rotaSelecionada, setRotaSelecionada] = useState(null);
   const [pontoSelecionado, setPontoSelecionado] = useState(null);
@@ -125,6 +125,42 @@ export default function EditarPontos() {
     }
   }
 
+  async function excluirPonto() {
+    if (!pontoSelecionado) {
+      await alert("Selecione um ponto para excluir.");
+      return;
+    }
+
+    const confirmou = await confirm({
+      title: "Excluir ponto",
+      message: `Deseja excluir o ponto "${pontoSelecionado.nome_ponto}"?`,
+      confirmLabel: "Excluir",
+      variant: "danger",
+    });
+
+    if (!confirmou) return;
+
+    try {
+      const { data } = await api.delete(`/pontos/${pontoSelecionado.id_ponto}`);
+
+      if (data.sucesso === false) {
+        await alert(data.mensagem || "Erro ao excluir ponto.");
+        return;
+      }
+
+      const idRota = rotaSelecionada.id_rota;
+      setPontoSelecionado(null);
+      setNome("");
+      setLatitude("");
+      setLongitude("");
+      await carregarRotas(idRota);
+      await alert("Ponto excluido com sucesso!");
+    } catch (error) {
+      console.error("Erro ao excluir ponto:", error);
+      await alert(error.response?.data?.mensagem || "Erro ao excluir ponto.");
+    }
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.overlay}></div>
@@ -196,6 +232,7 @@ export default function EditarPontos() {
             <LeafletRouteMap
               rotaNome={rotaSelecionada?.nome_mapa}
               pontos={rotaSelecionada?.pontos || []}
+              corTrajeto={rotaSelecionada?.cor}
               onSelecionarPonto={selecionarPonto}
               onSelecionarLocal={pontoSelecionado ? alterarLocal : null}
               className={styles.iframe}
@@ -240,12 +277,22 @@ export default function EditarPontos() {
                 <label>Longitude</label>
                 <input value={longitude} readOnly />
 
-                <button
-                  className={styles.salvar}
-                  onClick={salvarPonto}
-                >
-                  SALVAR ALTERACOES
-                </button>
+                <div className={styles.acoesPonto}>
+                  <button
+                    className={styles.salvar}
+                    onClick={salvarPonto}
+                  >
+                    SALVAR ALTERACOES
+                  </button>
+
+                  <button
+                    className={styles.excluir}
+                    onClick={excluirPonto}
+                  >
+                    <Trash2 size={17} />
+                    EXCLUIR PONTO
+                  </button>
+                </div>
               </div>
             )}
           </aside>

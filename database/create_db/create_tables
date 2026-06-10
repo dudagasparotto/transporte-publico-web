@@ -28,6 +28,14 @@ FOREIGN KEY (id_motorista) REFERENCES motorista(id_motorista)
 ON UPDATE CASCADE
 ON DELETE CASCADE;
 
+ALTER TABLE usuarios
+ADD CONSTRAINT chk_usuario_motorista
+CHECK (
+    (id_tipo_usuario = 1 AND id_motorista IS NULL)
+    OR
+    (id_tipo_usuario = 2 AND id_motorista IS NOT NULL)
+);
+
 CREATE TABLE onibus (
     id_onibus SMALLINT PRIMARY KEY AUTO_INCREMENT,
     placa_onibus VARCHAR(8) NOT NULL,
@@ -65,10 +73,10 @@ CREATE TABLE pontos (
 
 CREATE TABLE rotas (
     id_rota MEDIUMINT PRIMARY KEY,
-    id_ponto SMALLINT NOT NULL,
+    id_ponto SMALLINT NULL,
     id_linha SMALLINT NOT NULL,
     /*linhas VARCHAR (50),*/
-    FOREIGN KEY (id_ponto) REFERENCES pontos(id_pontos),
+    FOREIGN KEY (id_ponto) REFERENCES pontos(id_pontos) ON DELETE SET NULL,
     FOREIGN KEY (id_linha) REFERENCES linhas(id_linha)
 );
 
@@ -110,5 +118,5 @@ CREATE TABLE horarios (
     id_horario MEDIUMINT PRIMARY KEY AUTO_INCREMENT,
     id_ponto SMALLINT NOT NULL,
     passagem_horarios TIME NOT NULL,
-    FOREIGN KEY (id_ponto) REFERENCES pontos(id_pontos)
+    FOREIGN KEY (id_ponto) REFERENCES pontos(id_pontos) ON DELETE CASCADE
 );

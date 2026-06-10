@@ -2,7 +2,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Home, ShieldCheck } from "lucide-react";
 import styles from "./index.module.css";
-import { autenticarUsuario, criarSessao } from "../../services/auth";
+import {
+  autenticarUsuario,
+  criarSessao,
+  TIPO_USUARIO_ADMIN,
+} from "../../services/auth";
 import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
 export default function LoginAdm() {
@@ -20,7 +24,11 @@ export default function LoginAdm() {
     }
 
     try {
-      const usuarioEncontrado = await autenticarUsuario(usuario, senha, 1);
+      const usuarioEncontrado = await autenticarUsuario(
+        usuario,
+        senha,
+        TIPO_USUARIO_ADMIN
+      );
 
       if (usuarioEncontrado) {
         criarSessao(usuarioEncontrado);
