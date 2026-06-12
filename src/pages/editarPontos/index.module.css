@@ -99,6 +99,36 @@
   margin-bottom: 35px;
 }
 
+.statusCarregamento {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-weight: 700;
+}
+
+.erroCarregamento {
+  width: min(520px, 100%);
+  padding: 14px;
+  border: 1px solid rgba(248, 113, 113, 0.5);
+  border-radius: 10px;
+  background: rgba(127, 29, 29, 0.32);
+  text-align: center;
+}
+
+.erroCarregamento p {
+  margin: 0 0 10px;
+  color: #FEE2E2;
+}
+
+.erroCarregamento button {
+  padding: 9px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #2563EB;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 .botaoRota {
   border: none;
   padding: 16px 34px;

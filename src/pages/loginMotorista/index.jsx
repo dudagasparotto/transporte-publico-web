@@ -30,11 +30,12 @@ export default function LoginMotora() {
     }
 
     try {
-      const usuarioEncontrado = await autenticarUsuario(
+      const dadosAutenticacao = await autenticarUsuario(
         usuario,
         senha,
         TIPO_USUARIO_MOTORISTA
       );
+      const usuarioEncontrado = dadosAutenticacao?.usuario;
 
       if (usuarioEncontrado) {
         const idMotoristaDoUsuario = Number(usuarioEncontrado.id_motorista);
@@ -69,11 +70,8 @@ export default function LoginMotora() {
 
         const idMotorista = motoristaEncontrado.id_motorista;
 
-        criarSessao({
-          ...usuarioEncontrado,
-          id_motorista: idMotoristaDoUsuario,
-        });
-        navigate(`/teladomotorista/${idMotorista}`);
+        criarSessao(dadosAutenticacao);
+        navigate(`/teladomotorista/${idMotorista}`, { replace: true });
       } else {
         await alert({
           title: "Acesso negado",

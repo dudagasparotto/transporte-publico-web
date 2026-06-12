@@ -42,6 +42,38 @@ function mesmoId(idA, idB) {
   return Number(idA) === Number(idB);
 }
 
+function normalizarTrajeto(trajeto) {
+  if (!trajeto) {
+    return [];
+  }
+
+  try {
+    const coordenadas =
+      typeof trajeto === 'string' ? JSON.parse(trajeto) : trajeto;
+
+    if (
+      !Array.isArray(coordenadas) ||
+      !coordenadas.every(
+        (ponto) =>
+          Array.isArray(ponto) &&
+          ponto.length === 2 &&
+          Number.isFinite(Number(ponto[0])) &&
+          Number.isFinite(Number(ponto[1])) &&
+          Number(ponto[0]) >= -90 &&
+          Number(ponto[0]) <= 90 &&
+          Number(ponto[1]) >= -180 &&
+          Number(ponto[1]) <= 180
+      )
+    ) {
+      return [];
+    }
+
+    return coordenadas.map((ponto) => [Number(ponto[0]), Number(ponto[1])]);
+  } catch {
+    return [];
+  }
+}
+
 export async function carregarPrimeiroEndpointDisponivel(endpoints) {
   for (const endpoint of endpoints) {
     try {
@@ -145,7 +177,8 @@ export async function listarRotasComPontos() {
       nome_mapa: nomeMapa || nomeLinha,
       mapa: dadosMapa.mapa || '',
       editar: dadosMapa.editar || '',
-      cor: dadosMapa.cor || '#6B7280',
+      cor: rotasDaLinha[0]?.cor || dadosMapa.cor || '#6B7280',
+      trajeto: normalizarTrajeto(rotasDaLinha[0]?.trajeto),
       saida: pontosDaLinha[0]?.nome_ponto || '',
       destino: pontosDaLinha[pontosDaLinha.length - 1]?.nome_ponto || '',
       paradas: pontosDaLinha.map((ponto) => ponto.nome_ponto),

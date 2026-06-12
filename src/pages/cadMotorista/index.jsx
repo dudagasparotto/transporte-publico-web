@@ -78,7 +78,7 @@ export default function Motorista() {
 
           if (usuarioMotorista) {
             setLogin(usuarioMotorista.nome_usuario || "");
-            setSenha(usuarioMotorista.senha_usuario || "");
+            setSenha("");
           }
         } catch (error) {
           console.error("Erro ao carregar login do motorista:", error);
@@ -152,7 +152,13 @@ export default function Motorista() {
     const loginLimpo = login.trim();
     const senhaLimpa = senha.trim();
 
-    if (!cpfNumerico || !cnhNumerica || !nomeLimpo || !loginLimpo || !senhaLimpa) {
+    if (
+      !cpfNumerico ||
+      !cnhNumerica ||
+      !nomeLimpo ||
+      !loginLimpo ||
+      (!editando && !senhaLimpa)
+    ) {
 
       await alert(
         editando
@@ -281,8 +287,11 @@ export default function Motorista() {
       id_tipo_usuario: TIPO_USUARIO_MOTORISTA,
       id_motorista: idMotorista,
       nome_usuario: loginMotorista,
-      senha_usuario: senhaMotorista,
     };
+
+    if (senhaMotorista) {
+      dadosLogin.senha_usuario = senhaMotorista;
+    }
 
     try {
       const { data } = await api.post("/usuarios", dadosLogin);
@@ -317,8 +326,11 @@ export default function Motorista() {
       id_tipo_usuario: TIPO_USUARIO_MOTORISTA,
       id_motorista: idMotorista,
       nome_usuario: loginMotorista,
-      senha_usuario: senhaMotorista,
     };
+
+    if (senhaMotorista) {
+      dadosLogin.senha_usuario = senhaMotorista;
+    }
 
     try {
       const { data } = await api.get("/usuarios");
@@ -536,13 +548,19 @@ export default function Motorista() {
                   </div>
 
                   <div className={styles["form-group"]}>
-                    <label>Senha</label>
+                    <label>
+                      {editando ? "Nova senha (opcional)" : "Senha"}
+                    </label>
 
                     <input
                       type="password"
                       value={senha}
                       onChange={(e) => setSenha(e.target.value)}
-                      placeholder="Senha do motorista"
+                      placeholder={
+                        editando
+                          ? "Deixe em branco para manter a senha atual"
+                          : "Senha do motorista"
+                      }
                     />
                   </div>
                 </div>

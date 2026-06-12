@@ -19,7 +19,7 @@ export default function Home() {
             <Bus size={40} />
           </span>
 
-          <strong>Busly</strong>
+          <strong>OminiBus</strong>
         </Link>
 
         <nav className={styles.menu}>

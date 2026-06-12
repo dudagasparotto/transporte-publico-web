@@ -182,6 +182,7 @@ export default function CadastroPontos() {
             <LeafletRouteMap
               rotaNome={rotaSelecionada?.nome_mapa}
               pontos={rotaSelecionada?.pontos || []}
+              trajeto={rotaSelecionada?.trajeto || []}
               corTrajeto={rotaSelecionada?.cor}
               pontoMarcado={
                 latitude

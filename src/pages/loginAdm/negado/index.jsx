@@ -1,9 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft, LockKeyhole } from "lucide-react";
 import styles from "./index.module.css";
 
 export default function Negado() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirecionarPara =
+    location.state?.redirecionarPara || "/loginadm";
 
   return (
     <div className={styles.negadoContainer}>
@@ -18,9 +21,9 @@ export default function Negado() {
 
         <p>Voce nao possui permissao para acessar esta funcionalidade.</p>
 
-        <button onClick={() => navigate(-1)}>
+        <button onClick={() => navigate(redirecionarPara, { replace: true })}>
           <ArrowLeft size={18} />
-          Voltar
+          Ir para o login
         </button>
       </div>
     </div>

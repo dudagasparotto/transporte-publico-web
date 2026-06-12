@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { MapPin, Plus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -17,25 +17,43 @@ export default function EditarPontos() {
   const [nome, setNome] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState("");
+
+  const iniciarEdicao = useCallback(async function iniciarEdicao() {
+    try {
+      setCarregando(true);
+      setErro("");
+
+      const dados = await listarRotasComPontos();
+      setRotas(dados);
+      setRotaSelecionada(dados[0] || null);
+
+      if (dados.length === 0) {
+        setErro("Nenhuma rota foi encontrada.");
+      }
+    } catch (error) {
+      console.error("Erro ao carregar pontos:", error);
+      setRotas([]);
+      setRotaSelecionada(null);
+      setErro(
+        error.response?.data?.mensagem ||
+          "Nao foi possivel carregar as rotas e os pontos."
+      );
+    } finally {
+      setCarregando(false);
+    }
+  }, []);
 
   useEffect(() => {
-    async function iniciarEdicao() {
-      try {
-        const dados = await listarRotasComPontos();
-        setRotas(dados);
-        setRotaSelecionada(dados[0] || null);
-      } catch (error) {
-        console.error("Erro ao carregar pontos:", error);
-      }
-    }
-
     iniciarEdicao();
-  }, []);
+  }, [iniciarEdicao]);
 
   async function carregarRotas(idRota, idPonto) {
     try {
       const dados = await listarRotasComPontos();
       setRotas(dados);
+      setErro("");
 
       const rotaAtual =
         dados.find((rota) => rota.id_rota === idRota) || dados[0] || null;
@@ -56,6 +74,10 @@ export default function EditarPontos() {
       }
     } catch (error) {
       console.error("Erro ao carregar pontos:", error);
+      setErro(
+        error.response?.data?.mensagem ||
+          "Nao foi possivel atualizar a lista de pontos."
+      );
     }
   }
 
@@ -206,25 +228,38 @@ export default function EditarPontos() {
         </div>
 
         <div className={styles.botoesRotas}>
-          {rotas.map((rota) => (
-            <button
-              key={rota.id_rota}
-              className={`${styles.botaoRota} ${
-                rotaSelecionada?.id_rota === rota.id_rota
-                  ? styles.ativo
-                  : ""
-              }`}
-              style={{
-                background:
+          {carregando ? (
+            <p className={styles.statusCarregamento}>
+              Carregando rotas e pontos...
+            </p>
+          ) : erro ? (
+            <div className={styles.erroCarregamento}>
+              <p>{erro}</p>
+              <button type="button" onClick={iniciarEdicao}>
+                TENTAR NOVAMENTE
+              </button>
+            </div>
+          ) : (
+            rotas.map((rota) => (
+              <button
+                key={rota.id_rota}
+                className={`${styles.botaoRota} ${
                   rotaSelecionada?.id_rota === rota.id_rota
-                    ? rota.cor
-                    : "#6B7280",
-              }}
-              onClick={() => selecionarRota(rota)}
-            >
-              {rota.nome_linha}
-            </button>
-          ))}
+                    ? styles.ativo
+                    : ""
+                }`}
+                style={{
+                  background:
+                    rotaSelecionada?.id_rota === rota.id_rota
+                      ? rota.cor
+                      : "#6B7280",
+                }}
+                onClick={() => selecionarRota(rota)}
+              >
+                {rota.nome_linha}
+              </button>
+            ))
+          )}
         </div>
 
         <div className={styles.conteudoEdicao}>
@@ -232,6 +267,7 @@ export default function EditarPontos() {
             <LeafletRouteMap
               rotaNome={rotaSelecionada?.nome_mapa}
               pontos={rotaSelecionada?.pontos || []}
+              trajeto={rotaSelecionada?.trajeto || []}
               corTrajeto={rotaSelecionada?.cor}
               onSelecionarPonto={selecionarPonto}
               onSelecionarLocal={pontoSelecionado ? alterarLocal : null}

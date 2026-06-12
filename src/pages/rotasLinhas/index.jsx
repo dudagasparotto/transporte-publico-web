@@ -109,6 +109,8 @@ export default function RotasLinhas() {
               <LeafletRouteMap
                 rotaNome={rotaSelecionada ? rotaSelecionada.nome_mapa : null}
                 pontos={rotaSelecionada ? rotaSelecionada.pontos : []}
+                trajeto={rotaSelecionada ? rotaSelecionada.trajeto : []}
+                corTrajeto={rotaSelecionada?.cor}
                 className={styles.mapa}
               />
             </div>

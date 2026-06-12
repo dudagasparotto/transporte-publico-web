@@ -78,6 +78,13 @@
   font-size: 15px;
 }
 
+.acoesRota {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cadastrarRota,
 .excluirRota {
   min-height: 42px;
   display: flex;
@@ -92,6 +99,14 @@
   font-size: 13px;
   font-weight: bold;
   cursor: pointer;
+}
+
+.cadastrarRota {
+  background: #2563eb;
+}
+
+.cadastrarRota:hover {
+  background: #1d4ed8;
 }
 
 .excluirRota:hover {
@@ -139,11 +154,34 @@
 }
 
 .areaMapa {
+  position: relative;
   height: calc(100vh - 270px);
   min-height: 510px;
   overflow: hidden;
   border-radius: 14px;
   border: 2px solid rgba(255, 255, 255, 0.18);
+}
+
+.avisoDesenho {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  z-index: 500;
+  max-width: calc(100% - 140px);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.92);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.32);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
 .painelEdicao {
@@ -195,6 +233,109 @@
   color: white;
   cursor: pointer;
   
+}
+
+.editorTrajeto {
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.editorTrajetoTitulo {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+
+.editorTrajetoTitulo > svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: #93c5fd;
+}
+
+.painelEdicao .editorTrajetoTitulo h3 {
+  margin: 0 0 4px;
+  font-size: 17px;
+}
+
+.editorTrajetoTitulo p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.iniciarDesenho,
+.acoesDesenho button,
+.cancelarTrajeto,
+.salvarTrajeto {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.iniciarDesenho {
+  width: 100%;
+  background: #7c3aed;
+}
+
+.iniciarDesenho:hover {
+  background: #6d28d9;
+}
+
+.contadorTrajeto {
+  margin: 0 0 9px;
+  color: #dbeafe;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.acoesDesenho,
+.acoesSalvarTrajeto {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.acoesDesenho {
+  margin-bottom: 8px;
+}
+
+.acoesDesenho button {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.acoesDesenho button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.cancelarTrajeto {
+  background: #64748b;
+}
+
+.salvarTrajeto {
+  background: #16a34a;
+}
+
+.salvarTrajeto:hover:not(:disabled) {
+  background: #15803d;
+}
+
+.iniciarDesenho:disabled,
+.acoesDesenho button:disabled,
+.cancelarTrajeto:disabled,
+.salvarTrajeto:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .painelEdicao h3 {
@@ -264,6 +405,217 @@
   font-size: 13px;
 }
 
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  padding: 20px;
+  display: grid;
+  place-items: center;
+  background: rgba(8, 15, 32, 0.78);
+  backdrop-filter: blur(6px);
+}
+
+.modal {
+  position: relative;
+  width: min(460px, 100%);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 18px;
+  background: #334155;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  color: white;
+}
+
+.fecharModal {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  cursor: pointer;
+}
+
+.modalLegenda {
+  color: #93c5fd;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.modal h2 {
+  margin: 7px 42px 8px 0;
+  font-size: 27px;
+}
+
+.modal p {
+  margin: 0 0 24px;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.modal label {
+  display: block;
+  margin-bottom: 7px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.modal input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 9px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  font-size: 15px;
+}
+
+.modal input:focus {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.14);
+}
+
+.modal input::placeholder {
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.coresFieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.coresFieldset legend {
+  margin-bottom: 9px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.opcoesCores {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.opcaoCor {
+  min-height: 48px;
+  padding: 8px 10px;
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid transparent;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--cor-opcao) 28%, #172033);
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+}
+
+.opcaoCor:hover:not(:disabled) {
+  border-color: var(--cor-opcao);
+  background: color-mix(in srgb, var(--cor-opcao) 42%, #172033);
+}
+
+.opcaoCorSelecionada {
+  border-color: white;
+  box-shadow: 0 0 0 3px var(--cor-opcao);
+}
+
+.opcaoCor:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.75);
+  opacity: 0.48;
+}
+
+.opcaoCor small {
+  grid-column: 2;
+  margin-top: -6px;
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.circuloCor {
+  width: 24px;
+  height: 24px;
+  grid-row: 1 / span 2;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  background: var(--cor-opcao);
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.28);
+}
+
+.previaCor {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+}
+
+.amostraCor {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+}
+
+.acoesModal {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.cancelarModal,
+.confirmarModal {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: none;
+  border-radius: 9px;
+  color: white;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.cancelarModal {
+  background: #64748b;
+}
+
+.confirmarModal {
+  background: #2563eb;
+}
+
+.cancelarModal:disabled,
+.confirmarModal:disabled,
+.fecharModal:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
 @media (max-width: 1000px) {
   .conteudoEdicao {
     grid-template-columns: 1fr;
@@ -306,8 +658,22 @@
     min-height: 42px;
   }
 
+  .acoesRota,
+  .cadastrarRota,
   .excluirRota {
     width: 100%;
+  }
+
+  .acoesRota {
+    flex-direction: column;
+  }
+
+  .modal {
+    padding: 24px;
+  }
+
+  .acoesModal {
+    grid-template-columns: 1fr;
   }
 }
 

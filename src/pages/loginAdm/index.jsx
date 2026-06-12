@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Home, ShieldCheck } from "lucide-react";
 import styles from "./index.module.css";
@@ -11,6 +11,7 @@ import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
 export default function LoginAdm() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { alert } = useAppDialog();
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
@@ -24,25 +25,27 @@ export default function LoginAdm() {
     }
 
     try {
-      const usuarioEncontrado = await autenticarUsuario(
+      const dadosAutenticacao = await autenticarUsuario(
         usuario,
         senha,
         TIPO_USUARIO_ADMIN
       );
 
-      if (usuarioEncontrado) {
-        criarSessao(usuarioEncontrado);
-        navigate("/adm");
-      } else {
-        await alert({
-          title: "Acesso negado",
-          message: "Login invalido.",
-          variant: "danger",
-        });
-      }
+      criarSessao(dadosAutenticacao);
+
+      const destino = location.state?.from?.pathname;
+      navigate(destino?.startsWith("/adm") ? destino : "/adm", {
+        replace: true,
+      });
     } catch (error) {
       console.error("Erro ao fazer login:", error);
-      await alert("Erro ao fazer login.");
+      await alert({
+        title: "Acesso negado",
+        message:
+          error.response?.data?.mensagem ||
+          "Usuario ou senha invalidos.",
+        variant: "danger",
+      });
     }
   }
 

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Bus, Clock, ListChecks, LogOut, Map, MapPin, UserRoundPlus } from "lucide-react";
+import { Bus, Clock, ListChecks, LogOut, Map, MapPin, Plus, UserRoundPlus } from "lucide-react";
 import styles from "./index.module.css";
 import { encerrarSessao } from "../../services/auth";
 
@@ -72,6 +72,12 @@ export default function HomeAdm() {
             <img src={rotas} alt="Rotas" />
             <h3>Rotas</h3>
             <p>Organize linhas, trajetos e pontos no mapa.</p>
+            <Link to="/adm/editarrota" state={{ abrirCadastro: true }}>
+              <button>
+                <Plus size={18} />
+                Cadastrar rota
+              </button>
+            </Link>
             <Link to="/adm/editarrota">
               <button>
                 <Map size={18} />

@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
-import { MapPin, Save, Trash2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import {
+  Eraser,
+  MapPin,
+  Plus,
+  Route,
+  Save,
+  Trash2,
+  Undo2,
+  X,
+} from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import styles from "./styles.module.css";
 import api from "../../services/apis";
@@ -8,7 +17,21 @@ import { listarRotasComPontos } from "../../services/transporte";
 import LeafletRouteMap from "../../components/LeafletRouteMap";
 import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
+const CORES_DE_ROTA = [
+  { nome: "VERMELHA", valor: "#DC2626" },
+  { nome: "VERDE", valor: "#16A34A" },
+  { nome: "AZUL", valor: "#2563EB" },
+  { nome: "AMARELA", valor: "#EAB308" },
+  { nome: "LARANJA", valor: "#EA580C" },
+  { nome: "ROXA", valor: "#7C3AED" },
+  { nome: "ROSA", valor: "#DB2777" },
+  { nome: "MARROM", valor: "#92400E" },
+  { nome: "CINZA", valor: "#6B7280" },
+  { nome: "PRETA", valor: "#111827" },
+];
+
 export default function EditarRota() {
+  const location = useLocation();
   const navigate = useNavigate();
   const { alert, confirm } = useAppDialog();
   const [rotas, setRotas] = useState([]);
@@ -19,6 +42,14 @@ export default function EditarRota() {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [mensagem, setMensagem] = useState("");
+  const [modalCadastroAberto, setModalCadastroAberto] = useState(
+    Boolean(location.state?.abrirCadastro)
+  );
+  const [nomeNovaRota, setNomeNovaRota] = useState("");
+  const [cadastrandoRota, setCadastrandoRota] = useState(false);
+  const [editandoTrajeto, setEditandoTrajeto] = useState(false);
+  const [trajetoEmEdicao, setTrajetoEmEdicao] = useState([]);
+  const [salvandoTrajeto, setSalvandoTrajeto] = useState(false);
 
   useEffect(() => {
     async function iniciarEdicao() {
@@ -57,6 +88,8 @@ export default function EditarRota() {
   function selecionarRota(rota) {
     setRotaSelecionada(rota);
     setNomeLinha(rota.nome_linha);
+    setEditandoTrajeto(false);
+    setTrajetoEmEdicao([]);
     setPontoSelecionado(null);
     setNomePonto("");
     setLatitude("");
@@ -101,6 +134,88 @@ export default function EditarRota() {
     }
   }
 
+  async function iniciarDesenhoTrajeto() {
+    if (!rotaSelecionada?.id_rota) {
+      await alert("Selecione uma rota valida para desenhar o trajeto.");
+      return;
+    }
+
+    setPontoSelecionado(null);
+    setNomePonto("");
+    setLatitude("");
+    setLongitude("");
+    setTrajetoEmEdicao(
+      (rotaSelecionada.trajeto || []).map((ponto) => [...ponto])
+    );
+    setEditandoTrajeto(true);
+    setMensagem(
+      "Clique no mapa em sequencia para desenhar a linha do trajeto."
+    );
+  }
+
+  function adicionarPontoAoTrajeto(local) {
+    setTrajetoEmEdicao((trajetoAtual) => [
+      ...trajetoAtual,
+      [
+        Number(local.latitude.toFixed(8)),
+        Number(local.longitude.toFixed(8)),
+      ],
+    ]);
+  }
+
+  function desfazerPontoDoTrajeto() {
+    setTrajetoEmEdicao((trajetoAtual) => trajetoAtual.slice(0, -1));
+  }
+
+  function limparTrajeto() {
+    setTrajetoEmEdicao([]);
+  }
+
+  function cancelarEdicaoTrajeto() {
+    setEditandoTrajeto(false);
+    setTrajetoEmEdicao([]);
+    setMensagem("");
+  }
+
+  async function salvarTrajeto() {
+    if (!rotaSelecionada?.id_rota) {
+      await alert("Selecione uma rota valida para salvar o trajeto.");
+      return;
+    }
+
+    if (trajetoEmEdicao.length < 2) {
+      await alert("Marque pelo menos dois pontos para formar a linha.");
+      return;
+    }
+
+    try {
+      setSalvandoTrajeto(true);
+
+      const { data } = await api.patch(
+        `/rotas/${rotaSelecionada.id_rota}`,
+        {
+          trajeto: trajetoEmEdicao,
+        }
+      );
+
+      if (data.sucesso === false) {
+        await alert(data.mensagem || "Erro ao salvar trajeto.");
+        return;
+      }
+
+      await recarregarRota(rotaSelecionada.id_linha);
+      setEditandoTrajeto(false);
+      setTrajetoEmEdicao([]);
+      setMensagem("Trajeto salvo com sucesso.");
+      await alert("Trajeto salvo com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar trajeto:", error);
+      await alert(error.response?.data?.mensagem || "Erro ao salvar trajeto.");
+    } finally {
+      setSalvandoTrajeto(false);
+    }
+  }
+
   async function salvarLinha() {
     if (!rotaSelecionada || !nomeLinha.trim()) {
       await alert("Informe o nome da linha.");
@@ -123,6 +238,78 @@ export default function EditarRota() {
     } catch (error) {
       console.error("Erro ao atualizar linha:", error);
       await alert(error.response?.data?.mensagem || "Erro ao atualizar linha.");
+    }
+  }
+
+  function fecharModalCadastro() {
+    if (cadastrandoRota) return;
+
+    setModalCadastroAberto(false);
+    setNomeNovaRota("");
+  }
+
+  async function cadastrarRota(event) {
+    event.preventDefault();
+
+    const corSelecionada = CORES_DE_ROTA.find(
+      (cor) => cor.nome === nomeNovaRota
+    );
+
+    if (!corSelecionada) {
+      await alert("Selecione uma cor para identificar a rota.");
+      return;
+    }
+
+    let idLinhaCriada = null;
+
+    try {
+      setCadastrandoRota(true);
+
+      const linhaResponse = await api.post("/linhas", {
+        nome_da_linha: corSelecionada.nome,
+      });
+
+      if (!linhaResponse.data.sucesso) {
+        throw new Error(
+          linhaResponse.data.mensagem || "Erro ao cadastrar linha."
+        );
+      }
+
+      idLinhaCriada = linhaResponse.data.dados?.id;
+
+      const rotaResponse = await api.post("/rotas", {
+        id_da_Linha: idLinhaCriada,
+        cor: corSelecionada.valor,
+      });
+
+      if (!rotaResponse.data.sucesso) {
+        throw new Error(
+          rotaResponse.data.mensagem || "Erro ao cadastrar rota."
+        );
+      }
+
+      await recarregarRota(idLinhaCriada);
+      setModalCadastroAberto(false);
+      setNomeNovaRota("");
+      setMensagem("Rota cadastrada com sucesso.");
+      await alert("Rota cadastrada com sucesso!");
+    } catch (error) {
+      if (idLinhaCriada) {
+        try {
+          await api.delete(`/linhas/${idLinhaCriada}`);
+        } catch (rollbackError) {
+          console.error("Erro ao desfazer cadastro da linha:", rollbackError);
+        }
+      }
+
+      console.error("Erro ao cadastrar rota:", error);
+      await alert(
+        error.response?.data?.mensagem ||
+          error.message ||
+          "Nao foi possivel cadastrar a rota."
+      );
+    } finally {
+      setCadastrandoRota(false);
     }
   }
 
@@ -157,7 +344,7 @@ export default function EditarRota() {
   }
 
   async function excluirRota() {
-    if (!rotaSelecionada?.id_rota) {
+    if (!rotaSelecionada?.id_linha) {
       await alert("Selecione uma rota valida para excluir.");
       return;
     }
@@ -172,10 +359,23 @@ export default function EditarRota() {
     if (!confirmou) return;
 
     try {
-      const { data } = await api.delete(`/rotas/${rotaSelecionada.id_rota}`);
+      if (rotaSelecionada.id_rota) {
+        const { data: dadosRota } = await api.delete(
+          `/rotas/${rotaSelecionada.id_rota}`
+        );
 
-      if (data.sucesso === false) {
-        await alert(data.mensagem || "Erro ao excluir rota.");
+        if (dadosRota.sucesso === false) {
+          await alert(dadosRota.mensagem || "Erro ao excluir rota.");
+          return;
+        }
+      }
+
+      const { data: dadosLinha } = await api.delete(
+        `/linhas/${rotaSelecionada.id_linha}`
+      );
+
+      if (dadosLinha.sucesso === false) {
+        await alert(dadosLinha.mensagem || "Erro ao excluir linha da rota.");
         return;
       }
 
@@ -216,14 +416,24 @@ export default function EditarRota() {
             </p>
           </div>
 
-          <button
-            className={styles.excluirRota}
-            onClick={excluirRota}
-            disabled={!rotaSelecionada?.id_rota}
-          >
-            <Trash2 size={18} />
-            EXCLUIR ROTA
-          </button>
+          <div className={styles.acoesRota}>
+            <button
+              className={styles.cadastrarRota}
+              onClick={() => setModalCadastroAberto(true)}
+            >
+              <Plus size={18} />
+              CADASTRAR ROTA
+            </button>
+
+            <button
+              className={styles.excluirRota}
+              onClick={excluirRota}
+              disabled={!rotaSelecionada?.id_linha}
+            >
+              <Trash2 size={18} />
+              EXCLUIR ROTA
+            </button>
+          </div>
         </div>
 
         <div className={styles.botoesRotas}>
@@ -248,14 +458,34 @@ export default function EditarRota() {
 
         <div className={styles.conteudoEdicao}>
           <div className={styles.areaMapa}>
+            {editandoTrajeto && (
+              <div className={styles.avisoDesenho}>
+                <Route size={18} />
+                Clique no mapa seguindo as ruas para formar a linha.
+              </div>
+            )}
             <LeafletRouteMap
               rotaNome={rotaSelecionada?.nome_mapa}
               pontos={rotaSelecionada?.pontos || []}
+              trajeto={
+                editandoTrajeto
+                  ? trajetoEmEdicao
+                  : rotaSelecionada?.trajeto || []
+              }
+              editandoTrajeto={editandoTrajeto}
               corTrajeto={rotaSelecionada?.cor}
-              mostrarTrajetoPontos
-              onSelecionarPonto={selecionarPonto}
-              onMoverPonto={alterarPontoNoMapa}
-              onSelecionarLocal={pontoSelecionado ? selecionarLocal : null}
+              onAdicionarPontoTrajeto={
+                editandoTrajeto ? adicionarPontoAoTrajeto : null
+              }
+              onSelecionarPonto={
+                editandoTrajeto ? null : selecionarPonto
+              }
+              onMoverPonto={
+                editandoTrajeto ? null : alterarPontoNoMapa
+              }
+              onSelecionarLocal={
+                !editandoTrajeto && pontoSelecionado ? selecionarLocal : null
+              }
             />
           </div>
 
@@ -273,6 +503,76 @@ export default function EditarRota() {
                 </button>
               </div>
             </div>
+
+            <section className={styles.editorTrajeto}>
+              <div className={styles.editorTrajetoTitulo}>
+                <Route size={20} />
+                <div>
+                  <h3>Linha do trajeto</h3>
+                  <p>
+                    Desenhe o caminho do onibus clicando sobre as ruas no mapa.
+                  </p>
+                </div>
+              </div>
+
+              {!editandoTrajeto ? (
+                <button
+                  className={styles.iniciarDesenho}
+                  onClick={iniciarDesenhoTrajeto}
+                  disabled={!rotaSelecionada?.id_rota}
+                >
+                  <Route size={17} />
+                  DESENHAR TRAJETO
+                </button>
+              ) : (
+                <>
+                  <p className={styles.contadorTrajeto}>
+                    {trajetoEmEdicao.length} pontos marcados
+                  </p>
+
+                  <div className={styles.acoesDesenho}>
+                    <button
+                      onClick={desfazerPontoDoTrajeto}
+                      disabled={
+                        trajetoEmEdicao.length === 0 || salvandoTrajeto
+                      }
+                    >
+                      <Undo2 size={16} />
+                      DESFAZER
+                    </button>
+                    <button
+                      onClick={limparTrajeto}
+                      disabled={
+                        trajetoEmEdicao.length === 0 || salvandoTrajeto
+                      }
+                    >
+                      <Eraser size={16} />
+                      LIMPAR
+                    </button>
+                  </div>
+
+                  <div className={styles.acoesSalvarTrajeto}>
+                    <button
+                      className={styles.cancelarTrajeto}
+                      onClick={cancelarEdicaoTrajeto}
+                      disabled={salvandoTrajeto}
+                    >
+                      CANCELAR
+                    </button>
+                    <button
+                      className={styles.salvarTrajeto}
+                      onClick={salvarTrajeto}
+                      disabled={
+                        trajetoEmEdicao.length < 2 || salvandoTrajeto
+                      }
+                    >
+                      <Save size={16} />
+                      {salvandoTrajeto ? "SALVANDO..." : "SALVAR TRAJETO"}
+                    </button>
+                  </div>
+                </>
+              )}
+            </section>
 
             <h3>Pontos do trajeto</h3>
             <div className={styles.listaPontos}>
@@ -321,6 +621,109 @@ export default function EditarRota() {
           </aside>
         </div>
       </main>
+
+      {modalCadastroAberto && (
+        <div
+          className={styles.modalOverlay}
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              fecharModalCadastro();
+            }
+          }}
+        >
+          <form
+            className={styles.modal}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="titulo-cadastro-rota"
+            onSubmit={cadastrarRota}
+          >
+            <button
+              type="button"
+              className={styles.fecharModal}
+              onClick={fecharModalCadastro}
+              aria-label="Fechar"
+              disabled={cadastrandoRota}
+            >
+              <X size={20} />
+            </button>
+
+            <span className={styles.modalLegenda}>Nova rota</span>
+            <h2 id="titulo-cadastro-rota">Cadastrar rota</h2>
+            <p>
+              Cada rota deve ter o nome de uma cor. Essa cor sera usada para
+              identificar o botao da rota quando ele estiver selecionado.
+            </p>
+
+            <fieldset className={styles.coresFieldset}>
+              <legend>Escolha a cor da rota</legend>
+              <div className={styles.opcoesCores}>
+              {CORES_DE_ROTA.map((cor) => {
+                const corJaCadastrada = rotas.some(
+                  (rota) =>
+                    rota.nome_linha?.trim().toUpperCase() === cor.nome
+                );
+                const selecionada = nomeNovaRota === cor.nome;
+
+                return (
+                  <button
+                    type="button"
+                    key={cor.nome}
+                    className={`${styles.opcaoCor} ${
+                      selecionada ? styles.opcaoCorSelecionada : ""
+                    }`}
+                    style={{ "--cor-opcao": cor.valor }}
+                    onClick={() => setNomeNovaRota(cor.nome)}
+                    aria-pressed={selecionada}
+                    disabled={corJaCadastrada || cadastrandoRota}
+                  >
+                    <span className={styles.circuloCor} />
+                    <span>{cor.nome}</span>
+                    {corJaCadastrada && (
+                      <small>Ja cadastrada</small>
+                    )}
+                  </button>
+                );
+              })}
+              </div>
+            </fieldset>
+
+            {nomeNovaRota && (
+              <div className={styles.previaCor}>
+                <span
+                  className={styles.amostraCor}
+                  style={{
+                    backgroundColor: CORES_DE_ROTA.find(
+                      (cor) => cor.nome === nomeNovaRota
+                    )?.valor,
+                  }}
+                />
+                O botao da rota usara esta cor.
+              </div>
+            )}
+
+            <div className={styles.acoesModal}>
+              <button
+                type="button"
+                className={styles.cancelarModal}
+                onClick={fecharModalCadastro}
+                disabled={cadastrandoRota}
+              >
+                CANCELAR
+              </button>
+              <button
+                type="submit"
+                className={styles.confirmarModal}
+                disabled={cadastrandoRota}
+              >
+                <Plus size={18} />
+                {cadastrandoRota ? "CADASTRANDO..." : "CADASTRAR"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 }

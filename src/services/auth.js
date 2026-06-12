@@ -1,29 +1,35 @@
 import api from './apis';
 
 const CHAVE_SESSAO = 'transporte-publico-sessao';
-const VERSAO_SESSAO = 2;
+const EVENTO_SESSAO = 'transporte-publico-sessao-alterada';
+const VERSAO_SESSAO = 3;
 
 export const TIPO_USUARIO_ADMIN = 1;
 export const TIPO_USUARIO_MOTORISTA = 2;
 
 export async function autenticarUsuario(usuario, senha, tipoUsuario) {
-  const { data } = await api.get('/usuarios');
-  const usuarios = data.dados || [];
-
-  return usuarios.find((item) => {
-    const mesmoUsuario = item.nome_usuario === usuario;
-    const mesmaSenha = item.senha_usuario === senha;
-    const mesmoTipo = tipoUsuario
-      ? Number(item.id_tipo_usuario) === Number(tipoUsuario)
-      : true;
-
-    return mesmoUsuario && mesmaSenha && mesmoTipo;
+  const { data } = await api.post('/auth/login', {
+    usuario,
+    senha,
+    tipoUsuario,
   });
+
+  return data.dados;
 }
 
-export function criarSessao(usuario) {
+function avisarAlteracaoSessao() {
+  window.dispatchEvent(new Event(EVENTO_SESSAO));
+}
+
+export function criarSessao(dadosAutenticacao) {
+  const usuario = dadosAutenticacao?.usuario;
+  const token = dadosAutenticacao?.token;
   const tipoUsuario = Number(usuario.id_tipo_usuario);
   const idMotorista = Number(usuario.id_motorista);
+
+  if (!token) {
+    throw new Error('Token de autenticacao ausente.');
+  }
 
   if (
     tipoUsuario !== TIPO_USUARIO_ADMIN &&
@@ -48,9 +54,11 @@ export function criarSessao(usuario) {
     idMotorista: idMotoristaDaSessao,
     nomeUsuario: usuario.nome_usuario,
     tipoUsuario,
+    token,
   };
 
   localStorage.setItem(CHAVE_SESSAO, JSON.stringify(sessao));
+  avisarAlteracaoSessao();
   return sessao;
 }
 
@@ -65,7 +73,8 @@ export function obterSessao() {
     if (
       sessao?.versao !== VERSAO_SESSAO ||
       !sessao?.idUsuario ||
-      !sessao?.tipoUsuario
+      !sessao?.tipoUsuario ||
+      !sessao?.token
     ) {
       encerrarSessao();
       return null;
@@ -80,8 +89,43 @@ export function obterSessao() {
 
 export function encerrarSessao() {
   localStorage.removeItem(CHAVE_SESSAO);
+  avisarAlteracaoSessao();
 }
 
 export function possuiSessaoDoTipo(tipoUsuario) {
   return obterSessao()?.tipoUsuario === Number(tipoUsuario);
 }
+
+export async function validarSessao(tipoUsuario) {
+  const sessao = obterSessao();
+
+  if (!sessao) {
+    return { valida: false, motivo: 'nao-autenticado' };
+  }
+
+  try {
+    const { data } = await api.get('/auth/validar', {
+      params: { tipoUsuario },
+    });
+    const usuarioValidado = data.dados;
+    const correspondeAoToken =
+      Number(usuarioValidado?.idUsuario) === Number(sessao.idUsuario) &&
+      Number(usuarioValidado?.tipoUsuario) === Number(sessao.tipoUsuario);
+
+    if (!correspondeAoToken) {
+      encerrarSessao();
+      return { valida: false, motivo: 'nao-autenticado' };
+    }
+
+    return { valida: true, sessao };
+  } catch (error) {
+    if (error.response?.status === 403) {
+      return { valida: false, motivo: 'acesso-negado' };
+    }
+
+    encerrarSessao();
+    return { valida: false, motivo: 'nao-autenticado' };
+  }
+}
+
+export { CHAVE_SESSAO, EVENTO_SESSAO };

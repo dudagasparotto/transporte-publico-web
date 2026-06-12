@@ -3,7 +3,6 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import styles from './styles.module.css';
-import { rotasLeaflet } from '../../data/rotasLeaflet';
 
 function normalizarNome(nome) {
   return String(nome || '').trim().toUpperCase();
@@ -37,15 +36,6 @@ function coordenadasDoPonto(ponto) {
   return [latitude, longitude];
 }
 
-function pontoNaRegiaoDeTupa(coordenadas) {
-  return (
-    coordenadas[0] >= -22.1 &&
-    coordenadas[0] <= -21.75 &&
-    coordenadas[1] >= -50.7 &&
-    coordenadas[1] <= -50.35
-  );
-}
-
 function criarIconePonto(cor = '#2563eb', destaque = false) {
   return L.divIcon({
     className: styles.marcadorPonto,
@@ -62,11 +52,13 @@ export default function LeafletRouteMap({
   rotaNome,
   className,
   pontos = [],
+  trajeto = [],
+  editandoTrajeto = false,
   pontoMarcado = null,
   onSelecionarLocal,
+  onAdicionarPontoTrajeto,
   onSelecionarPonto,
   onMoverPonto,
-  mostrarTrajetoPontos = false,
   corTrajeto = '#2563eb',
 }) {
   const containerRef = useRef(null);
@@ -113,69 +105,148 @@ export default function LeafletRouteMap({
 
     layer.clearLayers();
 
+    const trajetoValido = trajeto
+      .map((ponto) => [Number(ponto?.[0]), Number(ponto?.[1])])
+      .filter(
+        (ponto) =>
+          Number.isFinite(ponto[0]) &&
+          Number.isFinite(ponto[1]) &&
+          ponto[0] >= -90 &&
+          ponto[0] <= 90 &&
+          ponto[1] >= -180 &&
+          ponto[1] <= 180
+      );
+
+    if (trajetoValido.length > 0) {
+      if (trajetoValido.length > 1) {
+        L.polyline(trajetoValido, {
+          color: corTrajeto,
+          opacity: 0.95,
+          weight: 6,
+        }).addTo(layer);
+      }
+
+      if (editandoTrajeto) {
+        trajetoValido.forEach((coordenadas, index) => {
+          L.circleMarker(coordenadas, {
+            radius: index === trajetoValido.length - 1 ? 7 : 5,
+            color: '#ffffff',
+            fillColor: corTrajeto,
+            fillOpacity: 1,
+            opacity: 1,
+            weight: 2,
+          })
+            .bindTooltip(`Ponto ${index + 1}`, {
+              direction: 'top',
+              offset: [0, -6],
+            })
+            .addTo(layer);
+        });
+      }
+
+      if (!editandoTrajeto && trajetoValido.length > 1) {
+        map.fitBounds(L.latLngBounds(trajetoValido), {
+          padding: [24, 24],
+          maxZoom: 16,
+        });
+      }
+
+      setTimeout(() => map.invalidateSize(), 0);
+      return;
+    }
+
+    if (editandoTrajeto) {
+      setTimeout(() => map.invalidateSize(), 0);
+      return;
+    }
+
     if (!rotaNome) {
       map.setView([-21.9333, -50.5195], 14);
       setTimeout(() => map.invalidateSize(), 0);
       return;
     }
 
-    const rota = rotasLeaflet.find(
-      (item) => normalizarNome(item.nome) === normalizarNome(rotaNome)
-    );
+    let ativo = true;
 
-    if (!rota) {
-      map.setView([-21.9333, -50.5195], 14);
-      setTimeout(() => map.invalidateSize(), 0);
-      return;
-    }
+    async function carregarRotaPredefinida() {
+      const { rotasLeaflet } = await import('../../data/rotasLeaflet');
 
-    const bounds = [];
-
-    rota.elementos.forEach((elemento) => {
-      if (elemento.tipo === 'ponto') {
+      if (!ativo || mapRef.current !== map || routeLayerRef.current !== layer) {
         return;
       }
 
-      adicionarCoordenadas(bounds, elemento.coordenadas);
+      const rota = rotasLeaflet.find(
+        (item) => normalizarNome(item.nome) === normalizarNome(rotaNome)
+      );
 
-      const opcoes = {
-        color: rota.cor,
-        fillColor: rota.cor,
-        fillOpacity: elemento.tipo === 'poligono' ? 0.18 : 0.08,
-        opacity: 0.9,
-        weight: elemento.tipo === 'linha' ? 6 : 3,
-      };
+      if (!rota) {
+        map.setView([-21.9333, -50.5195], 14);
+        setTimeout(() => map.invalidateSize(), 0);
+        return;
+      }
 
-      if (elemento.tipo === 'poligono') {
-        L.polygon(elemento.coordenadas, opcoes)
+      const bounds = [];
+
+      rota.elementos.forEach((elemento) => {
+        if (elemento.tipo === 'ponto') {
+          return;
+        }
+
+        adicionarCoordenadas(bounds, elemento.coordenadas);
+
+        const opcoes = {
+          color: rota.cor,
+          fillColor: rota.cor,
+          fillOpacity: elemento.tipo === 'poligono' ? 0.18 : 0.08,
+          opacity: 0.9,
+          weight: elemento.tipo === 'linha' ? 6 : 3,
+        };
+
+        if (elemento.tipo === 'poligono') {
+          L.polygon(elemento.coordenadas, opcoes)
+            .bindPopup(elemento.nome || rota.nome)
+            .addTo(layer);
+          return;
+        }
+
+        L.polyline(elemento.coordenadas, opcoes)
           .bindPopup(elemento.nome || rota.nome)
           .addTo(layer);
-        return;
+      });
+
+      if (bounds.length > 0) {
+        map.fitBounds(L.latLngBounds(bounds), {
+          padding: [24, 24],
+          maxZoom: 16,
+        });
       }
 
-      L.polyline(elemento.coordenadas, opcoes)
-        .bindPopup(elemento.nome || rota.nome)
-        .addTo(layer);
-    });
-
-    if (bounds.length > 0) {
-      map.fitBounds(L.latLngBounds(bounds), {
-        padding: [24, 24],
-        maxZoom: 16,
-      });
+      setTimeout(() => map.invalidateSize(), 0);
     }
 
-    setTimeout(() => map.invalidateSize(), 0);
-  }, [rotaNome]);
+    carregarRotaPredefinida();
+
+    return () => {
+      ativo = false;
+    };
+  }, [rotaNome, trajeto, editandoTrajeto, corTrajeto]);
 
   useEffect(() => {
     const map = mapRef.current;
 
-    if (!map || !onSelecionarLocal) {
+    if (!map || (!onSelecionarLocal && !onAdicionarPontoTrajeto)) {
       return undefined;
     }
 
     function selecionarLocal(event) {
+      if (editandoTrajeto && onAdicionarPontoTrajeto) {
+        onAdicionarPontoTrajeto({
+          latitude: event.latlng.lat,
+          longitude: event.latlng.lng,
+        });
+        return;
+      }
+
       onSelecionarLocal({
         latitude: event.latlng.lat,
         longitude: event.latlng.lng,
@@ -187,7 +258,7 @@ export default function LeafletRouteMap({
     return () => {
       map.off('click', selecionarLocal);
     };
-  }, [onSelecionarLocal]);
+  }, [editandoTrajeto, onAdicionarPontoTrajeto, onSelecionarLocal]);
 
   useEffect(() => {
     const layer = pointLayerRef.current;
@@ -197,20 +268,6 @@ export default function LeafletRouteMap({
     }
 
     layer.clearLayers();
-
-    const pontosDoTrajeto = pontos
-      .map((ponto) => coordenadasDoPonto(ponto))
-      .filter((coordenadas) => coordenadas && pontoNaRegiaoDeTupa(coordenadas));
-
-    if (mostrarTrajetoPontos && pontosDoTrajeto.length > 1) {
-      L.polyline(pontosDoTrajeto, {
-        color: corTrajeto,
-        opacity: 0.95,
-        weight: 5,
-      })
-        .bindPopup('Trajeto pelos pontos cadastrados')
-        .addTo(layer);
-    }
 
     pontos.forEach((ponto) => {
       const coordenadas = coordenadasDoPonto(ponto);
@@ -260,15 +317,14 @@ export default function LeafletRouteMap({
     pontoMarcado,
     onSelecionarPonto,
     onMoverPonto,
-    mostrarTrajetoPontos,
     corTrajeto,
   ]);
 
   return (
     <div
-      className={`${styles.mapa} ${onSelecionarLocal ? styles.clicavel : ''} ${
-        className || ''
-      }`}
+      className={`${styles.mapa} ${
+        onSelecionarLocal || onAdicionarPontoTrajeto ? styles.clicavel : ''
+      } ${className || ''}`}
     >
       <div ref={containerRef} className={styles.leaflet} />
     </div>

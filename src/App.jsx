@@ -36,7 +36,10 @@ function App() {
       <Route path="/avaliacao/:id" element={<AvaliacaoMotorista />} />
       <Route path="/infoMotorista/:id" element={<InfoMotorista />} />
       <Route path="/avaliacaoMotorista" element={<AvaliacaoMotorista />} />
-      <Route path="/cadpontos" element={<CadastroPontos />} />
+      <Route
+        path="/cadpontos"
+        element={<Navigate to="/adm/cadpontos" replace />}
+      />
       <Route path="/rotas" element={<RotasLinhas />} />
       <Route path="/horarios" element={<Horarios />} />
       <Route path="/loginadm" element={<LoginAdm />} />

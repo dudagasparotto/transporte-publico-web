@@ -328,19 +328,28 @@ export default function TelaDoMotorista() {
                                                 </span>
                                             </div>
 
-                                            <span className={styles.horario}>
-                                                {rota.pontos?.length || 0} pontos cadastrados
-                                            </span>
-
-                                            {horarios.length > 0 && (
+                                            <div className={styles.rotaDetalhes}>
                                                 <span className={styles.horario}>
-                                                    Proximo horario: {horarios[0]}
+                                                    <strong>
+                                                        {rota.pontos?.length || 0}
+                                                    </strong>
+                                                    pontos cadastrados
                                                 </span>
-                                            )}
 
-                                            <span className={`${styles.badge} ${styles.badge_ativo}`}>
-                                                Ativa
-                                            </span>
+                                                <span className={styles.horario}>
+                                                    <span className={styles.infoRotulo}>
+                                                        Proximo horario
+                                                    </span>
+                                                    <strong>
+                                                        {horarios[0] || 'Nao informado'}
+                                                    </strong>
+                                                </span>
+
+                                                <span className={`${styles.badge} ${styles.badge_ativo}`}>
+                                                    <span className={styles.statusIndicador} />
+                                                    Ativa
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                     );
