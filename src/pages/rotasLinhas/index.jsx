@@ -82,7 +82,7 @@ export default function RotasLinhas() {
             </button>
 
             <div className={styles.rotasGrupo}>
-              <h2>Rotas disponiveis</h2>
+              <h2>Rotas disponíveis</h2>
 
               {rotas.map((rotaItem) => (
                 <button
@@ -134,7 +134,7 @@ export default function RotasLinhas() {
                   onClick={() => setAbaSelecionada('horarios')}
                 >
                   <Clock size={22} />
-                  HORARIOS
+                  HORÁRIOS
                 </button>
 
                 <button
@@ -180,7 +180,7 @@ export default function RotasLinhas() {
                 </>
               ) : abaSelecionada === 'horarios' ? (
                 <>
-                  <h3>Horarios</h3>
+                  <h3>Horários</h3>
                   <strong className={styles.nomeRota}>
                     Rota {rotaSelecionada.nome_linha}
                   </strong>
@@ -208,7 +208,7 @@ export default function RotasLinhas() {
                         )
                       )
                     ) : (
-                      <p>Nenhum horario cadastrado.</p>
+                      <p>Nenhum horário cadastrado.</p>
                     )}
                   </div>
                 </>
@@ -244,7 +244,7 @@ export default function RotasLinhas() {
 
                           <div className={styles.dadosMotorista}>
                             <strong>{motorista.nome_motorista}</strong>
-                            <span>Responsavel por dirigir esta rota.</span>
+                            <span>Responsável por dirigir esta rota.</span>
                           </div>
 
                           <button
@@ -264,7 +264,10 @@ export default function RotasLinhas() {
                   )}
                 </>
               ) : (
-                <p>Clique em pontos, horarios ou motorista para ver os dados da rota.</p>
+                <p>
+                  Clique em pontos, horários ou motorista para ver os dados da
+                  rota.
+                </p>
               )}
             </aside>
           </div>

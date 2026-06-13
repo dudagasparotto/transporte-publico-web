@@ -144,7 +144,7 @@ export default function CadastroPontos() {
             <input
               id="nomePonto"
               type="text"
-              placeholder="Ex: Terminal Central"
+              placeholder="Ex.: Terminal Central"
               value={nomePonto}
               onChange={(e) => setNomePonto(e.target.value)}
             />

@@ -28,21 +28,21 @@ export function criarSessao(dadosAutenticacao) {
   const idMotorista = Number(usuario.id_motorista);
 
   if (!token) {
-    throw new Error('Token de autenticacao ausente.');
+    throw new Error('Token de autenticação ausente.');
   }
 
   if (
     tipoUsuario !== TIPO_USUARIO_ADMIN &&
     tipoUsuario !== TIPO_USUARIO_MOTORISTA
   ) {
-    throw new Error('Tipo de usuario invalido.');
+    throw new Error('Tipo de usuário inválido.');
   }
 
   if (
     tipoUsuario === TIPO_USUARIO_MOTORISTA &&
     (!Number.isInteger(idMotorista) || idMotorista <= 0)
   ) {
-    throw new Error('Usuario motorista sem cadastro vinculado.');
+    throw new Error('Usuário motorista sem cadastro vinculado.');
   }
 
   const idMotoristaDaSessao =

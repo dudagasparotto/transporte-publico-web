@@ -4113,7 +4113,7 @@ export const rotasLeaflet = [
       },
       {
         "tipo": "ponto",
-        "nome": "SÃO VINCENTE",
+        "nome": "SÃO VICENTE",
         "coordenadas": [
           -21.924701,
           -50.5078148

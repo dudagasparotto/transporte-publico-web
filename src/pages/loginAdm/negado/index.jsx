@@ -19,7 +19,7 @@ export default function Negado() {
 
         <h1>Acesso negado</h1>
 
-        <p>Voce nao possui permissao para acessar esta funcionalidade.</p>
+        <p>Você não possui permissão para acessar esta funcionalidade.</p>
 
         <button onClick={() => navigate(redirecionarPara, { replace: true })}>
           <ArrowLeft size={18} />

@@ -1,11 +1,15 @@
 .container {
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
   padding: 40px;
   background-image: url("/src/assets/fundo.png");
   background-size: cover;
   background-position: center;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
   font-family: Arial, sans-serif;
 }
 
@@ -23,6 +27,7 @@
 }
 
 .botaoVoltar {
+  align-self: flex-start;
   background: #111827;
   color: #fff;
   border: none;
@@ -31,6 +36,8 @@
   cursor: pointer;
   margin-bottom: 20px;
   transition: 0.3s;
+  font-size: 15px;
+  font-weight: 800;
 }
 
 .botaoVoltar:hover {
@@ -46,22 +53,26 @@
 .subtitulo {
   color: #E0F2FE;
   margin-bottom: 30px;
+  font-size: 18px;
 }
 
 .listaAvaliacoes {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-.listaAvaliacoesComScroll {
-  max-height: min(450px, 60vh);
   overflow-y: auto;
   padding-right: 8px;
   overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: #3b82f6 rgba(255, 255, 255, 0.1);
   -webkit-overflow-scrolling: touch;
+}
+
+.listaAvaliacoesComScroll {
+  overflow-y: auto;
 }
 
 .listaAvaliacoesComScroll::-webkit-scrollbar {
@@ -106,10 +117,11 @@
 
 .topoCard h3 {
   color: white;
+  font-size: 21px;
 }
 
 .data {
-  font-size: 12px;
+  font-size: 15px;
   color: rgba(255, 255, 255, 0.65);
 }
 
@@ -121,7 +133,8 @@
 
 .comentario {
   color: rgba(255, 255, 255, 0.82);
-  font-size: 14px;
+  font-size: 17px;
+  line-height: 1.5;
 }
 
 .semAvaliacao {
@@ -134,32 +147,6 @@
   font-size: 30px;
   color: #ffffff;
   font-weight: bold;
-}
-
-.card {
-  background: rgba(255,255,255,0.12);
-  color: white;
-  padding: 20px;
-  border-radius: 24px;
-  margin-top: 20px;
-  border: 1px solid rgba(255,255,255,0.15);
-}
-
-.estrelas {
-  font-size: 24px;
-  margin: 10px 0;
-  color: gold;
-}
-
-.data {
-  font-size: 14px;
-  opacity: 0.7;
-}
-
-.topoCard {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 @media (max-width: 640px) {

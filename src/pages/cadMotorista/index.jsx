@@ -39,7 +39,7 @@ export default function Motorista() {
         const { data } = await api.get("/motoristas");
 
         if (data.sucesso === false) {
-          await alert(data.mensagem || "Motorista nao encontrado.");
+          await alert(data.mensagem || "Motorista não encontrado.");
           navigate("/adm/motoristas");
           return;
         }
@@ -50,7 +50,7 @@ export default function Motorista() {
         );
 
         if (!motorista) {
-          await alert("Motorista nao encontrado.");
+          await alert("Motorista não encontrado.");
           navigate("/adm/motoristas");
           return;
         }
@@ -114,7 +114,7 @@ export default function Motorista() {
         }
       } catch (error) {
         console.error("Erro ao carregar rotas do motorista:", error);
-        await alert("Nao foi possivel carregar as rotas disponiveis.");
+        await alert("Não foi possível carregar as rotas disponíveis.");
       } finally {
         setCarregandoRotas(false);
       }
@@ -209,7 +209,7 @@ export default function Motorista() {
       );
 
       if (!Number.isInteger(idMotoristaSalvo) || idMotoristaSalvo <= 0) {
-        throw new Error("A API nao retornou o ID do motorista salvo.");
+        throw new Error("A API não retornou o ID do motorista salvo.");
       }
 
       await salvarRotasMotorista(idMotoristaSalvo);
@@ -297,13 +297,13 @@ export default function Motorista() {
       const { data } = await api.post("/usuarios", dadosLogin);
 
       if (data.sucesso === false) {
-        throw new Error(data.mensagem || "Nao foi possivel criar o login.");
+        throw new Error(data.mensagem || "Não foi possível criar o login.");
       }
     } catch (error) {
       console.error("Erro ao salvar login do motorista:", error);
 
       throw new Error(
-        `Motorista cadastrado, mas nao foi possivel criar o login. Erro da API: ${obterMensagemErro(
+        `Motorista cadastrado, mas não foi possível criar o login. Erro da API: ${obterMensagemErro(
           error,
           "erro desconhecido"
         )}`
@@ -317,7 +317,7 @@ export default function Motorista() {
     });
 
     if (data.sucesso === false) {
-      throw new Error(data.mensagem || "Nao foi possivel salvar as rotas.");
+      throw new Error(data.mensagem || "Não foi possível salvar as rotas.");
     }
   }
 
@@ -350,7 +350,7 @@ export default function Motorista() {
     } catch (error) {
       console.error("Erro ao atualizar login do motorista:", error);
       await alert(
-        "Motorista salvo, mas nao foi possivel atualizar o login porque a API de usuarios nao aceitou a alteracao."
+        "Motorista salvo, mas não foi possível atualizar o login porque a API de usuários não aceitou a alteração."
       );
     }
   }
@@ -387,7 +387,7 @@ export default function Motorista() {
 
         <header className={styles.header}>
 
-          <h1>{editando ? "EDITAR MOTORISTA" : "CADASTRO DE MOTORISTAS"}</h1>
+          <h1>{editando ? "EDITAR MOTORISTA" : "CADASTRO DE MOTORISTA"}</h1>
 
           <div className={styles.headerActions}>
             <Link to="/adm/motoristas" className={styles["home-btn"]}>
@@ -463,7 +463,7 @@ export default function Motorista() {
 
                   ) : (
 
-                    <span>Selecionar Foto</span>
+                    <span>Selecionar foto</span>
 
                   )}
 
@@ -543,7 +543,7 @@ export default function Motorista() {
                     <input
                       value={login}
                       onChange={(e) => setLogin(e.target.value)}
-                      placeholder="Usuario para acessar o site"
+                      placeholder="Usuário para acessar o site"
                     />
                   </div>
 
@@ -574,7 +574,7 @@ export default function Motorista() {
                 {salvando
                   ? "Salvando..."
                   : editando
-                    ? "Salvar Alteracoes"
+                    ? "Salvar Alterações"
                     : "Cadastrar Motorista"}
               </button>
 

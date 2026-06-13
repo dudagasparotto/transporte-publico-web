@@ -94,7 +94,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  font-size: 10px;
+  font-size: 15px;
   font-family: 'Roboto'; 
 }
 
@@ -103,7 +103,7 @@ body {
   color: #E0F2FE;
   padding: 10px 9px;
   border-radius: 6px; 
-  font-size: 13px;
+  font-size: 15px;
   font-family: 'Roboto'; 
 }
 
@@ -176,7 +176,7 @@ body {
   }
 
   .hora {
-    font-size: 12px;
+    font-size: 14px;
     padding: 8px 7px;
   }
 
@@ -220,18 +220,18 @@ body {
   .horarios {
     margin-top: 6px;
     gap: 3px;
-    font-size: 9px;
+    font-size: 14px;
   }
 
   .hora {
-    font-size: 11px;
+    font-size: 14px;
     padding: 6px 5px;
   }
 
   .button {
     width: 100%;
     padding: 10px 20px;
-    font-size: 13px;
+    font-size: 15px;
   }
 
   .topo {
@@ -256,13 +256,13 @@ body {
   }
 
   .hora {
-    font-size: 10px;
+    font-size: 14px;
     padding: 5px 4px;
   }
 
   .button {
     padding: 8px 16px;
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 

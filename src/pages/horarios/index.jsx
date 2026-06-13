@@ -98,7 +98,7 @@ export default function Horarios() {
                     )
                   )) : (
                     <span className={styles.semHorario}>
-                      Nenhum horário cadastrado
+                      Nenhum horário cadastrado.
                     </span>
                   )}
 

@@ -59,7 +59,7 @@ export default function AvaliacaoMotorista() {
       </h1>
 
       <p className={Styles.subtitulo}>
-        Veja os comentários enviados
+        Veja os comentários enviados.
       </p>
 
       <div
@@ -84,7 +84,7 @@ export default function AvaliacaoMotorista() {
               <div className={Styles.topoCard}>
 
                 <h3>
-                  Avaliação   {index + 1}
+                  Avaliação {index + 1}
                 </h3>
 
                 <span className={Styles.data}>
@@ -122,7 +122,7 @@ export default function AvaliacaoMotorista() {
         ) : (
 
           <p className={Styles.semAvaliacao}>
-            Nenhuma avaliação encontrada
+            Nenhuma avaliação encontrada.
           </p>
 
         )}

@@ -102,7 +102,7 @@ export default function EditarRota() {
     setNomePonto(ponto.nome_ponto);
     setLatitude(String(ponto.latitude));
     setLongitude(String(ponto.longitude));
-    setMensagem("Arraste o marcador ou clique no mapa para mudar a posicao.");
+    setMensagem("Arraste o marcador ou clique no mapa para mudar a posição.");
   }
 
   function alterarPontoNoMapa(ponto, local) {
@@ -125,7 +125,7 @@ export default function EditarRota() {
         item.id_ponto === pontoAtualizado.id_ponto ? pontoAtualizado : item
       ),
     }));
-    setMensagem("Posicao alterada. Clique em salvar ponto.");
+    setMensagem("Posição alterada. Clique em salvar ponto.");
   }
 
   function selecionarLocal(local) {
@@ -136,7 +136,7 @@ export default function EditarRota() {
 
   async function iniciarDesenhoTrajeto() {
     if (!rotaSelecionada?.id_rota) {
-      await alert("Selecione uma rota valida para desenhar o trajeto.");
+      await alert("Selecione uma rota válida para desenhar o trajeto.");
       return;
     }
 
@@ -149,7 +149,7 @@ export default function EditarRota() {
     );
     setEditandoTrajeto(true);
     setMensagem(
-      "Clique no mapa em sequencia para desenhar a linha do trajeto."
+      "Clique no mapa em sequência para desenhar a linha do trajeto."
     );
   }
 
@@ -179,7 +179,7 @@ export default function EditarRota() {
 
   async function salvarTrajeto() {
     if (!rotaSelecionada?.id_rota) {
-      await alert("Selecione uma rota valida para salvar o trajeto.");
+      await alert("Selecione uma rota válida para salvar o trajeto.");
       return;
     }
 
@@ -306,7 +306,7 @@ export default function EditarRota() {
       await alert(
         error.response?.data?.mensagem ||
           error.message ||
-          "Nao foi possivel cadastrar a rota."
+          "Não foi possível cadastrar a rota."
       );
     } finally {
       setCadastrandoRota(false);
@@ -345,7 +345,7 @@ export default function EditarRota() {
 
   async function excluirRota() {
     if (!rotaSelecionada?.id_linha) {
-      await alert("Selecione uma rota valida para excluir.");
+      await alert("Selecione uma rota válida para excluir.");
       return;
     }
 
@@ -388,7 +388,7 @@ export default function EditarRota() {
       setLatitude("");
       setLongitude("");
       setMensagem("");
-      await alert("Rota excluida com sucesso!");
+      await alert("Rota excluída com sucesso!");
     } catch (error) {
       console.error("Erro ao excluir rota:", error);
       await alert(error.response?.data?.mensagem || "Erro ao excluir rota.");
@@ -510,7 +510,7 @@ export default function EditarRota() {
                 <div>
                   <h3>Linha do trajeto</h3>
                   <p>
-                    Desenhe o caminho do onibus clicando sobre as ruas no mapa.
+                    Desenhe o caminho do ônibus clicando sobre as ruas no mapa.
                   </p>
                 </div>
               </div>
@@ -652,8 +652,8 @@ export default function EditarRota() {
             <span className={styles.modalLegenda}>Nova rota</span>
             <h2 id="titulo-cadastro-rota">Cadastrar rota</h2>
             <p>
-              Cada rota deve ter o nome de uma cor. Essa cor sera usada para
-              identificar o botao da rota quando ele estiver selecionado.
+              Cada rota deve ter o nome de uma cor. Essa cor será usada para
+              identificar o botão da rota quando ele estiver selecionado.
             </p>
 
             <fieldset className={styles.coresFieldset}>
@@ -681,7 +681,7 @@ export default function EditarRota() {
                     <span className={styles.circuloCor} />
                     <span>{cor.nome}</span>
                     {corJaCadastrada && (
-                      <small>Ja cadastrada</small>
+                      <small>Já cadastrada</small>
                     )}
                   </button>
                 );
@@ -699,7 +699,7 @@ export default function EditarRota() {
                     )?.valor,
                   }}
                 />
-                O botao da rota usara esta cor.
+                O botão da rota usará esta cor.
               </div>
             )}
 

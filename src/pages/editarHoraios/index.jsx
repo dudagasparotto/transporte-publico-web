@@ -51,7 +51,7 @@ export default function EditarHorarios() {
           setRotaSelecionada(dados[0].id_linha);
         }
       } catch (error) {
-        console.error("Erro ao carregar horarios:", error);
+        console.error("Erro ao carregar horários:", error);
       }
     }
 
@@ -114,8 +114,8 @@ export default function EditarHorarios() {
 
   async function excluirHorario(pontoId, horario, indexHorario) {
     const confirmou = await confirm({
-      title: "Excluir horario",
-      message: "Deseja excluir este horario?",
+      title: "Excluir horário",
+      message: "Deseja excluir este horário?",
       confirmLabel: "Excluir",
       variant: "danger",
     });
@@ -126,10 +126,10 @@ export default function EditarHorarios() {
       try {
         await api.delete(`/horarios/${horario.id_horario}`);
       } catch (error) {
-        console.error("Erro ao excluir horario:", error);
+        console.error("Erro ao excluir horário:", error);
         await alert(
           error.response?.data?.mensagem ||
-          "Erro ao excluir horario."
+          "Erro ao excluir horário."
         );
         return;
       }
@@ -170,12 +170,12 @@ export default function EditarHorarios() {
       }
 
       setRotas(copiarRotas());
-      await alert("Horarios salvos com sucesso!");
+      await alert("Horários salvos com sucesso!");
     } catch (error) {
-      console.error("Erro ao salvar horarios:", error);
+      console.error("Erro ao salvar horários:", error);
       await alert(
         error.response?.data?.mensagem ||
-        "Nao foi possivel salvar os horarios."
+        "Não foi possível salvar os horários."
       );
     }
   }
@@ -193,7 +193,7 @@ export default function EditarHorarios() {
       <div className={styles.header}>
 
         <h1 className={styles.titulo}>
-          PAINEL ADMINISTRATIVO - EDITAR HORARIOS
+          PAINEL ADMINISTRATIVO - EDITAR HORÁRIOS
         </h1>
 
         <button
@@ -214,11 +214,11 @@ export default function EditarHorarios() {
             <div>
 
               <h2 className={styles.subtitulo}>
-                Editar Horarios
+                Editar horários
               </h2>
 
               <p className={styles.descricao}>
-                Selecione uma rota para ver os pontos e editar os horarios.
+                Selecione uma rota para ver os pontos e editar os horários.
               </p>
 
             </div>
@@ -281,7 +281,7 @@ export default function EditarHorarios() {
                   >
                     {pontoEditando === ponto.id_ponto
                       ? "FECHAR"
-                      : "EDITAR HORARIOS"}
+                      : "EDITAR HORÁRIOS"}
                   </button>
 
                   {pontoEditando === ponto.id_ponto && (
@@ -329,7 +329,7 @@ export default function EditarHorarios() {
                           ))
                         ) : (
                           <span className={styles.semHorario}>
-                            Nenhum horario cadastrado
+                            Nenhum horário cadastrado.
                           </span>
                         )}
 
@@ -348,7 +348,7 @@ export default function EditarHorarios() {
                         className={styles.salvar}
                         onClick={() => salvarHorarios(ponto)}
                       >
-                        SALVAR HORARIOS
+                        SALVAR HORÁRIOS
                       </button>
 
                     </div>

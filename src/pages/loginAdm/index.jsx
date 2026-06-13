@@ -20,7 +20,7 @@ export default function LoginAdm() {
     event.preventDefault();
 
     if (!usuario || !senha) {
-      await alert("Preencha usuario e senha.");
+      await alert("Preencha o usuário e a senha.");
       return;
     }
 
@@ -43,7 +43,7 @@ export default function LoginAdm() {
         title: "Acesso negado",
         message:
           error.response?.data?.mensagem ||
-          "Usuario ou senha invalidos.",
+          "Usuário ou senha inválidos.",
         variant: "danger",
       });
     }
@@ -67,14 +67,14 @@ export default function LoginAdm() {
           <ShieldCheck size={40} />
         </div>
 
-        <h1>Login Administrador</h1>
+        <h1>Login de administrador</h1>
 
         <div className={styles.inputGroup}>
-          <label htmlFor="usuario">Nome de usuario</label>
+          <label htmlFor="usuario">Nome de usuário</label>
           <input
             id="usuario"
             type="text"
-            placeholder="Digite seu usuario"
+            placeholder="Digite seu usuário"
             value={usuario}
             onChange={(e) => setUsuario(e.target.value)}
           />

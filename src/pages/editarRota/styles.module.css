@@ -96,7 +96,7 @@
   border-radius: 9px;
   background: #dc2626;
   color: white;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -131,7 +131,7 @@
   padding: 16px 34px;
   border-radius: 16px;
   color: white;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 800;
   cursor: pointer;
   transition: 0.25s;
@@ -177,7 +177,7 @@
   background: rgba(15, 23, 42, 0.92);
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.32);
   color: white;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   text-align: center;
   transform: translateX(-50%);
@@ -203,7 +203,7 @@
   display: block;
   margin-bottom: 5px;
   color: rgba(255, 255, 255, 0.84);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: bold;
 }
 
@@ -222,7 +222,7 @@
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.14);
   color: white;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .linhaAcao button {
@@ -262,7 +262,7 @@
 .editorTrajetoTitulo p {
   margin: 0;
   color: rgba(255, 255, 255, 0.72);
-  font-size: 12px;
+  font-size: 15px;
   line-height: 1.4;
 }
 
@@ -278,7 +278,7 @@
   border: none;
   border-radius: 8px;
   color: white;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 800;
   cursor: pointer;
 }
@@ -295,7 +295,7 @@
 .contadorTrajeto {
   margin: 0 0 9px;
   color: #dbeafe;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
 }
 
@@ -366,7 +366,7 @@
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.1);
   color: white;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -391,7 +391,7 @@
   border-radius: 8px;
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: white;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -402,7 +402,7 @@
   border-radius: 8px;
   background: rgba(37, 99, 235, 0.35);
   color: #dbeafe;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .modalOverlay {
@@ -446,7 +446,7 @@
 
 .modalLegenda {
   color: #93c5fd;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -522,7 +522,7 @@
   border-radius: 9px;
   background: color-mix(in srgb, var(--cor-opcao) 28%, #172033);
   color: white;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 800;
   text-align: left;
   cursor: pointer;
@@ -547,7 +547,7 @@
 .opcaoCor small {
   grid-column: 2;
   margin-top: -6px;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 600;
   opacity: 0.85;
 }
@@ -568,7 +568,7 @@
   align-items: center;
   gap: 9px;
   color: rgba(255, 255, 255, 0.78);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .amostraCor {
@@ -596,7 +596,7 @@
   border: none;
   border-radius: 9px;
   color: white;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 800;
   cursor: pointer;
 }

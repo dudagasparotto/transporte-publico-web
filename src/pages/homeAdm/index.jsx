@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Bus, Clock, ListChecks, LogOut, Map, MapPin, Plus, UserRoundPlus } from "lucide-react";
+import { Bus, Clock, ListChecks, LogOut, Map, MapPin, UserRoundPlus } from "lucide-react";
 import styles from "./index.module.css";
 import { encerrarSessao } from "../../services/auth";
 
@@ -35,18 +35,18 @@ export default function HomeAdm() {
 
       <main className={styles.adminContent}>
         <section className={styles.adminIntro}>
-          <span>Transporte Publico</span>
-          <h2>Escolha uma area para gerenciar</h2>
+          <span>Transporte Público</span>
+          <h2>Escolha uma área para gerenciar</h2>
           <p>
-            Atualize pontos, horarios, rotas e motoristas pelo painel central
+            Atualize pontos, horários, rotas e motoristas pelo painel central
             do sistema.
           </p>
         </section>
 
         <div className={styles.adminGrid}>
           <div className={styles.adminCard}>
-            <img src={pontos} alt="Pontos de onibus" />
-            <h3>Pontos de Onibus</h3>
+            <img src={pontos} alt="Pontos de ônibus" />
+            <h3>Pontos de Ônibus</h3>
             <p>Cadastre e ajuste os locais de parada das linhas.</p>
             <Link to="/adm/editarpontos">
               <button>
@@ -57,13 +57,13 @@ export default function HomeAdm() {
           </div>
 
           <div className={styles.adminCard}>
-            <img src={horarios} alt="Horarios" />
-            <h3>Horarios</h3>
-            <p>Gerencie os horarios de passagem por ponto.</p>
+            <img src={horarios} alt="Horários" />
+            <h3>Horários</h3>
+            <p>Gerencie os horários de passagem por ponto.</p>
             <Link to="/adm/editarhorarios">
               <button>
                 <Clock size={18} />
-                Editar horarios
+                Editar horários
               </button>
             </Link>
           </div>
@@ -72,12 +72,6 @@ export default function HomeAdm() {
             <img src={rotas} alt="Rotas" />
             <h3>Rotas</h3>
             <p>Organize linhas, trajetos e pontos no mapa.</p>
-            <Link to="/adm/editarrota" state={{ abrirCadastro: true }}>
-              <button>
-                <Plus size={18} />
-                Cadastrar rota
-              </button>
-            </Link>
             <Link to="/adm/editarrota">
               <button>
                 <Map size={18} />

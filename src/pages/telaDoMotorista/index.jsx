@@ -50,7 +50,7 @@ export default function TelaDoMotorista() {
             const idMotorista = Number(id);
 
             if (!Number.isFinite(idMotorista)) {
-                setErro('Motorista nao encontrado.');
+                setErro('Motorista não encontrado.');
                 setCarregando(false);
                 return;
             }
@@ -83,7 +83,7 @@ export default function TelaDoMotorista() {
                 setErro('');
             } catch (error) {
                 console.error('Erro ao carregar tela do motorista:', error);
-                setErro('Nao foi possivel carregar seus dados.');
+                setErro('Não foi possível carregar seus dados.');
             } finally {
                 setCarregando(false);
             }
@@ -120,7 +120,7 @@ export default function TelaDoMotorista() {
             const resposta = await api.get(`/avaliacao/${idMotorista}`);
             return listaDaResposta(resposta);
         } catch (error) {
-            console.error('Erro ao carregar avaliacoes do motorista:', error);
+            console.error('Erro ao carregar avaliações do motorista:', error);
             return [];
         }
     }
@@ -131,7 +131,7 @@ export default function TelaDoMotorista() {
             return data.media || data.dados?.media || 0;
         } catch (error) {
             if (error.response?.status !== 404) {
-                console.error('Erro ao carregar media:', error);
+                console.error('Erro ao carregar média:', error);
             }
 
             return 0;
@@ -256,12 +256,12 @@ export default function TelaDoMotorista() {
                         <div className={styles.statDivisor}></div>
                         <div className={styles.statItem}>
                             <span className={styles.statValor}>{mediaAvaliacoes()}</span>
-                            <span className={styles.statLabel}>Media</span>
+                            <span className={styles.statLabel}>Média</span>
                         </div>
                         <div className={styles.statDivisor}></div>
                         <div className={styles.statItem}>
                             <span className={styles.statValor}>{avaliacoes.length}</span>
-                            <span className={styles.statLabel}>Avaliacoes</span>
+                            <span className={styles.statLabel}>Avaliações</span>
                         </div>
                     </div>
 
@@ -287,7 +287,7 @@ export default function TelaDoMotorista() {
                     }`}
                     onClick={() => setAbaAtiva('avaliacoes')}
                 >
-                    Avaliacoes
+                    Avaliações
                 </button>
             </nav>
 
@@ -320,11 +320,11 @@ export default function TelaDoMotorista() {
 
                                             <div className={styles.rotaPercurso}>
                                                 <span className={styles.parada}>
-                                                    {rota.saida || 'Origem nao cadastrada'}
+                                                    {rota.saida || 'Origem não cadastrada'}
                                                 </span>
                                                 <span className={styles.setaPercurso}>→</span>
                                                 <span className={styles.parada}>
-                                                    {rota.destino || 'Destino nao cadastrado'}
+                                                    {rota.destino || 'Destino não cadastrado'}
                                                 </span>
                                             </div>
 
@@ -338,10 +338,10 @@ export default function TelaDoMotorista() {
 
                                                 <span className={styles.horario}>
                                                     <span className={styles.infoRotulo}>
-                                                        Proximo horario
+                                                        Próximo horário
                                                     </span>
                                                     <strong>
-                                                        {horarios[0] || 'Nao informado'}
+                                                        {horarios[0] || 'Não informado'}
                                                     </strong>
                                                 </span>
 
@@ -371,8 +371,10 @@ export default function TelaDoMotorista() {
                                         {renderEstrelas(mediaAvaliacoes())}
                                     </div>
                                     <span className={styles.mediaSub}>
-                                        Baseado em {avaliacoes.length} avaliacao
-                                        {avaliacoes.length !== 1 ? 'es' : ''}
+                                        Com base em {avaliacoes.length}{" "}
+                                        {avaliacoes.length === 1
+                                            ? "avaliação"
+                                            : "avaliações"}
                                     </span>
                                 </div>
                             </div>
@@ -381,7 +383,7 @@ export default function TelaDoMotorista() {
                         {avaliacoes.length === 0 ? (
                             <div className={styles.vazio}>
                                 <span className={styles.vazioCone}>Notas</span>
-                                <p>Nenhuma avaliacao recebida ainda.</p>
+                                <p>Nenhuma avaliação recebida ainda.</p>
                             </div>
                         ) : (
                             <div className={styles.listaAvaliacoes}>

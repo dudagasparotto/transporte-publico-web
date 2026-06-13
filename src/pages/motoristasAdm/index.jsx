@@ -85,7 +85,7 @@ export default function MotoristasAdm() {
         listaAtual.filter((motorista) => motorista.id_motorista !== id)
       );
 
-      await alert("Motorista excluido com sucesso!");
+      await alert("Motorista excluído com sucesso!");
     } catch (error) {
       console.error("Erro ao excluir motorista:", error);
       await alert("Erro ao excluir motorista.");
@@ -153,7 +153,7 @@ export default function MotoristasAdm() {
         <section className={styles.container}>
           <div className={styles.topo}>
             <div>
-              <span>Administracao</span>
+              <span>Administração</span>
               <h2>Lista de motoristas</h2>
             </div>
 
@@ -188,15 +188,15 @@ export default function MotoristasAdm() {
 
                     <div className={styles.dados}>
                       <h3>{motorista.nome_motorista}</h3>
-                      <p>CPF: {motorista.cpf_motorista || "Nao informado"}</p>
-                      <p>CNH: {motorista.cnh_motorista || "Nao informada"}</p>
+                      <p>CPF: {motorista.cpf_motorista || "Não informado"}</p>
+                      <p>CNH: {motorista.cnh_motorista || "Não informada"}</p>
                       <p>
                         Rotas:{" "}
                         {motorista.rotas?.length
                           ? motorista.rotas
                               .map((rota) => rota.nome_rota)
                               .join(", ")
-                          : "Nenhuma rota atribuida"}
+                          : "Nenhuma rota atribuída"}
                       </p>
                     </div>
                   </div>
@@ -205,7 +205,12 @@ export default function MotoristasAdm() {
                     <div className={styles.media}>
                       <Star size={18} />
                       <strong>{formatarMedia(motorista.media)}</strong>
-                      <span>{motorista.avaliacoes.length} avaliacoes</span>
+                      <span>
+                        {motorista.avaliacoes.length}{" "}
+                        {motorista.avaliacoes.length === 1
+                          ? "avaliação"
+                          : "avaliações"}
+                      </span>
                     </div>
 
                     <div className={styles.estrelas}>
@@ -229,13 +234,13 @@ export default function MotoristasAdm() {
 
                           <p>
                             {avaliacao.comentario_avaliacao ||
-                              "Sem comentario."}
+                              "Sem comentário."}
                           </p>
                         </div>
                       ))
                     ) : (
                       <p className={styles.semAvaliacao}>
-                        Nenhuma avaliacao recebida ainda.
+                        Nenhuma avaliação recebida ainda.
                       </p>
                     )}
                   </div>

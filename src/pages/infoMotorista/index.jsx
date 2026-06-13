@@ -122,7 +122,7 @@ export default function InfoMotorista() {
     if (nota === 0) {
 
       mostrarMensagem(
-        '⚠️ Selecione uma nota.'
+        'Selecione uma nota.'
       );
 
       return;
@@ -148,7 +148,7 @@ export default function InfoMotorista() {
       if (data.sucesso) {
 
         mostrarMensagem(
-          '✅ Avaliação enviada com sucesso!'
+          'Avaliação enviada com sucesso!'
         );
 
         setNota(0);
@@ -163,7 +163,7 @@ export default function InfoMotorista() {
 
       mostrarMensagem(
         error.response?.data?.mensagem ||
-        'Nao foi possivel salvar a avaliacao.'
+        'Não foi possível salvar a avaliação.'
       );
 
       console.error(
@@ -211,12 +211,12 @@ export default function InfoMotorista() {
           <div>
 
             <h1>
-              Informações do Motorista
+              Informações do motorista
             </h1>
 
             <p>
               Visualize os dados e avalie
-              o motorista
+              o motorista.
             </p>
 
           </div>

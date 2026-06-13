@@ -39,14 +39,14 @@ export default function Home() {
         <section className={styles.chamada}>
           <h1>
             Seu caminho,
-            <span> nossa missao.</span>
+            <span> nossa missão.</span>
           </h1>
 
           <div className={styles.linhaTitulo}></div>
 
           <p>
-            Planeje suas rotas e acompanhe os horarios de forma simples,
-            rapida e intuitiva.
+            Planeje suas rotas e acompanhe os horários de forma simples,
+            rápida e intuitiva.
           </p>
 
           <div className={styles.infoBox}>
@@ -62,7 +62,7 @@ export default function Home() {
         </section>
 
         <section className={styles.cardRotas}>
-          <img src={verrotas} alt="Mapa com rota de onibus" />
+          <img src={verrotas} alt="Mapa com rota de ônibus" />
 
           <p>
             Planeje sua rota e veja o

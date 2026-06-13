@@ -29,7 +29,10 @@ function normalizeDialog(config, type) {
 function inferVariant(message = "", type) {
   if (type === "confirm") return "confirm";
 
-  const text = String(message).toLowerCase();
+  const text = String(message)
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase();
 
   if (text.includes("sucesso")) return "success";
   if (text.includes("erro") || text.includes("invalido") || text.includes("nao foi possivel")) {
@@ -43,10 +46,10 @@ function inferVariant(message = "", type) {
 }
 
 function getDefaultTitle(variant, type) {
-  if (type === "confirm") return "Confirmar acao";
+  if (type === "confirm") return "Confirmar ação";
   if (variant === "success") return "Tudo certo";
-  if (variant === "danger") return "Nao foi possivel concluir";
-  if (variant === "warning") return "Atencao";
+  if (variant === "danger") return "Não foi possível concluir";
+  if (variant === "warning") return "Atenção";
   return "Aviso";
 }
 
@@ -113,7 +116,7 @@ export function AppDialogProvider({ children }) {
             </button>
 
             <div className={styles.content}>
-              <span>{dialog.type === "confirm" ? "Confirmacao" : "Mensagem"}</span>
+              <span>{dialog.type === "confirm" ? "Confirmação" : "Mensagem"}</span>
               <h2 id="app-dialog-title">{dialog.title}</h2>
               <p>{dialog.message}</p>
             </div>

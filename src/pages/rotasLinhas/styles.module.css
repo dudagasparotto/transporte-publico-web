@@ -39,7 +39,7 @@
   box-shadow:
     0 0 18px rgba(47, 124, 255, 0.42),
     0 12px 24px rgba(0, 20, 80, 0.26);
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 900;
   cursor: pointer;
   transition: transform 0.2s, filter 0.2s, box-shadow 0.2s;
@@ -116,7 +116,7 @@
   border-radius: 16px;
   color: white;
   background: #6B7280;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 800;
   text-align: center;
   cursor: pointer;
@@ -195,7 +195,7 @@
   border-radius: 10px;
   color: white;
   background: rgba(28, 65, 138, 0.48);
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 900;
   cursor: pointer;
   transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
@@ -225,7 +225,7 @@
   display: block;
   margin-bottom: 14px;
   color: #bfdbfe;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.2px;
   text-transform: uppercase;
 }
@@ -273,7 +273,7 @@
   display: block;
   margin-top: 4px;
   color: #bfdbfe;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .itemHorario {
@@ -300,7 +300,7 @@
   background: linear-gradient(135deg, #2f7cff, #0b56d8);
   color: white;
   text-align: center;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 900;
 }
 
@@ -380,7 +380,7 @@
   display: block;
   margin-top: 5px;
   color: #dbeafe;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.4;
 }
 

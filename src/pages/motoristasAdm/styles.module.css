@@ -53,6 +53,7 @@
   border-radius: 10px;
   background: #1e3a8a;
   color: white;
+  font-size: 15px;
 }
 
 .navButton:hover,
@@ -86,7 +87,7 @@
 
 .topo span {
   color: #bfdbfe;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -101,6 +102,7 @@
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.14);
   white-space: nowrap;
+  font-size: 15px;
 }
 
 .mensagem {
@@ -172,11 +174,14 @@
 .semAvaliacao {
   margin: 4px 0;
   color: rgba(255, 255, 255, 0.78);
+  font-size: 16px;
+  line-height: 1.4;
 }
 
 .avaliacoesResumo {
   display: grid;
   gap: 8px;
+  align-content: center;
 }
 
 .media {
@@ -191,6 +196,7 @@
 
 .media span {
   color: rgba(255, 255, 255, 0.76);
+  font-size: 15px;
 }
 
 .estrelas,
@@ -257,6 +263,10 @@
   margin-bottom: 6px;
 }
 
+.avaliacaoTopo strong {
+  font-size: 14px;
+}
+
 .acoes {
   display: grid;
   gap: 10px;
@@ -268,6 +278,7 @@
   padding: 0 14px;
   border-radius: 8px;
   color: white;
+  font-size: 15px;
 }
 
 .editar {

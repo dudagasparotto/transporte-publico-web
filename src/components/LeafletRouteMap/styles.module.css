@@ -52,3 +52,17 @@
   height: 100%;
   font-family: inherit;
 }
+
+.mapa :global(.leaflet-popup-content) {
+  margin: 16px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.mapa :global(.leaflet-tooltip) {
+  padding: 8px 12px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+}

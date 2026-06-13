@@ -38,7 +38,7 @@ export default function EditarPontos() {
       setRotaSelecionada(null);
       setErro(
         error.response?.data?.mensagem ||
-          "Nao foi possivel carregar as rotas e os pontos."
+          "Não foi possível carregar as rotas e os pontos."
       );
     } finally {
       setCarregando(false);
@@ -76,7 +76,7 @@ export default function EditarPontos() {
       console.error("Erro ao carregar pontos:", error);
       setErro(
         error.response?.data?.mensagem ||
-          "Nao foi possivel atualizar a lista de pontos."
+          "Não foi possível atualizar a lista de pontos."
       );
     }
   }
@@ -176,7 +176,7 @@ export default function EditarPontos() {
       setLatitude("");
       setLongitude("");
       await carregarRotas(idRota);
-      await alert("Ponto excluido com sucesso!");
+      await alert("Ponto excluído com sucesso!");
     } catch (error) {
       console.error("Erro ao excluir ponto:", error);
       await alert(error.response?.data?.mensagem || "Erro ao excluir ponto.");
@@ -318,7 +318,7 @@ export default function EditarPontos() {
                     className={styles.salvar}
                     onClick={salvarPonto}
                   >
-                    SALVAR ALTERACOES
+                    SALVAR ALTERAÇÕES
                   </button>
 
                   <button

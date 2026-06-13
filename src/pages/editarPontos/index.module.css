@@ -87,7 +87,7 @@
   border-radius: 9px;
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: white;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: bold;
 }
 
@@ -134,7 +134,7 @@
   padding: 16px 34px;
   border-radius: 16px;
   color: white;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 800;
   cursor: pointer;
   transition: 0.25s;
@@ -205,7 +205,7 @@
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.1);
   color: white;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: bold;
 }
 
@@ -222,7 +222,7 @@
   display: block;
   margin-bottom: 5px;
   color: rgba(255, 255, 255, 0.84);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: bold;
 }
 
@@ -234,7 +234,7 @@
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.14);
   color: white;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .salvar {
@@ -244,7 +244,7 @@
   border-radius: 8px;
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: white;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: bold;
 }
 
@@ -264,7 +264,7 @@
   border-radius: 8px;
   background: #dc2626;
   color: white;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: bold;
   cursor: pointer;
 }
