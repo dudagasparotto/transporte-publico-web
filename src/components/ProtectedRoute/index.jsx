@@ -80,6 +80,9 @@ export default function ProtectedRoute({
         role="status"
         style={{
           minHeight: '100vh',
+          width: '100%',
+          minWidth: 0,
+          alignSelf: 'stretch',
           display: 'grid',
           placeItems: 'center',
           background: '#0f172a',

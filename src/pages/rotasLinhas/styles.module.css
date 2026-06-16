@@ -168,6 +168,9 @@
   height: 100%;
   padding: 14px;
   overflow-y: auto;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #60a5fa rgba(12, 45, 110, 0.36);
   border: 1px solid rgba(120, 170, 255, 0.25);
   border-radius: 18px;
   background:
@@ -176,6 +179,31 @@
     inset 0 0 28px rgba(120, 170, 255, 0.08),
     0 18px 42px rgba(0, 20, 80, 0.3);
   backdrop-filter: blur(12px);
+}
+
+.painelDados::-webkit-scrollbar {
+  width: 11px;
+}
+
+.painelDados::-webkit-scrollbar-track {
+  margin: 12px 0;
+  border-radius: 999px;
+  background: rgba(12, 45, 110, 0.36);
+  box-shadow: inset 0 0 0 1px rgba(147, 197, 253, 0.12);
+}
+
+.painelDados::-webkit-scrollbar-thumb {
+  min-height: 70px;
+  border: 3px solid rgba(12, 45, 110, 0.36);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, #93c5fd, #2f7cff 48%, #0b56d8);
+  box-shadow: 0 0 14px rgba(96, 165, 250, 0.42);
+}
+
+.painelDados::-webkit-scrollbar-thumb:hover {
+  background:
+    linear-gradient(180deg, #bfdbfe, #3b82f6 48%, #1d4ed8);
 }
 
 .painelDadosTopo {
@@ -309,29 +337,36 @@
   gap: 12px;
   max-height: calc(100% - 72px);
   overflow-y: auto;
-  padding-right: 6px;
+  padding-right: 10px;
   overscroll-behavior: contain;
+  scrollbar-gutter: stable;
   scrollbar-width: thin;
-  scrollbar-color: #3b82f6 rgba(255, 255, 255, 0.08);
+  scrollbar-color: #60a5fa rgba(12, 45, 110, 0.36);
   -webkit-overflow-scrolling: touch;
 }
 
 .listaMotoristas::-webkit-scrollbar {
-  width: 7px;
+  width: 10px;
 }
 
 .listaMotoristas::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
+  border-radius: 999px;
+  background: rgba(12, 45, 110, 0.36);
+  box-shadow: inset 0 0 0 1px rgba(147, 197, 253, 0.12);
 }
 
 .listaMotoristas::-webkit-scrollbar-thumb {
-  background: #3b82f6;
-  border-radius: 10px;
+  min-height: 56px;
+  border: 3px solid rgba(12, 45, 110, 0.36);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, #93c5fd, #2f7cff 48%, #0b56d8);
+  box-shadow: 0 0 14px rgba(96, 165, 250, 0.42);
 }
 
 .listaMotoristas::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
+  background:
+    linear-gradient(180deg, #bfdbfe, #3b82f6 48%, #1d4ed8);
 }
 
 .cardMotorista {
