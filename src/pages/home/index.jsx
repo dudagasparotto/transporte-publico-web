@@ -2,6 +2,9 @@ import { Link } from 'react-router-dom';
 import {
   ArrowRight,
   Bus,
+  Headphones,
+  Mail,
+  Phone,
   ShieldCheck,
   User,
   Users,
@@ -76,6 +79,29 @@ export default function Home() {
         </section>
       </main>
 
+      <div className={styles.suporteUsuario}>
+        <button
+          className={styles.suporteBotao}
+          type="button"
+          aria-label="Abrir contato de suporte"
+        >
+          <Headphones size={30} />
+        </button>
+
+        <div className={styles.suportePainel} role="status">
+          <strong>Suporte ao usuário</strong>
+
+          <a href="mailto:suporte@ominibus.com.br">
+            <Mail size={18} />
+            suporte@ominibus.com.br
+          </a>
+
+          <a href="tel:+5518999999999">
+            <Phone size={18} />
+            (18) 99999-9999
+          </a>
+        </div>
+      </div>
 
     </div>
   );

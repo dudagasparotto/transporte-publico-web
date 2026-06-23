@@ -1,0 +1,2 @@
+-- Substituida por pontos_rota_delete_set_null.sql.
+-- Mantida vazia para evitar aplicar uma regra conflitante de cascade.

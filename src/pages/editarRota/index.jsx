@@ -391,7 +391,10 @@ export default function EditarRota() {
       await alert("Rota excluída com sucesso!");
     } catch (error) {
       console.error("Erro ao excluir rota:", error);
-      await alert(error.response?.data?.mensagem || "Erro ao excluir rota.");
+      await alert(
+        error.response?.data?.mensagem ||
+          "Erro ao excluir rota. Verifique se a migração pontos_rota_delete_set_null.sql foi aplicada no banco."
+      );
     }
   }
 
