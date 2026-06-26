@@ -1,11 +1,14 @@
 .container {
   width: 100%;
-  min-height: 100vh;
+  height: 100dvh;
   position: relative;
   background-image: url("/src/assets/fundo.png");
   background-size: cover;
   background-position: center;
   font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .container::before {
@@ -21,8 +24,9 @@
 }
 
 .header {
-  min-height: 100px;
-  padding: 18px 34px;
+  flex: 0 0 auto;
+  min-height: clamp(76px, 12dvh, 100px);
+  padding: clamp(14px, 2dvh, 18px) clamp(18px, 3vw, 34px);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -32,7 +36,7 @@
 
 .header h1 {
   margin: 0;
-  font-size: 27px;
+  font-size: clamp(22px, 2.5vw, 27px);
 }
 
 .botaoVoltar {
@@ -50,15 +54,19 @@
 
 .layout {
   width: min(1400px, calc(100% - 42px));
-  margin: 26px auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: clamp(14px, 3dvh, 26px) auto;
   display: grid;
   grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
   gap: 20px;
+  overflow: hidden;
 }
 
 .card,
 .mapCard {
-  padding: 22px;
+  min-height: 0;
+  padding: clamp(16px, 2dvh, 22px);
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.12);
@@ -70,12 +78,37 @@
 .card h2,
 .mapHeader h2 {
   margin: 0 0 22px;
-  font-size: 22px;
+  font-size: clamp(20px, 2vw, 22px);
   color: white;
 }
 
+.card {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #3b82f6 rgba(255, 255, 255, 0.08);
+}
+
+.card::-webkit-scrollbar {
+  width: 8px;
+}
+
+.card::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+.card::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 10px;
+}
+
+.card::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+}
+
 .formGroup {
-  margin-bottom: 18px;
+  margin-bottom: clamp(14px, 2dvh, 18px);
 }
 
 .formGroup label {
@@ -107,8 +140,8 @@
 }
 
 .localSelecionado {
-  min-height: 68px;
-  margin: 24px 0;
+  min-height: clamp(58px, 9dvh, 68px);
+  margin: clamp(16px, 3dvh, 24px) 0;
   padding: 13px;
   display: flex;
   align-items: center;
@@ -144,9 +177,11 @@
 .mapCard {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .mapHeader {
+  flex: 0 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -167,8 +202,9 @@
 }
 
 .mapa {
-  height: calc(100vh - 190px);
-  min-height: 500px;
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
   overflow: hidden;
   border-radius: 14px;
 }
@@ -176,11 +212,19 @@
 @media (max-width: 900px) {
   .layout {
     grid-template-columns: 1fr;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: #3b82f6 rgba(255, 255, 255, 0.08);
   }
 
   .mapa {
     height: 480px;
-    min-height: 0;
+    min-height: 480px;
+  }
+
+  .card {
+    overflow: visible;
   }
 }
 
@@ -209,5 +253,6 @@
 
   .mapa {
     height: 380px;
+    min-height: 380px;
   }
 }
