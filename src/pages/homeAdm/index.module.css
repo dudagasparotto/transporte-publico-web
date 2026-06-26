@@ -5,12 +5,15 @@
 
 .adminContainer {
   position: relative;
-  min-height: 100vh;
+  height: 100dvh;
   width: 100%;
   background-image: url("/src/assets/fundo.png");
   background-size: cover;
   background-position: center;
   color: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .overlay {
@@ -21,15 +24,15 @@
 }
 
 .adminHeader {
-  position: sticky;
-  top: 0;
+  position: relative;
+  flex: 0 0 auto;
   z-index: 10;
-  min-height: 100px;
+  min-height: clamp(76px, 12dvh, 100px);
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 18px;
-  padding: 16px 32px;
+  padding: clamp(12px, 2dvh, 16px) clamp(18px, 3vw, 32px);
   background: linear-gradient(135deg, #1e40af, #3b82f6);
   box-shadow: 0 12px 28px rgba(15, 23, 42, 0.28);
 }
@@ -40,7 +43,7 @@
   gap: 12px;
   margin: 0;
   color: white;
-  font-size: 2.6rem;
+  font-size: clamp(2rem, 2.4vw, 2.6rem);
   font-weight: 800;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
@@ -73,12 +76,36 @@
   position: relative;
   z-index: 2;
   width: min(1180px, calc(100% - 32px));
+  flex: 1 1 auto;
+  min-height: 0;
   margin: 0 auto;
-  padding: 42px 0;
+  padding: clamp(22px, 4dvh, 42px) 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #3b82f6 rgba(255, 255, 255, 0.08);
+}
+
+.adminContent::-webkit-scrollbar {
+  width: 8px;
+}
+
+.adminContent::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+.adminContent::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 10px;
+}
+
+.adminContent::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
 }
 
 .adminIntro {
-  margin-bottom: 28px;
+  margin-bottom: clamp(18px, 3dvh, 28px);
 }
 
 .adminIntro span {
@@ -93,7 +120,7 @@
 .adminIntro h2 {
   margin: 0;
   color: white;
-  font-size: 3.8rem;
+  font-size: clamp(2.6rem, 4vw, 3.8rem);
   font-weight: 900;
 }
 
@@ -106,13 +133,13 @@
 
 .adminGrid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(14px, 2vw, 20px);
 }
 
 .adminCard {
-  min-height: 330px;
-  padding: 20px;
+  min-height: clamp(250px, 36dvh, 330px);
+  padding: clamp(16px, 2dvh, 20px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -132,7 +159,7 @@
 .adminCard img,
 .icon {
   width: 100%;
-  height: 118px;
+  height: clamp(82px, 15dvh, 118px);
   object-fit: contain;
 }
 
@@ -144,14 +171,14 @@
 }
 
 .adminCard h3 {
-  margin: 12px 0 8px;
+  margin: clamp(8px, 1.5dvh, 12px) 0 8px;
   color: white;
-  font-size: 2rem;
+  font-size: clamp(1.7rem, 2vw, 2rem);
   font-weight: 800;
 }
 
 .adminCard p {
-  min-height: 48px;
+  min-height: auto;
   color: rgba(255, 255, 255, 0.76);
   font-size: 1.4rem;
   line-height: 1.45;
@@ -163,8 +190,8 @@
 
 .adminCard button {
   width: 100%;
-  margin-top: 18px;
-  padding: 12px 14px;
+  margin-top: clamp(12px, 2dvh, 18px);
+  padding: clamp(10px, 1.8dvh, 12px) 14px;
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
   border-radius: 10px;
 }

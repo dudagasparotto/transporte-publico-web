@@ -1,6 +1,6 @@
 .container {
   width: 100%;
-  min-height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -30,8 +30,9 @@
 }
 
 .header {
-  min-height: 100px;
-  padding: 15px 60px 15px;
+  flex: 0 0 auto;
+  min-height: clamp(76px, 12dvh, 100px);
+  padding: clamp(12px, 2dvh, 15px) clamp(18px, 4vw, 60px);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -44,14 +45,14 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: clamp(12px, 2vw, 22px);
   color: white;
   text-decoration: none;
 }
 
 .logoIcone {
-  width: 78px;
-  height: 78px;
+  width: clamp(52px, 8dvh, 78px);
+  height: clamp(52px, 8dvh, 78px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,7 +63,7 @@
 
 .logo strong {
   color: white;
-  font-size: 46px;
+  font-size: clamp(28px, 4vw, 46px);
   line-height: 1;
   overflow-wrap: anywhere;
 }
@@ -70,13 +71,13 @@
 .menu {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: clamp(12px, 2.2vw, 32px);
 }
 
 .menuBotao {
-  min-width: 130px;
-  height: 50px;
-  padding: 0 24px;
+  min-width: clamp(120px, 12vw, 160px);
+  height: clamp(42px, 6dvh, 50px);
+  padding: 0 clamp(14px, 2vw, 24px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,7 +87,7 @@
   color: white;
   background: rgba(255, 255, 255, 0.08);
   text-decoration: none;
-  font-size: 21px;
+  font-size: clamp(16px, 1.6vw, 21px);
   font-weight: 700;
   text-align: center;
   box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
@@ -100,25 +101,47 @@
 }
 
 .hero {
-  flex: 1;
+  flex: 1 1 auto;
   min-height: 0;
   width: min(1190px, calc(100% - 72px));
   margin: 0 auto;
-  padding: 72px 0 78px;
+  padding: clamp(22px, 6dvh, 72px) 0 clamp(24px, 6dvh, 78px);
   display: grid;
   grid-template-columns: minmax(0, 1fr) 470px;
-  gap: 72px;
+  gap: clamp(24px, 5vw, 72px);
   align-items: center;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #0b5cff rgba(255, 255, 255, 0.35);
+}
+
+.hero::-webkit-scrollbar {
+  width: 8px;
+}
+
+.hero::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+}
+
+.hero::-webkit-scrollbar-thumb {
+  background: #0b5cff;
+  border-radius: 10px;
+}
+
+.hero::-webkit-scrollbar-thumb:hover {
+  background: #0649d8;
 }
 
 .chamada {
-  padding-top: 30px;
+  padding-top: clamp(0px, 3dvh, 30px);
 }
 
 .chamada h1 {
   margin: 0;
   color: #071a52;
-  font-size: clamp(48px, 5vw, 70px);
+  font-size: clamp(34px, 5vw, 70px);
   line-height: 0.98;
   letter-spacing: -1px;
 }
@@ -137,22 +160,22 @@
 }
 
 .linhaTitulo {
-  margin: 24px 0 18px;
+  margin: clamp(14px, 2dvh, 24px) 0 clamp(12px, 2dvh, 18px);
 }
 
 .chamada p {
   max-width: 540px;
   margin: 0;
   color: #0b2565;
-  font-size: 23px;
+  font-size: clamp(17px, 1.8vw, 23px);
   line-height: 1.55;
 }
 
 .infoBox {
   width: min(405px, 100%);
-  min-height: 94px;
-  margin-top: 28px;
-  padding: 16px 24px;
+  min-height: clamp(74px, 10dvh, 94px);
+  margin-top: clamp(18px, 3dvh, 28px);
+  padding: clamp(12px, 2dvh, 16px) clamp(16px, 2vw, 24px);
   display: flex;
   align-items: center;
   gap: 18px;
@@ -189,8 +212,8 @@
 }
 
 .cardRotas {
-  min-height: 575px;
-  padding: 28px 58px 38px;
+  min-height: clamp(360px, 58dvh, 575px);
+  padding: clamp(20px, 3dvh, 28px) clamp(24px, 4vw, 58px) clamp(24px, 4dvh, 38px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -207,7 +230,7 @@
 
 .cardRotas img {
   width: min(320px, 100%);
-  height: 250px;
+  height: clamp(150px, 26dvh, 250px);
   object-fit: contain;
   margin-bottom: 16px;
 }
@@ -228,7 +251,7 @@
   max-width: 320px;
   margin: 0;
   color: #0b2565;
-  font-size: 21px;
+  font-size: clamp(17px, 1.6vw, 21px);
   line-height: 1.35;
 }
 
@@ -238,17 +261,17 @@
 
 .botaoRotas {
   width: 100%;
-  min-height: 70px;
-  margin-top: 28px;
+  min-height: clamp(54px, 8dvh, 70px);
+  margin-top: clamp(18px, 3dvh, 28px);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 56px;
+  gap: clamp(18px, 4vw, 56px);
   border-radius: 14px;
   color: white;
   background: linear-gradient(180deg, #2878ff, #0056ee);
   text-decoration: none;
-  font-size: 27px;
+  font-size: clamp(18px, 2vw, 27px);
   font-weight: 800;
   text-align: center;
   box-shadow: 0 16px 24px rgba(0, 86, 238, 0.3);
@@ -349,7 +372,7 @@
 
 @media (max-width: 1050px) {
   .header {
-    padding: 24px;
+    padding: clamp(14px, 2.4dvh, 24px);
     gap: 24px;
   }
 
@@ -369,7 +392,8 @@
   .hero {
     grid-template-columns: 1fr;
     gap: 36px;
-    padding: 42px 0 72px;
+    padding: clamp(24px, 4dvh, 42px) 0 clamp(28px, 5dvh, 72px);
+    align-items: start;
   }
 
   .cardRotas {
@@ -379,10 +403,6 @@
 }
 
 @media (max-width: 720px) {
-  .container {
-    overflow-y: auto;
-  }
-
   .header {
     flex-direction: column;
     align-items: stretch;
@@ -410,7 +430,7 @@
 
   .hero {
     width: min(100% - 28px, 1190px);
-    padding: 34px 0 54px;
+    padding: 24px 0 40px;
   }
 
   .chamada {
@@ -418,7 +438,7 @@
   }
 
   .chamada h1 {
-    font-size: 42px;
+    font-size: clamp(32px, 9vw, 42px);
   }
 
   .chamada p {
@@ -492,7 +512,7 @@
   }
 
   .chamada h1 {
-    font-size: 34px;
+    font-size: clamp(29px, 9vw, 34px);
   }
 
   .infoBox {

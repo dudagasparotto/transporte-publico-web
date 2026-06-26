@@ -2,11 +2,11 @@
    CONTAINER
 ========================= */
 .container {
-    min-height: 100vh;
+    height: 100dvh;
     width: 100%;
     min-width: 0;
     align-self: stretch;
-    overflow-x: hidden;
+    overflow: hidden;
     background:
         radial-gradient(circle at 16% -10%, rgba(96, 165, 250, 0.34), transparent 30%),
         linear-gradient(135deg, #06142e, #0b2f7a, #1264e8);
@@ -54,6 +54,7 @@
 ========================= */
 .header {
     width: 100%;
+    flex: 0 0 auto;
     padding: 24px;
     box-sizing: border-box;
 }
@@ -194,6 +195,7 @@
    ABAS
 ========================= */
 .abas {
+    flex: 0 0 auto;
     display: flex;
     gap: 12px;
     padding: 0 24px;
@@ -224,15 +226,18 @@
    CONTEUDO
 ========================= */
 .conteudo {
-    flex: 1;
+    flex: 1 1 auto;
+    min-height: 0;
     width: 100%;
     padding: 0 24px 24px;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 .secao {
     width: 100%;
-    min-height: 420px;
+    height: 100%;
+    min-height: 0;
     background:
         linear-gradient(180deg, rgba(13, 43, 105, 0.78), rgba(8, 28, 74, 0.78));
     border-radius: 0 24px 24px 24px;
@@ -241,6 +246,9 @@
     backdrop-filter: blur(14px);
     border: 1px solid rgba(120, 170, 255, 0.22);
     box-shadow: 0 18px 42px rgba(0, 20, 80, 0.26);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 /* =========================
@@ -264,9 +272,35 @@
    ROTAS
 ========================= */
 .listaRotas {
+    flex: 1 1 auto;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #3b82f6 rgba(191, 219, 254, 0.1);
+    padding-right: 8px;
+}
+
+.listaRotas::-webkit-scrollbar {
+    width: 8px;
+}
+
+.listaRotas::-webkit-scrollbar-track {
+    background: rgba(191, 219, 254, 0.1);
+    border-radius: 10px;
+}
+
+.listaRotas::-webkit-scrollbar-thumb {
+    background: #3b82f6;
+    border-radius: 10px;
+}
+
+.listaRotas::-webkit-scrollbar-thumb:hover {
+    background: #2563eb;
 }
 
 .cardRota {
@@ -427,9 +461,36 @@
    AVALIAÇÕES
 ========================= */
 .listaAvaliacoes {
+    flex: 1 1 auto;
+    min-height: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    align-content: start;
     gap: 20px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #3b82f6 rgba(191, 219, 254, 0.1);
+    padding-right: 8px;
+}
+
+.listaAvaliacoes::-webkit-scrollbar {
+    width: 8px;
+}
+
+.listaAvaliacoes::-webkit-scrollbar-track {
+    background: rgba(191, 219, 254, 0.1);
+    border-radius: 10px;
+}
+
+.listaAvaliacoes::-webkit-scrollbar-thumb {
+    background: #3b82f6;
+    border-radius: 10px;
+}
+
+.listaAvaliacoes::-webkit-scrollbar-thumb:hover {
+    background: #2563eb;
 }
 
 .cardAvaliacao {
@@ -479,6 +540,7 @@
    RESUMO
 ========================= */
 .resumoAvaliacoes {
+    flex: 0 0 auto;
     margin-bottom: 30px;
 }
 

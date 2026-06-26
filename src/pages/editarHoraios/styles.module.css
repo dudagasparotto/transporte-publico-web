@@ -1,12 +1,14 @@
 .imagemFundo{
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  height: 100dvh;
   background-image: url("/src/assets/fundo.png");
   background-size: cover;
   background-position: center;
-  overflow-x: hidden;
+  overflow: hidden;
   font-family: "Roboto", sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 .overlay{
@@ -21,6 +23,7 @@
   z-index: 2;
   width: 100%;
   min-height: 100px;
+  flex: 0 0 auto;
   background: linear-gradient(135deg,#1d4ed8,#1e3a8a);
   padding: 24px 42px;
   display: flex;
@@ -60,14 +63,19 @@
   position: relative;
   z-index: 2; 
   width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
   display: flex;
   justify-content: center;
   padding: 40px 0;
+  overflow: hidden;
 }
 
 .card{
   width: 90%;
   max-width: 1550px;
+  height: 100%;
+  min-height: 0;
   background: rgba(255,255,255,0.12);
   backdrop-filter: blur(14px);
   border: 1px solid rgba(255,255,255,0.15);
@@ -75,6 +83,9 @@
   padding: 38px;
   box-shadow:
     0 8px 30px rgba(0,0,0,0.35);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .topoCard{
@@ -151,6 +162,31 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #3B82F6 rgba(255, 255, 255, 0.08);
+  padding-right: 8px;
+}
+
+.listaPontos::-webkit-scrollbar{
+  width: 8px;
+}
+
+.listaPontos::-webkit-scrollbar-track{
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+.listaPontos::-webkit-scrollbar-thumb{
+  background: #3B82F6;
+  border-radius: 10px;
+}
+
+.listaPontos::-webkit-scrollbar-thumb:hover{
+  background: #2563EB;
 }
 
 .cardPonto{

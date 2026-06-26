@@ -1,12 +1,14 @@
 ﻿.container {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  height: 100dvh;
   background-image: url("/src/assets/fundo.png");
   background-size: cover;
   background-position: center;
   font-family: Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .overlay {
@@ -23,6 +25,7 @@
 
 .header {
   min-height: 100px;
+  flex: 0 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -48,6 +51,8 @@
 
 .card {
   width: min(1500px, calc(100% - 44px));
+  flex: 1 1 auto;
+  min-height: 0;
   margin: 22px auto;
   padding: 25px;
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -56,6 +61,9 @@
   box-shadow: 0 16px 38px rgba(0, 0, 0, 0.34);
   backdrop-filter: blur(12px);
   color: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .topo {
@@ -151,14 +159,17 @@
 }
 
 .conteudoEdicao {
+  flex: 1 1 auto;
+  min-height: 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
   gap: 16px;
+  overflow: hidden;
 }
 
 .areaMapa {
-  height: calc(100vh - 270px);
-  min-height: 500px;
+  height: auto;
+  min-height: 0;
   overflow: hidden;
   border-radius: 14px;
   border: 2px solid rgba(255, 255, 255, 0.18);
@@ -173,8 +184,30 @@
   min-height: 0;
   padding: 16px;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #3b82f6 rgba(255, 255, 255, 0.08);
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.12);
+}
+
+.painelEdicao::-webkit-scrollbar {
+  width: 8px;
+}
+
+.painelEdicao::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+.painelEdicao::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 10px;
+}
+
+.painelEdicao::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
 }
 
 .painelEdicao h3 {
@@ -276,13 +309,17 @@
 @media (max-width: 1000px) {
   .conteudoEdicao {
     grid-template-columns: 1fr;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .areaMapa {
     height: 500px;
+    min-height: 500px;
   }
 
   .painelEdicao {
+    overflow: visible;
     max-height: none;
   }
 }
