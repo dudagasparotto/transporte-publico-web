@@ -19,10 +19,14 @@ export default function AvaliacaoMotorista() {
 
       try {
 
-        const { data } = await api.get(`/avaliacao/${id}`);
+        const { data } = await api.get('/avaliacao');
 
         if (data.sucesso) {
-          setAvaliacoes(data.dados);
+          setAvaliacoes(
+            (data.dados || []).filter(
+              (item) => Number(item.id_motorista) === Number(id)
+            )
+          );
         }
 
       } 

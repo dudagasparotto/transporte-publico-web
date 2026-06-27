@@ -8,13 +8,61 @@ export const TIPO_USUARIO_ADMIN = 1;
 export const TIPO_USUARIO_MOTORISTA = 2;
 
 export async function autenticarUsuario(usuario, senha, tipoUsuario) {
-  const { data } = await api.post('/auth/login', {
-    usuario,
-    senha,
-    tipoUsuario,
+  const { data } = await api.get('/login', {
+    params: {
+      email: usuario.trim(),
+      senha,
+    },
   });
 
-  return data.dados;
+  const usuarioAutenticado = Array.isArray(data.dados)
+    ? data.dados[0]
+    : data.dados;
+
+  if (
+    !usuarioAutenticado ||
+    Number(usuarioAutenticado.id_tipo_usuario) !== Number(tipoUsuario)
+  ) {
+    const erro = new Error('Este usuário não possui acesso a esta área.');
+    erro.response = {
+      status: 403,
+      data: { mensagem: erro.message },
+    };
+    throw erro;
+  }
+
+  if (Number(tipoUsuario) === TIPO_USUARIO_MOTORISTA) {
+    const { data: respostaMotoristas } = await api.get('/motoristas');
+    const motoristas = respostaMotoristas.dados || [];
+    const nomeLogin = normalizarNomeMotorista(usuarioAutenticado.nome_usuario);
+    const motorista = motoristas.find(
+      (item) => normalizarNomeMotorista(item.nome_motorista) === nomeLogin
+    );
+
+    if (!motorista) {
+      const erro = new Error('Este usuário não possui um motorista vinculado.');
+      erro.response = {
+        status: 403,
+        data: { mensagem: erro.message },
+      };
+      throw erro;
+    }
+
+    usuarioAutenticado.id_motorista = motorista.id_motorista;
+  }
+
+  return {
+    usuario: usuarioAutenticado,
+    // A API atual não emite JWT; este identificador mantém a sessão local.
+    token: `sessao-${usuarioAutenticado.id_usuario}`,
+  };
+}
+
+function normalizarNomeMotorista(nome) {
+  return String(nome || '')
+    .replace(/\s+login$/i, '')
+    .trim()
+    .toLocaleLowerCase('pt-BR');
 }
 
 function avisarAlteracaoSessao() {
@@ -103,29 +151,12 @@ export async function validarSessao(tipoUsuario) {
     return { valida: false, motivo: 'nao-autenticado' };
   }
 
-  try {
-    const { data } = await api.get('/auth/validar', {
-      params: { tipoUsuario },
-    });
-    const usuarioValidado = data.dados;
-    const correspondeAoToken =
-      Number(usuarioValidado?.idUsuario) === Number(sessao.idUsuario) &&
-      Number(usuarioValidado?.tipoUsuario) === Number(sessao.tipoUsuario);
-
-    if (!correspondeAoToken) {
-      encerrarSessao();
-      return { valida: false, motivo: 'nao-autenticado' };
-    }
-
-    return { valida: true, sessao };
-  } catch (error) {
-    if (error.response?.status === 403) {
-      return { valida: false, motivo: 'acesso-negado' };
-    }
-
-    encerrarSessao();
-    return { valida: false, motivo: 'nao-autenticado' };
+  if (Number(sessao.tipoUsuario) !== Number(tipoUsuario)) {
+    return { valida: false, motivo: 'acesso-negado' };
   }
+
+  // O backend atual não oferece /auth/validar; a validação é local.
+  return { valida: true, sessao };
 }
 
 export { CHAVE_SESSAO, EVENTO_SESSAO };

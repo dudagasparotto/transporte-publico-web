@@ -90,6 +90,8 @@ export default function TelaDoMotorista() {
         }
 
         carregarDados();
+    // As funções de carga pertencem a este mesmo ciclo e usam o id recebido.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     async function carregarMotorista(idMotorista) {
@@ -117,8 +119,10 @@ export default function TelaDoMotorista() {
 
     async function carregarAvaliacoes(idMotorista) {
         try {
-            const resposta = await api.get(`/avaliacao/${idMotorista}`);
-            return listaDaResposta(resposta);
+            const resposta = await api.get('/avaliacao');
+            return listaDaResposta(resposta).filter((avaliacao) =>
+                mesmoId(avaliacao.id_motorista, idMotorista)
+            );
         } catch (error) {
             console.error('Erro ao carregar avaliações do motorista:', error);
             return [];
@@ -127,8 +131,14 @@ export default function TelaDoMotorista() {
 
     async function carregarMedia(idMotorista) {
         try {
-            const { data } = await api.get(`/mediaAvaliacao/${idMotorista}`);
-            return data.media || data.dados?.media || 0;
+            const avaliacoes = await carregarAvaliacoes(idMotorista);
+            const soma = avaliacoes.reduce(
+                (total, avaliacao) =>
+                    total + Number(avaliacao.nota_avaliacao || 0),
+                0
+            );
+
+            return avaliacoes.length ? soma / avaliacoes.length : 0;
         } catch (error) {
             if (error.response?.status !== 404) {
                 console.error('Erro ao carregar média:', error);

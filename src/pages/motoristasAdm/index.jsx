@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Edit, Home, Star, Trash2, UserRoundPlus } from "lucide-react";
 
 import api, { getArquivoUrl } from "../../services/apis";
+import { listarVinculosRotaMotorista } from "../../services/transporte";
 import styles from "./styles.module.css";
 import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
@@ -19,11 +20,27 @@ export default function MotoristasAdm() {
     try {
       setCarregando(true);
 
-      const { data } = await api.get("/motoristas");
+      const [
+        { data },
+        { data: linhasData },
+        { data: avaliacoesData },
+        vinculos,
+      ] = await Promise.all([
+        api.get("/motoristas"),
+        api.get("/linhas"),
+        api.get("/avaliacao"),
+        listarVinculosRotaMotorista(),
+      ]);
       const lista = data.dados || [];
+      const linhas = linhasData.dados || [];
+      const todasAvaliacoes = avaliacoesData.dados || [];
 
       const motoristasComAvaliacoes = lista.map((motorista) => {
-        const avaliacoes = motorista.avaliacoes || motorista.avaliacao || [];
+        const avaliacoes = todasAvaliacoes.filter(
+          (avaliacao) =>
+            Number(avaliacao.id_motorista) ===
+            Number(motorista.id_motorista)
+        );
         const media =
           motorista.media ??
           motorista.media_avaliacao ??
@@ -33,6 +50,22 @@ export default function MotoristasAdm() {
           ...motorista,
           avaliacoes,
           media,
+          rotas: vinculos
+            .filter(
+              (vinculo) =>
+                Number(vinculo.id_motorista) ===
+                Number(motorista.id_motorista)
+            )
+            .map((vinculo) => {
+              const linha = linhas.find(
+                (item) => Number(item.id_linha) === Number(vinculo.id_rota)
+              );
+
+              return {
+                id_rota: vinculo.id_rota,
+                nome_rota: linha?.nome_linhas || `Rota ${vinculo.id_rota}`,
+              };
+            }),
         };
       });
 

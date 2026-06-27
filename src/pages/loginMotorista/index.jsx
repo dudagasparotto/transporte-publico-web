@@ -81,7 +81,14 @@ export default function LoginMotora() {
       }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
-      await alert("Erro ao fazer login.");
+      await alert({
+        title: "Acesso negado",
+        message:
+          error.response?.data?.mensagem ||
+          error.message ||
+          "Usuário ou senha inválidos.",
+        variant: "danger",
+      });
     }
   }
 

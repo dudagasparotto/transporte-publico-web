@@ -3,6 +3,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "./styles.module.css";
 import api, { getArquivoUrl } from "../../services/apis";
 import { useAppDialog } from "../../components/AppDialog/useAppDialog";
+import {
+  listarRotasComPontos,
+  listarVinculosRotaMotorista,
+  salvarVinculosRotaMotorista,
+} from "../../services/transporte";
 
 const TIPO_USUARIO_MOTORISTA = 2;
 
@@ -100,13 +105,14 @@ export default function Motorista() {
       try {
         setCarregandoRotas(true);
 
-        const rotasResp = await api.get("/rotas");
-        setRotas(rotasResp.data.dados || []);
+        const rotasDisponiveis = await listarRotasComPontos();
+        setRotas(rotasDisponiveis);
 
         if (editando) {
-          const rotasMotoristaResp = await api.get(`/motoristas/${id}/rotas`);
-          const rotasDoMotorista =
-            rotasMotoristaResp.data.dados?.rotas || [];
+          const vinculos = await listarVinculosRotaMotorista();
+          const rotasDoMotorista = vinculos.filter(
+            (vinculo) => Number(vinculo.id_motorista) === Number(id)
+          );
 
           setIdsRotasSelecionadas(
             rotasDoMotorista.map((rota) => Number(rota.id_rota))
@@ -312,9 +318,8 @@ export default function Motorista() {
   }
 
   async function salvarRotasMotorista(idMotorista) {
-    const { data } = await api.put(`/motoristas/${idMotorista}/rotas`, {
-      ids_rotas: idsRotasSelecionadas,
-    });
+    await salvarVinculosRotaMotorista(idMotorista, idsRotasSelecionadas);
+    const data = { sucesso: true };
 
     if (data.sucesso === false) {
       throw new Error(data.mensagem || "Não foi possível salvar as rotas.");

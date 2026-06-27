@@ -94,6 +94,12 @@ export async function listarVinculosRotaMotorista() {
   return data.dados || [];
 }
 
+export async function salvarVinculosRotaMotorista(idMotorista, idsRotas) {
+  await api.put(`/motoristas/${idMotorista}/rotas`, {
+    ids_rotas: idsRotas.map(Number),
+  });
+}
+
 function encontrarMotoristasDaRota(rotasDaLinha, vinculosRotaMotorista, motoristas) {
   const idsMotoristas = new Set(
     vinculosRotaMotorista
@@ -109,13 +115,27 @@ function encontrarMotoristasDaRota(rotasDaLinha, vinculosRotaMotorista, motorist
 }
 
 export async function listarRotasComPontos() {
-  const [linhasResp, rotasResp, pontosResp] = await Promise.all([
+  const [linhasResp, pontosResp] = await Promise.all([
     api.get('/linhas'),
-    api.get('/rotas'),
     api.get('/pontos'),
   ]);
 
   let horariosResp = { data: { dados: [] } };
+  const pontosRecebidos = pontosResp.data.dados || [];
+
+  // A API atual falha em GET /rotas porque o banco não possui rotas.id_ponto.
+  // Os pontos já trazem id_rota, portanto reconstruímos as rotas sem gerar 500.
+  const rotas = (linhasResp.data.dados || []).map((linha) => {
+    const pontosDaRota = pontosRecebidos.filter((ponto) =>
+      mesmoId(ponto.id_rota, linha.id_linha)
+    );
+
+    return {
+      id_rota: linha.id_linha,
+      id_linha: linha.id_linha,
+      id_ponto: pontosDaRota[0]?.id_pontos ?? null,
+    };
+  });
 
   try {
     horariosResp = await api.get('/horarios');
@@ -129,7 +149,6 @@ export async function listarRotasComPontos() {
   ]);
 
   const linhas = linhasResp.data.dados || [];
-  const rotas = rotasResp.data.dados || [];
   const pontos = pontosResp.data.dados || [];
   const horarios = horariosResp.data.dados || [];
 

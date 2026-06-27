@@ -74,13 +74,18 @@ export default function InfoMotorista() {
 
     try {
 
-      const { data } = await api.get(
-        `/mediaAvaliacao/${id}`
-      );
+      const { data } = await api.get('/avaliacao');
 
       if (data.sucesso) {
+        const avaliacoes = (data.dados || []).filter(
+          (item) => Number(item.id_motorista) === Number(id)
+        );
+        const soma = avaliacoes.reduce(
+          (total, item) => total + Number(item.nota_avaliacao || 0),
+          0
+        );
 
-        setMedia(data.media);
+        setMedia(avaliacoes.length ? soma / avaliacoes.length : 0);
 
       }
 
