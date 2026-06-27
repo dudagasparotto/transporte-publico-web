@@ -74,7 +74,7 @@ export default function InfoMotorista() {
 
     try {
 
-      const { data } = await api.get('/avaliacao');
+      const { data } = await api.get('/avaliacoes');
 
       if (data.sucesso) {
         const avaliacoes = (data.dados || []).filter(

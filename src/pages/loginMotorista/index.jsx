@@ -10,7 +10,6 @@ import {
   encerrarSessao,
   TIPO_USUARIO_MOTORISTA,
 } from "../../services/auth";
-import api from "../../services/apis";
 import { useAppDialog } from "../../components/AppDialog/useAppDialog";
 
 export default function LoginMotora() {
@@ -52,26 +51,8 @@ export default function LoginMotora() {
           return;
         }
 
-        const { data } = await api.get("/motoristas");
-        const motoristas = data.dados || [];
-        const motoristaEncontrado = motoristas.find(
-          (motorista) =>
-            Number(motorista.id_motorista) === idMotoristaDoUsuario
-        );
-
-        if (!motoristaEncontrado) {
-          await alert({
-            title: "Acesso negado",
-            message: "Este usuário não possui um motorista vinculado.",
-            variant: "danger",
-          });
-          return;
-        }
-
-        const idMotorista = motoristaEncontrado.id_motorista;
-
         criarSessao(dadosAutenticacao);
-        navigate(`/teladomotorista/${idMotorista}`, { replace: true });
+        navigate(`/teladomotorista/${idMotoristaDoUsuario}`, { replace: true });
       } else {
         await alert({
           title: "Acesso negado",

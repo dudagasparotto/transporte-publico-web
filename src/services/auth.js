@@ -8,19 +8,19 @@ export const TIPO_USUARIO_ADMIN = 1;
 export const TIPO_USUARIO_MOTORISTA = 2;
 
 export async function autenticarUsuario(usuario, senha, tipoUsuario) {
-  const { data } = await api.get('/login', {
-    params: {
-      email: usuario.trim(),
-      senha,
-    },
+  const { data } = await api.post('/auth/login', {
+    usuario: usuario.trim(),
+    senha,
+    tipoUsuario: Number(tipoUsuario),
   });
 
-  const usuarioAutenticado = Array.isArray(data.dados)
-    ? data.dados[0]
-    : data.dados;
+  const dadosAutenticacao = data?.dados;
+  const usuarioAutenticado = dadosAutenticacao?.usuario;
+  const token = dadosAutenticacao?.token;
 
   if (
     !usuarioAutenticado ||
+    !token ||
     Number(usuarioAutenticado.id_tipo_usuario) !== Number(tipoUsuario)
   ) {
     const erro = new Error('Este usuário não possui acesso a esta área.');
@@ -32,14 +32,9 @@ export async function autenticarUsuario(usuario, senha, tipoUsuario) {
   }
 
   if (Number(tipoUsuario) === TIPO_USUARIO_MOTORISTA) {
-    const { data: respostaMotoristas } = await api.get('/motoristas');
-    const motoristas = respostaMotoristas.dados || [];
-    const nomeLogin = normalizarNomeMotorista(usuarioAutenticado.nome_usuario);
-    const motorista = motoristas.find(
-      (item) => normalizarNomeMotorista(item.nome_motorista) === nomeLogin
-    );
+    const idMotorista = Number(usuarioAutenticado.id_motorista);
 
-    if (!motorista) {
+    if (!Number.isInteger(idMotorista) || idMotorista <= 0) {
       const erro = new Error('Este usuário não possui um motorista vinculado.');
       erro.response = {
         status: 403,
@@ -47,22 +42,12 @@ export async function autenticarUsuario(usuario, senha, tipoUsuario) {
       };
       throw erro;
     }
-
-    usuarioAutenticado.id_motorista = motorista.id_motorista;
   }
 
   return {
     usuario: usuarioAutenticado,
-    // A API atual não emite JWT; este identificador mantém a sessão local.
-    token: `sessao-${usuarioAutenticado.id_usuario}`,
+    token,
   };
-}
-
-function normalizarNomeMotorista(nome) {
-  return String(nome || '')
-    .replace(/\s+login$/i, '')
-    .trim()
-    .toLocaleLowerCase('pt-BR');
 }
 
 function avisarAlteracaoSessao() {
@@ -155,7 +140,8 @@ export async function validarSessao(tipoUsuario) {
     return { valida: false, motivo: 'acesso-negado' };
   }
 
-  // O backend atual não oferece /auth/validar; a validação é local.
+  // A validade e as permissões do token também são conferidas pela API
+  // ao acessar os endpoints protegidos.
   return { valida: true, sessao };
 }
 

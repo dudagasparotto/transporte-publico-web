@@ -119,7 +119,7 @@ export default function TelaDoMotorista() {
 
     async function carregarAvaliacoes(idMotorista) {
         try {
-            const resposta = await api.get('/avaliacao');
+            const resposta = await api.get('/avaliacoes');
             return listaDaResposta(resposta).filter((avaliacao) =>
                 mesmoId(avaliacao.id_motorista, idMotorista)
             );

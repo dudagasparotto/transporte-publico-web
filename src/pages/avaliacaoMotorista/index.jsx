@@ -19,7 +19,7 @@ export default function AvaliacaoMotorista() {
 
       try {
 
-        const { data } = await api.get('/avaliacao');
+        const { data } = await api.get('/avaliacoes');
 
         if (data.sucesso) {
           setAvaliacoes(

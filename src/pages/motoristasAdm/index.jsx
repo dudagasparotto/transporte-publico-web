@@ -28,7 +28,7 @@ export default function MotoristasAdm() {
       ] = await Promise.all([
         api.get("/motoristas"),
         api.get("/linhas"),
-        api.get("/avaliacao"),
+        api.get("/avaliacoes"),
         listarVinculosRotaMotorista(),
       ]);
       const lista = data.dados || [];
