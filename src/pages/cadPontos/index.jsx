@@ -107,7 +107,7 @@ export default function CadastroPontos() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h1>Cadastro de Pontos</h1>
+        <h1>PAINEL ADMINISTRATIVO - CADASTRO DE PONTOS</h1>
 
         <button
           className={styles.botaoVoltar}
