@@ -30,6 +30,13 @@ const CORES_DE_ROTA = [
   { nome: "PRETA", valor: "#111827" },
 ];
 
+function obterCorDaRota(rota) {
+  const nome = rota?.nome_linha?.trim().toUpperCase();
+  const corDoNome = CORES_DE_ROTA.find((cor) => cor.nome === nome);
+
+  return corDoNome?.valor || rota?.cor || "#6B7280";
+}
+
 export default function EditarRota() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -447,10 +454,7 @@ export default function EditarRota() {
                 rotaSelecionada?.id_linha === rota.id_linha ? styles.ativo : ""
               }`}
               style={{
-                background:
-                  rotaSelecionada?.id_linha === rota.id_linha
-                    ? rota.cor
-                    : "#6B7280",
+                "--cor-rota": obterCorDaRota(rota),
               }}
               onClick={() => selecionarRota(rota)}
             >
